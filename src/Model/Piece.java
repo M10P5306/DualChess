@@ -10,15 +10,35 @@ public abstract class Piece {
 
     private String color;
 
-    public Piece(String color) {
+    private String name;
+
+    public Piece(String color, String name) {
         this.color = color;
+        this.name = name;
     }
 
     public String getColor() {
         return color;
     }
 
-    public abstract ArrayList validMoves(Coordinate currentPosition);
+    public ArrayList validMoves(Coordinate currentPosition) {
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (Coordinate coordinate : possibleMoves) {
+            int x = coordinate.getX()+currentPosition.getX();
+            int y = coordinate.getX()+currentPosition.getY();
+            if (x>=0 && x<8) {
+                if (y>=0 && y<8) {
+                    validMoves.add(coordinate);
+                }
+            }
+        }
+        return validMoves;
+    }
+
+    public String colorAndNameToString() {
+        return color + name;
+    }
 
 }
 

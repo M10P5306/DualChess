@@ -7,15 +7,11 @@ public class King extends Piece{
     int movesMade = 0;
 
     public King(String color) {
-        super(color);
+        super(color, "King");
     }
 
     public int getMovesMade() {
         return movesMade;
     }
 
-    @Override
-    public ArrayList validMoves(Coordinate currentPosition) {
-        return null;
-    }
 }

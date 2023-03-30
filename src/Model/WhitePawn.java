@@ -6,16 +6,12 @@ public class WhitePawn extends Piece{
 
     int movesMade = 0;
 
-    public WhitePawn(String color) {
-        super(color);
+    public WhitePawn() {
+        super("White", "Pawn");
     }
 
     public int getMovesMade() {
         return movesMade;
     }
 
-    @Override
-    public ArrayList validMoves(Coordinate currentPosition) {
-        return null;
-    }
 }

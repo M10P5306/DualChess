@@ -14,10 +14,14 @@ public class MainFrame extends JFrame {
         this.mainPanel = new MainPanel(controller);
 
         this.setTitle("DualChess");
-        this.setSize(800, 800);
+        this.setSize(1000, 1000);
         this.setVisible(true);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public MainPanel getMainPanel() {
+        return mainPanel;
     }
 
 }

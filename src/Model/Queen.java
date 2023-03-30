@@ -5,11 +5,7 @@ import java.util.ArrayList;
 public class Queen extends Piece{
 
     public Queen(String color) {
-        super(color);
+        super(color, "Queen");
     }
 
-    @Override
-    public ArrayList validMoves(Coordinate currentPosition) {
-        return null;
-    }
 }

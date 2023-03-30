@@ -8,7 +8,7 @@ import java.awt.*;
 public class MainPanel extends JPanel {
 
     private Controller controller;
-    private BoardButton[][] board;
+    private BoardButton[][] buttons;
     private JPanel northPanel;
     private JPanel westPanel;
     private JPanel centerPanel;
@@ -19,11 +19,14 @@ public class MainPanel extends JPanel {
 
     public MainPanel(Controller controller) {
         this.controller = controller;
-        this.setSize(800, 800);
         this.setLayout(new BorderLayout());
 
         setupPanels();
         addPanels();
+    }
+
+    public BoardButton[][] getButtons() {
+        return buttons;
     }
 
     private void addPanels() {
@@ -33,6 +36,7 @@ public class MainPanel extends JPanel {
         this.add(eastPanel, BorderLayout.EAST);
         this.add(southPanel, BorderLayout.SOUTH);
     }
+
     private void setupPanels() {
         northPanel();
         westPanel();
@@ -43,8 +47,8 @@ public class MainPanel extends JPanel {
 
     private void northPanel() {
         this.northPanel = new JPanel();
-        northPanel.setLayout(new GridLayout(1,8));
-        for (int i = 0; i<8; i++) {
+        northPanel.setLayout(new GridLayout(1, 8));
+        for (int i = 0; i < 8; i++) {
             JLabel label = new JLabel(Character.toString((char) 'A' + i));
             northPanel.add(label);
         }
@@ -53,7 +57,7 @@ public class MainPanel extends JPanel {
     private void westPanel() {
         this.westPanel = new JPanel();
         westPanel.setLayout(new GridLayout(8, 1));
-        for (int i = 8; i>0; i--) {
+        for (int i = 8; i > 0; i--) {
             JLabel label = new JLabel("" + i);
             westPanel.add(label);
         }
@@ -61,24 +65,41 @@ public class MainPanel extends JPanel {
 
     private void centerPanel() {
 
-        this.board = new BoardButton[8][8];
+        this.buttons = new BoardButton[8][8];
 
         this.centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(8,8));
+        centerPanel.setLayout(new GridLayout(8, 8));
 
-        for (int x = board.length-1; x>=0; x--) {
-            for (int y = 0; y<board[x].length; y++) {
-                board[x][y] = new BoardButton(x, y);
-                board[x][y].setText(x + "," + y);
-
+        for (int x = buttons.length - 1; x >= 0; x--) {
+            for (int y = 0; y < buttons[x].length; y++) {
+                buttons[x][y] = new BoardButton(x, y);
+                buttons[x][y].setText(x + "," + y);
 
                 final int f_x = x;
                 final int f_y = y;
 
-                board[x][y].addActionListener(e ->{
-                    controller.boardButtonSelected(f_x, f_y);
+                buttons[x][y].addActionListener(e -> {
+
+                    if (selectedButton != null) {
+                        if (buttons[f_x][f_y] == selectedButton) {
+                            selectedButton.restoreDefaultColor();
+                            selectedButton = null;
+                        }
+                        else {
+                            controller.movePiece(f_x, f_y);
+                            selectedButton.restoreDefaultColor();
+                            selectedButton = null;
+                        }
+                    }
+                    else { if(controller.boardButtonSelected(f_x, f_y)) {
+                        selectedButton = buttons[f_x][f_y];
+                        selectedButton.setBackground(Color.ORANGE);
+                        }
+                    }
+
                 });
-                centerPanel.add(board[x][y]);
+
+                centerPanel.add(buttons[x][y]);
             }
         }
 
@@ -99,5 +120,6 @@ public class MainPanel extends JPanel {
         jTextPane.setText("hej\nhej\nhej\nhej");
         southPanel.add(jTextPane);
     }
+
 }
 

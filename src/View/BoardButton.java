@@ -15,6 +15,12 @@ public class BoardButton extends JButton {
             defaultColor = new Color(100, 100, 100);
         }
         this.setBackground(defaultColor);
+        this.setOpaque(true);
+        this.setBorderPainted(false);
+    }
+
+    public void restoreDefaultColor() {
+        this.setBackground(defaultColor);
     }
 
 }
