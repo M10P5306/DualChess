@@ -3,6 +3,10 @@ package View;
 import Controller.Controller;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
@@ -14,8 +18,10 @@ public class MainPanel extends JPanel {
     private JPanel centerPanel;
     private JPanel eastPanel;
     private JPanel southPanel;
-
+    private JTextPane jTextPane;
     private BoardButton selectedButton;
+
+    private JScrollBar verticalScrollBar;
 
     public MainPanel(Controller controller) {
         this.controller = controller;
@@ -113,13 +119,31 @@ public class MainPanel extends JPanel {
     }
 
     private void southPanel() {
-        JPanel southPanel = new JPanel();
-        this.southPanel = southPanel;
-        JTextPane jTextPane = new JTextPane();
+        this.southPanel = new JPanel();
+        jTextPane = new JTextPane();
         jTextPane.setEditable(false);
-        jTextPane.setText("hej\nhej\nhej\nhej");
-        southPanel.add(jTextPane);
+        JScrollPane jScrollPane = new JScrollPane(jTextPane);
+
+        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        verticalScrollBar = jScrollPane.getVerticalScrollBar();
+
+        jScrollPane.setPreferredSize(new Dimension(600,60));
+        jScrollPane.setMaximumSize(new Dimension(600,60));
+
+        southPanel.add(jScrollPane);
     }
 
+    public void insertText(String text) {
+        StyledDocument styleDocument = jTextPane.getStyledDocument();
+        Style style = styleDocument.addStyle("Style", null);
+        StyleConstants.setForeground(style, Color.BLACK);
+        StyleConstants.setFontSize(style, 15);
+        try {
+            styleDocument.insertString(styleDocument.getLength(), text + "\n", style);
+            verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

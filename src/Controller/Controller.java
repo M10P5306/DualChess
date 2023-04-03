@@ -42,7 +42,8 @@ public class Controller {
 
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x,y).getPiece() != null) {
-            System.out.println(x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString());
+            String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
+            mainFrame.getMainPanel().insertText(toPrint);
             this.selectedPiece = new Coordinate(x, y);
         return true;
         }
