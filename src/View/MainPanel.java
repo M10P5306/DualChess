@@ -8,6 +8,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainPanel extends JPanel {
 
@@ -119,7 +121,7 @@ public class MainPanel extends JPanel {
     }
 
     private void southPanel() {
-        this.southPanel = new JPanel();
+        this.southPanel = new JPanel(new BorderLayout());
         jTextPane = new JTextPane();
         jTextPane.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextPane);
@@ -130,7 +132,19 @@ public class MainPanel extends JPanel {
         jScrollPane.setPreferredSize(new Dimension(600,60));
         jScrollPane.setMaximumSize(new Dimension(600,60));
 
-        southPanel.add(jScrollPane);
+        JButton resetButton = new JButton();
+        resetButton.setText("Reset");
+        resetButton.setSize(100,50);
+        resetButton.setLocation(800,100); //trying to decide location ???
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.resetBoard();
+            }
+        });
+        southPanel.add(jScrollPane,BorderLayout.CENTER);
+        southPanel.add(resetButton, BorderLayout.EAST);
+
     }
 
     public void insertText(String text) {

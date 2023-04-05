@@ -50,4 +50,9 @@ public class Controller {
         return false;
     }
 
+    public void resetBoard(){
+        board = new Board(this);
+        updateBoardView();
+    }
+
 }
