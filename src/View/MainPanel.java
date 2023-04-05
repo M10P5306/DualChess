@@ -136,11 +136,8 @@ public class MainPanel extends JPanel {
         resetButton.setText("Reset");
         resetButton.setSize(100,50);
         resetButton.setLocation(800,100); //trying to decide location ???
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        resetButton.addActionListener(e ->  {
                 controller.resetBoard();
-            }
         });
         southPanel.add(jScrollPane,BorderLayout.CENTER);
         southPanel.add(resetButton, BorderLayout.EAST);
