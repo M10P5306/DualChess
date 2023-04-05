@@ -19,4 +19,9 @@ public class Coordinate {
         return y;
     }
 
+    public String toString() {
+        String coordinates = "X = " + x + "Y = " + y;
+        return coordinates;
+    }
+
 }

@@ -45,6 +45,7 @@ public class Controller {
             String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
             mainFrame.getMainPanel().insertText(toPrint);
             this.selectedPiece = new Coordinate(x, y);
+            mainFrame.getMainPanel().setValidMoves(board.getValidMoves(selectedPiece));
         return true;
         }
         return false;
