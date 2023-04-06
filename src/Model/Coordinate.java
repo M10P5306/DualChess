@@ -24,4 +24,11 @@ public class Coordinate {
         return coordinates;
     }
 
+    public boolean equals(Coordinate coordinate) {
+        if (coordinate.getX() == x && coordinate.getY() == y) {
+            return true;
+        }
+        return false;
+    }
+
 }

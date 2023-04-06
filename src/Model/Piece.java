@@ -12,10 +12,13 @@ public abstract class Piece {
 
     private String name;
 
+    private int moves;
+
     public Piece(String color, String name) {
         this.color = color;
         this.name = name;
         this.possibleMoves = new ArrayList<>();
+        this.moves = 0;
     }
 
     public String getColor() {
@@ -32,6 +35,14 @@ public abstract class Piece {
 
     public void addMoves(Coordinate coordinate) {
         possibleMoves.add(coordinate);
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+
+    public void addMoves() {
+        moves++;
     }
 
 }

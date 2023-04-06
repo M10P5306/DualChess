@@ -108,6 +108,10 @@ public class Board {
                 }
             }
         }
+        else if (getSpecificSquare(coordinate).getPiece() instanceof BlackPawn || getSpecificSquare(coordinate).getPiece() instanceof WhitePawn) {
+            validMoves = pawnValidMoves(coordinate);
+            return validMoves;
+        }
 
         else {
             System.out.println("Not SpecialPiece selected");
@@ -129,6 +133,35 @@ public class Board {
             }
         }
 
+        return validMoves;
+    }
+
+    public ArrayList<Coordinate> pawnValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        if (withInRange(coordinate, possibleMoves.get(0))) {
+            if (!getSpecificSquare(combineCoordinates(possibleMoves.get(0), coordinate)).hasPiece()) {
+                validMoves.add(combineCoordinates(coordinate, possibleMoves.get(0)));
+            }
+        }
+        if (withInRange(coordinate, possibleMoves.get(1))) {
+            if (!getSpecificSquare(combineCoordinates(possibleMoves.get(1), coordinate)).hasPiece() && getSpecificSquare(coordinate).getPiece().getMoves() == 0) {
+                validMoves.add(combineCoordinates(coordinate, possibleMoves.get(1)));
+            }
+        }
+        if (withInRange(coordinate, possibleMoves.get(2))) {
+            if (getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)).hasPiece()) {
+                if (!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)), getSpecificSquare(coordinate)))
+                validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
+            }
+        }
+        if (withInRange(coordinate, possibleMoves.get(3))) {
+            if (getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece()) {
+                if (!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)), getSpecificSquare(coordinate)))
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
+            }
+        }
         return validMoves;
     }
 

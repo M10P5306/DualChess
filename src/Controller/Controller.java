@@ -3,6 +3,8 @@ package Controller;
 import Model.*;
 import View.*;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     private MainFrame mainFrame;
@@ -11,9 +13,12 @@ public class Controller {
 
     private Coordinate selectedPiece;
 
+    private ArrayList<Coordinate> selectedPieceValidMoves;
+
     public Controller() {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
+        this.selectedPieceValidMoves = new ArrayList<>();
         updateBoardView();
 
     }
@@ -34,10 +39,17 @@ public class Controller {
     }
 
     public void movePiece(int newPositionX, int newPositionY) {
-        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
-        board.getSpecificSquare(selectedPiece).setPiece(null);
-        board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
-        updateBoardView();
+        Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
+
+        for (Coordinate coordinate : selectedPieceValidMoves) {
+            if (coordinate.equals(newPosition)) {
+                Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                board.getSpecificSquare(selectedPiece).setPiece(null);
+                board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                pieceToMove.addMoves();
+                updateBoardView();
+            }
+        }
     }
 
     public boolean boardButtonSelected(int x, int y) {
@@ -45,7 +57,8 @@ public class Controller {
             String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
             mainFrame.getMainPanel().insertText(toPrint);
             this.selectedPiece = new Coordinate(x, y);
-            mainFrame.getMainPanel().setValidMoves(board.getValidMoves(selectedPiece));
+            selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+            mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
         return true;
         }
         return false;
