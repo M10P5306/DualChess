@@ -78,15 +78,18 @@ public class Board {
                 if (withInRange(coordinate, possibleMoves.get(i))) {
 
                     if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
-                        System.out.println("Fanns pjäs");
-                        System.out.println(i);
+
                         if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
                         {
                             validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
 
                             if (i % 7 != 0) {
-                                i = i + (7 - (i % 7));
+                                i = i + (7 - ((i+1) % 7));
                                 System.out.println("hopp");
+                            }
+                            else {
+                                System.out.println("hopp hopp");
+                                i = i+6;
                             }
                         }
                         else {
@@ -94,7 +97,7 @@ public class Board {
                             System.out.println("i är " + i + " och i % 7 är " +i % 7);
                             if (i % 7 != 0) {
                                 System.out.println("hopp");
-                                i = i + (7 - (i % 7));
+                                i = i + (7 - ((i+1) % 7));
                             }
                             else {
                                 System.out.println("hopp hopp");
@@ -132,7 +135,7 @@ public class Board {
                 }
             }
         }
-
+        System.out.println(validMoves.size() + " moves i valid moves");
         return validMoves;
     }
 
@@ -170,8 +173,6 @@ public class Board {
         int x = currentPosition.getX()+nextMove.getX();
         int y = currentPosition.getY()+nextMove.getY();
 
-        System.out.println(x + " " + y);
-
         if (y < 8 && y >= 0 && x < 8 && x >= 0) {
         return true;
         }
@@ -188,10 +189,8 @@ public class Board {
     public boolean sameColor(Square squareOne, Square squareTwo) {
 
         if (squareOne.getPiece().getColor().equals(squareTwo.getPiece().getColor())) {
-            System.out.println("samma färg");
             return true;
         }
-        System.out.println("inte samma färg");
         return false;
     }
 
