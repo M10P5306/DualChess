@@ -72,7 +72,6 @@ public class Board {
         ArrayList<Coordinate> validMoves = new ArrayList<>();
 
         if (isSpecialPiece(getSpecificSquare(coordinate).getPiece())) {
-            System.out.println("SpecialPiece selected");
 
             for (int i = 0; i<possibleMoves.size(); i++) {
                 if (withInRange(coordinate, possibleMoves.get(i))) {
@@ -85,22 +84,16 @@ public class Board {
 
                             if (i % 7 != 0) {
                                 i = i + (7 - ((i+1) % 7));
-                                System.out.println("hopp");
                             }
                             else {
-                                System.out.println("hopp hopp");
                                 i = i+6;
                             }
                         }
                         else {
-                            System.out.println("borde skippa");
-                            System.out.println("i är " + i + " och i % 7 är " +i % 7);
                             if (i % 7 != 0) {
-                                System.out.println("hopp");
                                 i = i + (7 - ((i+1) % 7));
                             }
                             else {
-                                System.out.println("hopp hopp");
                                 i = i+6;
                             }
                         }
@@ -117,12 +110,10 @@ public class Board {
         }
 
         else {
-            System.out.println("Not SpecialPiece selected");
             for (int i = 0; i<possibleMoves.size(); i++) {
                 if (withInRange(coordinate, possibleMoves.get(i))) {
 
                     if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
-                        System.out.println("Fanns pjäs");
 
                         if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
                         {
@@ -135,7 +126,6 @@ public class Board {
                 }
             }
         }
-        System.out.println(validMoves.size() + " moves i valid moves");
         return validMoves;
     }
 
