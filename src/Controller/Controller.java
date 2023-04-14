@@ -16,10 +16,13 @@ public class Controller {
 
     private ArrayList<Coordinate> selectedPieceValidMoves;
 
+    private int turnCounter;
+
     public Controller() {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
         this.selectedPieceValidMoves = new ArrayList<>();
+        this.turnCounter = 0;
         updateBoardView();
 
     }
@@ -58,6 +61,7 @@ public class Controller {
                 board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
                 pieceToMove.addMoves();
                 updateBoardView();
+                turnCounter++;
 
                 mainFrame.getMainPanel().insertText(message);
             }
@@ -65,12 +69,22 @@ public class Controller {
     }
 
     public boolean boardButtonSelected(int x, int y) {
+
         if (board.getSpecificSquare(x,y).getPiece() != null) {
-            String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
+            if (turnCounter % 2 != 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("White")) {
+                System.out.println(turnCounter + " white piece selected");
             this.selectedPiece = new Coordinate(x, y);
             selectedPieceValidMoves = board.getValidMoves(selectedPiece);
             mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
         return true;
+            }
+            if (turnCounter % 2 == 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("Black")) {
+                System.out.println(turnCounter + " black piece selected");
+                this.selectedPiece = new Coordinate(x, y);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+                mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
+                return true;
+            }
         }
         return false;
     }
@@ -79,6 +93,7 @@ public class Controller {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
             board = new Board(this);
+            turnCounter = 0;
             updateBoardView();
         }
     }
