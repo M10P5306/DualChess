@@ -11,7 +11,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(Controller controller) {
         this.controller = controller;
-        this.mainPanel = new MainPanel(controller);
+        this.mainPanel = new MainPanel(this);
 
         this.setTitle("DualChess");
         this.setSize(1000, 1000);
@@ -22,6 +22,10 @@ public class MainFrame extends JFrame {
 
     public MainPanel getMainPanel() {
         return mainPanel;
+    }
+
+    public Controller getController(){
+        return controller;
     }
 
 }

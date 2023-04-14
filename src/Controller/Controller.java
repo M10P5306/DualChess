@@ -15,6 +15,8 @@ public class Controller {
 
     private ArrayList<Coordinate> selectedPieceValidMoves;
 
+    private boolean playersTurn = true; //to change clock in GUI
+
     public Controller() {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
@@ -31,9 +33,9 @@ public class Controller {
             for (int y = 0; y<temporarySquares[x].length; y++) {
                 if (temporarySquares[x][y].getPiece() != null) {
                     String text = temporarySquares[x][y].getPiece().colorAndNameToString();
-                    mainFrame.getMainPanel().getButtons()[x][y].setText(text);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
                 }
-                else {mainFrame.getMainPanel().getButtons()[x][y].setText(x + "," + y);}
+                else {mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);}
             }
         }
     }
@@ -58,7 +60,8 @@ public class Controller {
                 pieceToMove.addMoves();
                 updateBoardView();
 
-                mainFrame.getMainPanel().insertText(message);
+                mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                mainFrame.getMainPanel().getEastPanel().setPlayersTurn(playersTurn = !playersTurn); //to change clock in GUI
             }
         }
     }
@@ -68,7 +71,7 @@ public class Controller {
             String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
             this.selectedPiece = new Coordinate(x, y);
             selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-            mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
+            mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
         return true;
         }
         return false;
