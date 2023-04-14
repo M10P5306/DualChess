@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Controller {
@@ -75,8 +76,11 @@ public class Controller {
     }
 
     public void resetBoard(){
-        board = new Board(this);
-        updateBoardView();
+        int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
+        if (answer == 0) {
+            board = new Board(this);
+            updateBoardView();
+        }
     }
 
 }
