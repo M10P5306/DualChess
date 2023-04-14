@@ -12,32 +12,37 @@ public abstract class Piece {
 
     private String name;
 
+    private int moves;
+
     public Piece(String color, String name) {
         this.color = color;
         this.name = name;
+        this.possibleMoves = new ArrayList<>();
+        this.moves = 0;
     }
 
     public String getColor() {
         return color;
     }
 
-    public ArrayList validMoves(Coordinate currentPosition) {
-        ArrayList<Coordinate> validMoves = new ArrayList<>();
-
-        for (Coordinate coordinate : possibleMoves) {
-            int x = coordinate.getX()+currentPosition.getX();
-            int y = coordinate.getX()+currentPosition.getY();
-            if (x>=0 && x<8) {
-                if (y>=0 && y<8) {
-                    validMoves.add(coordinate);
-                }
-            }
-        }
-        return validMoves;
+    public ArrayList<Coordinate> getPossibleMoves() {
+      return possibleMoves;
     }
 
     public String colorAndNameToString() {
         return color + name;
+    }
+
+    public void addMoves(Coordinate coordinate) {
+        possibleMoves.add(coordinate);
+    }
+
+    public int getMoves() {
+        return moves;
+    }
+
+    public void addMoves() {
+        moves++;
     }
 
 }

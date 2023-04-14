@@ -15,4 +15,11 @@ public class Square {
     public Piece getPiece() {
         return piece;
     }
+
+    public boolean hasPiece() {
+        if (piece != null) {
+            return true;
+        }
+        return false;
+    }
 }

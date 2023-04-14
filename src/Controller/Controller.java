@@ -3,6 +3,8 @@ package Controller;
 import Model.*;
 import View.*;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     private MainFrame mainFrame;
@@ -11,9 +13,12 @@ public class Controller {
 
     private Coordinate selectedPiece;
 
+    private ArrayList<Coordinate> selectedPieceValidMoves;
+
     public Controller() {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
+        this.selectedPieceValidMoves = new ArrayList<>();
         updateBoardView();
 
     }
@@ -34,20 +39,44 @@ public class Controller {
     }
 
     public void movePiece(int newPositionX, int newPositionY) {
-        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
-        board.getSpecificSquare(selectedPiece).setPiece(null);
-        board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
-        updateBoardView();
+        Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
+
+        for (Coordinate coordinate : selectedPieceValidMoves) {
+            if (coordinate.equals(newPosition)) {
+
+                String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " + selectedPiece.getX() + "," + selectedPiece.getY() + " to " + newPositionX + "," + newPositionY;
+                StringBuilder toPrint = new StringBuilder(event);
+                if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece() && board.getSpecificSquare(newPositionX, newPositionY).getPiece() != null) {
+                    String takenPiece = " and took " + board.getSpecificSquare(newPositionX, newPositionY).getPiece().colorAndNameToString();
+                    toPrint.append(takenPiece);
+                }
+                String message = toPrint.toString();
+
+                Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                board.getSpecificSquare(selectedPiece).setPiece(null);
+                board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                pieceToMove.addMoves();
+                updateBoardView();
+
+                mainFrame.getMainPanel().insertText(message);
+            }
+        }
     }
 
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x,y).getPiece() != null) {
             String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
-            mainFrame.getMainPanel().insertText(toPrint);
             this.selectedPiece = new Coordinate(x, y);
+            selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+            mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
         return true;
         }
         return false;
+    }
+
+    public void resetBoard(){
+        board = new Board(this);
+        updateBoardView();
     }
 
 }

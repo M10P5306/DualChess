@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import Model.Coordinate;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -8,6 +9,9 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainPanel extends JPanel {
 
@@ -76,8 +80,8 @@ public class MainPanel extends JPanel {
         this.centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(8, 8));
 
-        for (int x = buttons.length - 1; x >= 0; x--) {
-            for (int y = 0; y < buttons[x].length; y++) {
+        for (int y = buttons.length - 1; y >= 0; y--) {
+            for (int x = 0; x < buttons[y].length; x++) {
                 buttons[x][y] = new BoardButton(x, y);
                 buttons[x][y].setText(x + "," + y);
 
@@ -90,16 +94,19 @@ public class MainPanel extends JPanel {
                         if (buttons[f_x][f_y] == selectedButton) {
                             selectedButton.restoreDefaultColor();
                             selectedButton = null;
+                            restoreDefaultColors();
                         }
                         else {
                             controller.movePiece(f_x, f_y);
                             selectedButton.restoreDefaultColor();
                             selectedButton = null;
+                            restoreDefaultColors();
                         }
                     }
                     else { if(controller.boardButtonSelected(f_x, f_y)) {
                         selectedButton = buttons[f_x][f_y];
                         selectedButton.setBackground(Color.ORANGE);
+
                         }
                     }
 
@@ -111,6 +118,22 @@ public class MainPanel extends JPanel {
 
     }
 
+    public void setValidMoves(ArrayList<Coordinate> validMoves) {
+        for (Coordinate coordinate : validMoves) {
+            int x = coordinate.getX();
+            int y = coordinate.getY();
+            buttons[x][y].setBackground(Color.yellow);
+        }
+    }
+
+    public void restoreDefaultColors() {
+        for (int x = 0; x<buttons.length; x++) {
+            for (int y = 0; y<buttons[x].length; y++) {
+                buttons[x][y].restoreDefaultColor();
+            }
+        }
+    }
+
     private void eastPanel() {
         JPanel eastPanel = new JPanel();
         this.eastPanel = eastPanel;
@@ -119,7 +142,7 @@ public class MainPanel extends JPanel {
     }
 
     private void southPanel() {
-        this.southPanel = new JPanel();
+        this.southPanel = new JPanel(new BorderLayout());
         jTextPane = new JTextPane();
         jTextPane.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextPane);
@@ -130,7 +153,16 @@ public class MainPanel extends JPanel {
         jScrollPane.setPreferredSize(new Dimension(600,60));
         jScrollPane.setMaximumSize(new Dimension(600,60));
 
-        southPanel.add(jScrollPane);
+        JButton resetButton = new JButton();
+        resetButton.setText("Reset");
+        resetButton.setSize(100,50);
+        resetButton.setLocation(800,100); //trying to decide location ???
+        resetButton.addActionListener(e ->  {
+                controller.resetBoard();
+        });
+        southPanel.add(jScrollPane,BorderLayout.CENTER);
+        southPanel.add(resetButton, BorderLayout.EAST);
+
     }
 
     public void insertText(String text) {

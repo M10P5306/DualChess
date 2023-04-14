@@ -19,4 +19,16 @@ public class Coordinate {
         return y;
     }
 
+    public String toString() {
+        String coordinates = "X = " + x + "Y = " + y;
+        return coordinates;
+    }
+
+    public boolean equals(Coordinate coordinate) {
+        if (coordinate.getX() == x && coordinate.getY() == y) {
+            return true;
+        }
+        return false;
+    }
+
 }
