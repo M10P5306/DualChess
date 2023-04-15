@@ -24,7 +24,7 @@ public class Controller {
     private String blackPlayer;
 
     public Controller(String whitePlayer, String blackPlayer) {
-        this.mainFrame = new MainFrame(this);
+        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
         this.board = new Board(this);
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
@@ -34,19 +34,21 @@ public class Controller {
         this.turnCounter = 0;
         updateBoardView();
 
+
     }
 
     public void updateBoardView() {
 
         Square[][] temporarySquares = board.getSquares();
 
-        for (int x = 0; x<temporarySquares.length; x++) {
-            for (int y = 0; y<temporarySquares[x].length; y++) {
+        for (int x = 0; x < temporarySquares.length; x++) {
+            for (int y = 0; y < temporarySquares[x].length; y++) {
                 if (temporarySquares[x][y].getPiece() != null) {
                     String text = temporarySquares[x][y].getPiece().colorAndNameToString();
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
+                } else {
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);
                 }
-                else {mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);}
             }
         }
     }
@@ -80,14 +82,14 @@ public class Controller {
 
     public boolean boardButtonSelected(int x, int y) {
 
-        if (board.getSpecificSquare(x,y).getPiece() != null) {
-            if (turnCounter % 2 != 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("White")) {
-            this.selectedPiece = new Coordinate(x, y);
-            selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-            mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
-        return true;
+        if (board.getSpecificSquare(x, y).getPiece() != null) {
+            if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
+                this.selectedPiece = new Coordinate(x, y);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+                return true;
             }
-            if (turnCounter % 2 == 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("Black")) {
+            if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
                 mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
@@ -97,13 +99,14 @@ public class Controller {
         return false;
     }
 
-    public void resetBoard(){
+    public void resetBoard() {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
             if (turnCounter % 2 != 1) {
                 log.addEvent(whitePlayer + " forfeited");
+            } else {
+                log.addEvent(blackPlayer + " forfeited");
             }
-            else {log.addEvent(blackPlayer + " forfeited");}
 
             board = new Board(this);
             turnCounter = 0;
@@ -111,5 +114,4 @@ public class Controller {
             log.writeHistoryToFile();
         }
     }
-
 }

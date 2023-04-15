@@ -11,14 +11,14 @@ public class EastPanel extends JPanel {
     private Timer whiteTimer;
     private Timer blackTimer;
 
-    public EastPanel() {
+    public EastPanel(String whitePlayer, String blackPlayer) {
         this.setLayout(new GridLayout(8, 1));
-        setUp();
+        setUp(whitePlayer, blackPlayer);
         whiteTimer.start();
     }
 
-    private void setUp(){
-        JLabel whiteLabel = new JLabel("White Player");
+    private void setUp(String whitePlayer, String blackPlayer){
+        JLabel whiteLabel = new JLabel(whitePlayer);
         whiteLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(whiteLabel);
 
@@ -31,7 +31,7 @@ public class EastPanel extends JPanel {
             changeWhitePlayerTime();
         });
 
-        JLabel blackLabel = new JLabel("Black Player");
+        JLabel blackLabel = new JLabel(blackPlayer);
         blackLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(blackLabel);
 
