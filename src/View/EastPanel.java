@@ -45,8 +45,8 @@ public class EastPanel extends JPanel {
         });
     }
 
-    public void setPlayersTurn(boolean whitePlayersTurn) {
-        if(whitePlayersTurn){
+    public void setPlayersTurn(int playersTurn) {
+        if(playersTurn % 2 != 1){
             blackTimer.stop();
             whiteTimer.start();
         } else{

@@ -44,9 +44,9 @@ public class Controller {
             for (int y = 0; y<temporarySquares[x].length; y++) {
                 if (temporarySquares[x][y].getPiece() != null) {
                     String text = temporarySquares[x][y].getPiece().colorAndNameToString();
-                    mainFrame.getMainPanel().getButtons()[x][y].setText(text);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
                 }
-                else {mainFrame.getMainPanel().getButtons()[x][y].setText(x + "," + y);}
+                else {mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);}
             }
         }
     }
@@ -71,8 +71,8 @@ public class Controller {
                 pieceToMove.addMoves();
                 updateBoardView();
                 turnCounter++;
-
-                mainFrame.getMainPanel().insertText(message);
+                mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
+                mainFrame.getMainPanel().getSouthPanel().insertText(message);
                 log.addEvent(message);
             }
         }
@@ -84,13 +84,13 @@ public class Controller {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("White")) {
             this.selectedPiece = new Coordinate(x, y);
             selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-            mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
+            mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
         return true;
             }
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("Black")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-                mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
+                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
                 return true;
             }
         }
