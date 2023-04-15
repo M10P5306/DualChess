@@ -36,6 +36,5 @@ public class Logger {
             br.close();
         }
         catch (IOException e) {}
-        System.out.println("Saker skrevs");
     }
 }
