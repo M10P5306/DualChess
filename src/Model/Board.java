@@ -67,62 +67,59 @@ public class Board {
 
 
     public ArrayList<Coordinate> getValidMoves(Coordinate coordinate) {
-        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
 
+        Piece selectedPiece = getSpecificSquare(coordinate).getPiece();
+        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
 
-        if (isSpecialPiece(getSpecificSquare(coordinate).getPiece())) {
-
-            for (int i = 0; i<possibleMoves.size(); i++) {
-                if (withInRange(coordinate, possibleMoves.get(i))) {
-
-                    if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
-
-                        if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
-                        {
-                            validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
-
-                            if (i % 7 != 0) {
-                                i = i + (7 - ((i+1) % 7));
-                            }
-                            else {
-                                i = i+6;
-                            }
-                        }
-                        else {
-                            if (i % 7 != 0) {
-                                i = i + (7 - ((i+1) % 7));
-                            }
-                            else {
-                                i = i+6;
-                            }
-                        }
-                    }
-                    else {
-                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
-                    }
-                }
-            }
+        if (selectedPiece instanceof Queen || selectedPiece instanceof Bishop || selectedPiece instanceof Rook) {
+            validMoves = specialPieceValidMoves(coordinate);
+            return validMoves;
         }
-        else if (getSpecificSquare(coordinate).getPiece() instanceof BlackPawn || getSpecificSquare(coordinate).getPiece() instanceof WhitePawn) {
+        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof WhitePawn) {
             validMoves = pawnValidMoves(coordinate);
             return validMoves;
         }
 
         else {
-            for (int i = 0; i<possibleMoves.size(); i++) {
-                if (withInRange(coordinate, possibleMoves.get(i))) {
 
-                    if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+            validMoves = kingOrKnightValidMoves(coordinate);
 
-                        if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
-                        {
-                            validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+        }
+        return validMoves;
+    }
+
+    public ArrayList<Coordinate> specialPieceValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (int i = 0; i<possibleMoves.size(); i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+
+                if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+
+                    if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
+                    {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+
+                        if (i % 7 != 0) {
+                            i = i + (7 - ((i+1) % 7));
+                        }
+                        else {
+                            i = i+6;
                         }
                     }
                     else {
-                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                        if (i % 7 != 0) {
+                            i = i + (7 - ((i+1) % 7));
+                        }
+                        else {
+                            i = i+6;
+                        }
                     }
+                }
+                else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
                 }
             }
         }
@@ -158,6 +155,28 @@ public class Board {
         return validMoves;
     }
 
+    public ArrayList<Coordinate> kingOrKnightValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (int i = 0; i<possibleMoves.size(); i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+
+                if (getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+
+                    if(!sameColor(getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), getSpecificSquare(coordinate)))
+                    {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                    }
+                }
+                else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+
+        return validMoves;
+    }
     public boolean withInRange(Coordinate currentPosition, Coordinate nextMove) {
 
         int x = currentPosition.getX()+nextMove.getX();
@@ -179,16 +198,6 @@ public class Board {
     public boolean sameColor(Square squareOne, Square squareTwo) {
 
         if (squareOne.getPiece().getColor().equals(squareTwo.getPiece().getColor())) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isSpecialPiece(Piece piece) {
-
-        if (piece instanceof Queen ||
-                piece instanceof Bishop ||
-                piece instanceof Rook) {
             return true;
         }
         return false;
