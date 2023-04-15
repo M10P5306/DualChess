@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Controller {
@@ -15,12 +16,22 @@ public class Controller {
 
     private ArrayList<Coordinate> selectedPieceValidMoves;
 
-    private boolean playersTurn = true; //to change clock in GUI
+    private int turnCounter;
 
-    public Controller() {
+    private Logger log;
+
+    private String whitePlayer;
+    private String blackPlayer;
+
+    public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
+
+        this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
+        this.turnCounter = 0;
         updateBoardView();
 
     }
@@ -33,9 +44,9 @@ public class Controller {
             for (int y = 0; y<temporarySquares[x].length; y++) {
                 if (temporarySquares[x][y].getPiece() != null) {
                     String text = temporarySquares[x][y].getPiece().colorAndNameToString();
-                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
+                    mainFrame.getMainPanel().getButtons()[x][y].setText(text);
                 }
-                else {mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);}
+                else {mainFrame.getMainPanel().getButtons()[x][y].setText(x + "," + y);}
             }
         }
     }
@@ -59,27 +70,46 @@ public class Controller {
                 board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
                 pieceToMove.addMoves();
                 updateBoardView();
+                turnCounter++;
 
-                mainFrame.getMainPanel().getSouthPanel().insertText(message);
-                mainFrame.getMainPanel().getEastPanel().setPlayersTurn(playersTurn = !playersTurn); //to change clock in GUI
+                mainFrame.getMainPanel().insertText(message);
+                log.addEvent(message);
             }
         }
     }
 
     public boolean boardButtonSelected(int x, int y) {
+
         if (board.getSpecificSquare(x,y).getPiece() != null) {
-            String toPrint = x + "," + y + " " + board.getSpecificSquare(x, y).getPiece().colorAndNameToString();
+            if (turnCounter % 2 != 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("White")) {
             this.selectedPiece = new Coordinate(x, y);
             selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-            mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+            mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
         return true;
+            }
+            if (turnCounter % 2 == 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("Black")) {
+                this.selectedPiece = new Coordinate(x, y);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+                mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
+                return true;
+            }
         }
         return false;
     }
 
     public void resetBoard(){
-        board = new Board(this);
-        updateBoardView();
+        int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
+        if (answer == 0) {
+            if (turnCounter % 2 != 1) {
+                log.addEvent(whitePlayer + " forfeited");
+            }
+            else {log.addEvent(blackPlayer + " forfeited");}
+
+            board = new Board(this);
+            turnCounter = 0;
+            updateBoardView();
+            log.writeHistoryToFile();
+        }
     }
 
 }
