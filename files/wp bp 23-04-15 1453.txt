@@ -1,4 +1,0 @@
-WhitePawn moved from 4,1 to 4,3
-BlackPawn moved from 3,6 to 3,4
-WhiteKing moved from 4,0 to 4,1
-BlackQueen moved from 3,7 to 3,5
