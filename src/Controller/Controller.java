@@ -18,9 +18,12 @@ public class Controller {
 
     private int turnCounter;
 
-    public Controller() {
+    private Logger log;
+
+    public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
+        this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
         updateBoardView();
@@ -64,6 +67,7 @@ public class Controller {
                 turnCounter++;
 
                 mainFrame.getMainPanel().insertText(message);
+                log.addEvent(message);
             }
         }
     }
@@ -72,14 +76,12 @@ public class Controller {
 
         if (board.getSpecificSquare(x,y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("White")) {
-                System.out.println(turnCounter + " white piece selected");
             this.selectedPiece = new Coordinate(x, y);
             selectedPieceValidMoves = board.getValidMoves(selectedPiece);
             mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
         return true;
             }
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x,y).getPiece().getColor().equals("Black")) {
-                System.out.println(turnCounter + " black piece selected");
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
                 mainFrame.getMainPanel().setValidMoves(selectedPieceValidMoves);
@@ -95,6 +97,7 @@ public class Controller {
             board = new Board(this);
             turnCounter = 0;
             updateBoardView();
+            log.writeHistoryToFile();
         }
     }
 
