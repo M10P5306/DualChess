@@ -20,9 +20,15 @@ public class Controller {
 
     private Logger log;
 
+    private String whitePlayer;
+    private String blackPlayer;
+
     public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this);
         this.board = new Board(this);
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
+
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
@@ -94,6 +100,11 @@ public class Controller {
     public void resetBoard(){
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
+            if (turnCounter % 2 != 1) {
+                log.addEvent(whitePlayer + " forfeited");
+            }
+            else {log.addEvent(blackPlayer + " forfeited");}
+
             board = new Board(this);
             turnCounter = 0;
             updateBoardView();
