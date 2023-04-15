@@ -9,9 +9,9 @@ public class MainFrame extends JFrame {
     private Controller controller;
     private MainPanel mainPanel;
 
-    public MainFrame(Controller controller) {
+    public MainFrame(Controller controller, String whitePlayer, String blackPlayer) {
         this.controller = controller;
-        this.mainPanel = new MainPanel(this);
+        this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer);
 
         this.setTitle("DualChess");
         this.setSize(1000, 1000);

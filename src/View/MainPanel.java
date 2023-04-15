@@ -10,16 +10,16 @@ public class MainPanel extends JPanel {
     private EastPanel eastPanel;
     private SouthPanel southPanel;
 
-    public MainPanel(MainFrame mainFrame) {
+    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer) {
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
-        setupPanels();
+        setupPanels(whitePlayer, blackPlayer);
         addPanels();
     }
 
-    private void setupPanels() {
+    private void setupPanels(String whitePlayer, String blackPlayer) {
         centerPanel = new CenterPanel(this);
-        eastPanel = new EastPanel();
+        eastPanel = new EastPanel(whitePlayer, blackPlayer);
         southPanel = new SouthPanel(this);
     }
 
