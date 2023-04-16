@@ -113,6 +113,10 @@ public class MenuPanel extends JPanel {
 
     public void southPanel() {
         this.southPanel = new JPanel();
+        southPanel.setBorder(BorderFactory.createTitledBorder("HOW TO PLAY"));
+        JButton tutorialButton = new JButton("How to play chess");
+        tutorialButton.setSize(100,30);
+        southPanel.add(tutorialButton);
     }
 
     public void addPanels() {
