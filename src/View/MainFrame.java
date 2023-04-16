@@ -22,6 +22,11 @@ public class MainFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void startGame() {
+        menuPanel.setVisible(false);
+        this.setContentPane(mainPanel);
+    }
+
     public MainPanel getMainPanel() {
         return mainPanel;
     }

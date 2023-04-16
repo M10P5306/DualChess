@@ -4,6 +4,9 @@ import Controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class MenuPanel extends JPanel {
     private Controller controller;
@@ -70,6 +73,9 @@ public class MenuPanel extends JPanel {
         startButton = new JButton("Start game");
         startButton.setSize(100,40);
         startButton.setLocation(150,150);
+        startButton.addActionListener(e -> {
+            controller.startGame();
+        });
         centerPanel.add(startButton);
 
     }
@@ -116,6 +122,15 @@ public class MenuPanel extends JPanel {
         southPanel.setBorder(BorderFactory.createTitledBorder("HOW TO PLAY"));
         JButton tutorialButton = new JButton("How to play chess");
         tutorialButton.setSize(100,30);
+        tutorialButton.addActionListener(e -> {
+            //TODO koden nedan ska ske i en entity-klass, här endast för test
+            try {
+                Desktop.getDesktop().browse(new URL("https://www.chess.com/learn-how-to-play-chess").toURI());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
         southPanel.add(tutorialButton);
     }
 

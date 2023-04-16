@@ -23,6 +23,10 @@ public class Controller {
 
     }
 
+    public void startGame() {
+        mainFrame.startGame();
+    }
+
     public void updateBoardView() {
 
         Square[][] temporarySquares = board.getSquares();
