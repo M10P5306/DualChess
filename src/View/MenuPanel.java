@@ -34,7 +34,9 @@ public class MenuPanel extends JPanel {
     public void northPanel() {
         this.northPanel = new JPanel();
         northPanel.setLayout(new FlowLayout());
-        northPanel.add(new JLabel("DualChess"));
+        JLabel dualChess = new JLabel("DualChess");
+        dualChess.setFont(new Font("Verdana", Font.BOLD, 40));
+        northPanel.add(dualChess);
     }
 
     public void centerPanel() {
