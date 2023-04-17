@@ -18,7 +18,7 @@ public class Controller {
 
     public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
-        this.board = new Board(this);
+        this.board = new Board();
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
         this.log = new Logger(whitePlayer, blackPlayer);
@@ -29,12 +29,10 @@ public class Controller {
     }
 
     public void updateBoardView() {
-        Square[][] temporarySquares = board.getSquares();
-
-        for (int x = 0; x < temporarySquares.length; x++) {
-            for (int y = 0; y < temporarySquares[x].length; y++) {
-                if (temporarySquares[x][y].getPiece() != null) {
-                    String text = temporarySquares[x][y].getPiece().colorAndNameToString();
+        for (int x = 0; x < board.getSquares().length; x++) {
+            for (int y = 0; y < board.getSquares()[x].length; y++) {
+                if (board.getSquares()[x][y].getPiece() != null) {
+                    String text = board.getSquares()[x][y].getPiece().colorAndNameToString();
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
                 } else {
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);
@@ -96,7 +94,7 @@ public class Controller {
             } else {
                 log.addEvent(blackPlayer + " forfeited");
             }
-            board = new Board(this);
+            board = new Board();
             turnCounter = 0;
             updateBoardView();
             log.writeHistoryToFile();

@@ -19,20 +19,12 @@ public class RuleHandler {
                 if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
                     if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
                         validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
-                        if (i % 7 != 0) {
-                            i = i + (7 - ((i+1) % 7));
-                        }
-                        else {
-                            i = i+6;
-                        }
+                    }
+                    if (i % 7 != 0) {
+                        i = i + (7 - ((i+1) % 7));
                     }
                     else {
-                        if (i % 7 != 0) {
-                            i = i + (7 - ((i+1) % 7));
-                        }
-                        else {
-                            i = i+6;
-                        }
+                        i = i+6;
                     }
                 }
                 else {

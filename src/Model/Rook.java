@@ -2,8 +2,6 @@ package Model;
 
 public class Rook extends Piece{
 
-    int movesMade = 0;
-
     public Rook(String color) {
         super(color, "Rook");
         addMoves(new Coordinate(0,1));
@@ -34,10 +32,6 @@ public class Rook extends Piece{
         addMoves(new Coordinate(-5,0));
         addMoves(new Coordinate(-6,0));
         addMoves(new Coordinate(-7,0));
-    }
-
-    public int getMovesMade() {
-        return movesMade;
     }
 
 }

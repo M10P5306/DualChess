@@ -5,12 +5,10 @@ import java.util.ArrayList;
 
 public class Board {
 
-    private Controller controller;
     private Square[][] squares;
     private RuleHandler ruleHandler;
 
-    public Board(Controller controller) {
-        this.controller = controller;
+    public Board() {
         this.squares = new Square[8][8];
         this.ruleHandler = new RuleHandler(this);
 
