@@ -1,9 +1,7 @@
 package View;
 
-import Model.Coordinate;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class CenterPanel extends JPanel {
     private MainPanel mainPanel;
@@ -14,7 +12,6 @@ public class CenterPanel extends JPanel {
         this.mainPanel = mainPanel;
         this.buttons = new BoardButton[8][8];
         this.setLayout(new GridLayout(8, 8));
-
         setUpButtons();
     }
 
@@ -23,18 +20,18 @@ public class CenterPanel extends JPanel {
             for (int x = 0; x < buttons[y].length; x++) {
                 buttons[x][y] = new BoardButton(x, y);
                 buttons[x][y].setText(x + "," + y);
-                final int f_x = x;
-                final int f_y = y;
+                final int finalX = x;
+                final int finalY = y;
                 buttons[x][y].addActionListener(e -> {
                     if (selectedButton != null) {
-                        if (buttons[f_x][f_y] != selectedButton) {
-                            mainPanel.getMainFrame().getController().movePiece(f_x, f_y);
+                        if (buttons[finalX][finalY] != selectedButton) {
+                            mainPanel.getMainFrame().getController().movePiece(finalX, finalY);
                         }
                         selectedButton = null;
                         restoreDefaultColors();
                     } else {
-                        if (mainPanel.getMainFrame().getController().boardButtonSelected(f_x, f_y)) {
-                            selectedButton = buttons[f_x][f_y];
+                        if (mainPanel.getMainFrame().getController().boardButtonSelected(finalX, finalY)) {
+                            selectedButton = buttons[finalX][finalY];
                             selectedButton.setBackground(Color.ORANGE);
                         }
                     }
@@ -48,12 +45,8 @@ public class CenterPanel extends JPanel {
         return buttons;
     }
 
-    public void setValidMoves(ArrayList<Coordinate> validMoves) {
-        for (Coordinate coordinate : validMoves) {
-            int x = coordinate.getX();
-            int y = coordinate.getY();
-            buttons[x][y].setBackground(Color.yellow);
-        }
+    public void setValidMoves(int x, int y) {
+        buttons[x][y].setBackground(Color.yellow);
     }
 
     public void restoreDefaultColors() {
@@ -63,5 +56,4 @@ public class CenterPanel extends JPanel {
             }
         }
     }
-
 }
