@@ -33,7 +33,6 @@ public class SouthPanel extends JPanel{
         JButton resetButton = new JButton();
         resetButton.setText("Reset");
         resetButton.setSize(100,60);
-        //resetButton.setLocation(800,100); //trying to decide location ???
         resetButton.addActionListener(e ->  {
             mainPanel.getMainFrame().getController().resetBoard();
         });

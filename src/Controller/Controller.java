@@ -86,13 +86,21 @@ public class Controller {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                }
                 return true;
             }
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                }
                 return true;
             }
         }
