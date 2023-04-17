@@ -126,6 +126,7 @@ public class Controller {
 
     }
 
+    //TODO Metoden nedan behövs ej
     public void stopSound() {
         this.selectedSound.stopSound();
     }
