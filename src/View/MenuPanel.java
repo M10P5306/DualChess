@@ -4,8 +4,6 @@ import Controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class MenuPanel extends JPanel {
