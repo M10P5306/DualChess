@@ -22,13 +22,16 @@ public class Controller {
 
     private String whitePlayer;
     private String blackPlayer;
+    private AudioPlayer selectedSound;
+    private AudioPlayer captureSound;
 
     public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
         this.board = new Board(this);
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
-
+        this.selectedSound = new AudioPlayer("C:\\Users\\edinj\\Downloads\\On The Rocks - TrackTribe.wav");
+        //this.captureSound = new AudioPlayer();
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
@@ -113,5 +116,17 @@ public class Controller {
             updateBoardView();
             log.writeHistoryToFile();
         }
+    }
+
+    public void playSound(int x, int y) {
+        this.selectedSound = new AudioPlayer("C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
+        if (board.getSpecificSquare(x, y).getPiece() != null){
+            selectedSound.playSound();
+        }
+
+    }
+
+    public void stopSound() {
+        this.selectedSound.stopSound();
     }
 }
