@@ -13,6 +13,7 @@ public class EastPanel extends JPanel {
 
     public EastPanel(String whitePlayer, String blackPlayer) {
         this.setLayout(new GridLayout(8, 1));
+
         setUp(whitePlayer, blackPlayer);
         whiteTimer.start();
     }
@@ -78,6 +79,7 @@ public class EastPanel extends JPanel {
             blackPlayerTime.setText(String.format("%02d:%02d", minutes, seconds));
         }
     }
+
 }
 
 

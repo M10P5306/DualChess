@@ -16,13 +16,9 @@ public class RuleHandler {
 
         for (int i = 0; i<possibleMoves.size(); i++) {
             if (withInRange(coordinate, possibleMoves.get(i))) {
-
                 if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
-
-                    if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate)))
-                    {
+                    if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
                         validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
-
                         if (i % 7 != 0) {
                             i = i + (7 - ((i+1) % 7));
                         }
@@ -82,9 +78,7 @@ public class RuleHandler {
 
         for (int i = 0; i<possibleMoves.size(); i++) {
             if (withInRange(coordinate, possibleMoves.get(i))) {
-
                 if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
-
                     if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate)))
                     {
                         validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
@@ -95,11 +89,10 @@ public class RuleHandler {
                 }
             }
         }
-
         return validMoves;
     }
-    public boolean withInRange(Coordinate currentPosition, Coordinate nextMove) {
 
+    public boolean withInRange(Coordinate currentPosition, Coordinate nextMove) {
         int x = currentPosition.getX()+nextMove.getX();
         int y = currentPosition.getY()+nextMove.getY();
 
@@ -112,17 +105,14 @@ public class RuleHandler {
     public Coordinate combineCoordinates(Coordinate coordinateOne, Coordinate coordinateTwo) {
         int x = coordinateOne.getX() + coordinateTwo.getX();
         int y = coordinateOne.getY() + coordinateTwo.getY();
-
         return new Coordinate(x, y);
     }
 
     public boolean sameColor(Square squareOne, Square squareTwo) {
-
         if (squareOne.getPiece().getColor().equals(squareTwo.getPiece().getColor())) {
             return true;
         }
         return false;
     }
-
 
 }

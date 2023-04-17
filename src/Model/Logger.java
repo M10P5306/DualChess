@@ -24,7 +24,6 @@ public class Logger {
     }
 
     public void writeHistoryToFile() {
-
         try {
             FileWriter fr = new FileWriter(fileName);
             BufferedWriter br = new BufferedWriter(fr);

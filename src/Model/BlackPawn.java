@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class BlackPawn extends Piece{
 
     int movesMade = 0;

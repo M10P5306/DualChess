@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class Rook extends Piece{
 
     int movesMade = 0;

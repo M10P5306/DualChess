@@ -1,7 +1,6 @@
 package View;
 
 import Model.Coordinate;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ public class CenterPanel extends JPanel {
         this.mainPanel = mainPanel;
         this.buttons = new BoardButton[8][8];
         this.setLayout(new GridLayout(8, 8));
+
         setUpButtons();
     }
 
@@ -23,12 +23,9 @@ public class CenterPanel extends JPanel {
             for (int x = 0; x < buttons[y].length; x++) {
                 buttons[x][y] = new BoardButton(x, y);
                 buttons[x][y].setText(x + "," + y);
-
                 final int f_x = x;
                 final int f_y = y;
-
                 buttons[x][y].addActionListener(e -> {
-
                     if (selectedButton != null) {
                         if (buttons[f_x][f_y] != selectedButton) {
                             mainPanel.getMainFrame().getController().movePiece(f_x, f_y);
@@ -51,7 +48,6 @@ public class CenterPanel extends JPanel {
         return buttons;
     }
 
-    //TODO: Se till att setValidMoves inte tar emot coordinate! Skicka två ints i taget från controllern istället.
     public void setValidMoves(ArrayList<Coordinate> validMoves) {
         for (Coordinate coordinate : validMoves) {
             int x = coordinate.getX();
@@ -67,4 +63,5 @@ public class CenterPanel extends JPanel {
             }
         }
     }
+
 }

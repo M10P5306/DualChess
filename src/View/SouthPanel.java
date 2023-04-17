@@ -16,6 +16,7 @@ public class SouthPanel extends JPanel{
     public SouthPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.setLayout(new BorderLayout());
+
         setUp();
     }
 
@@ -53,4 +54,5 @@ public class SouthPanel extends JPanel{
             e.printStackTrace();
         }
     }
+
 }
