@@ -11,15 +11,13 @@ public class NorthPanel extends JPanel{
 
         for (int i = 0; i < 8; i++) {
             JLabel label = new JLabel(Character.toString('A' + i), SwingConstants.CENTER);
-            if(i == 7){
-                label = new JLabel(Character.toString('A' + i), SwingConstants.RIGHT);
-            }
             this.add(new JLabel());
             this.add(label);
             this.add(new JLabel());
         }
         this.add(new JLabel());
         this.add(new JLabel());
+        this.add(new JLabel());
+        this.add(new JLabel());
     }
-
 }

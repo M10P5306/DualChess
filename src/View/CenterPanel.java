@@ -26,6 +26,7 @@ public class CenterPanel extends JPanel {
                     if (selectedButton != null) {
                         if (buttons[finalX][finalY] != selectedButton) {
                             mainPanel.getMainFrame().getController().movePiece(finalX, finalY);
+                            mainPanel.getEastPanel().changeColorOfTimer();
                         }
                         selectedButton = null;
                         restoreDefaultColors();
