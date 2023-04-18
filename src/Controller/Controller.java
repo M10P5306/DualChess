@@ -28,10 +28,6 @@ public class Controller {
         updateBoardView();
     }
 
-    public void startGame() {
-        mainFrame.startGame();
-    }
-
     public void updateBoardView() {
         for (int x = 0; x < board.getSquares().length; x++) {
             for (int y = 0; y < board.getSquares()[x].length; y++) {
