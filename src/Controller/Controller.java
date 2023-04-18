@@ -35,7 +35,7 @@ public class Controller {
                     String text = board.getSquares()[x][y].getPiece().colorAndNameToString();
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
                 } else {
-                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText("");
                 }
             }
         }

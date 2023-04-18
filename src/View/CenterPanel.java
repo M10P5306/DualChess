@@ -19,7 +19,6 @@ public class CenterPanel extends JPanel {
         for (int y = buttons.length - 1; y >= 0; y--) {
             for (int x = 0; x < buttons[y].length; x++) {
                 buttons[x][y] = new BoardButton(x, y);
-                buttons[x][y].setText(x + "," + y);
                 final int finalX = x;
                 final int finalY = y;
                 buttons[x][y].addActionListener(e -> {
