@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class Bishop extends Piece{
 
     public Bishop(String color) {
@@ -34,7 +32,6 @@ public class Bishop extends Piece{
         addMoves(new Coordinate(5,-5));
         addMoves(new Coordinate(6,-6));
         addMoves(new Coordinate(7,-7));
-
     }
 
 }

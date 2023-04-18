@@ -4,14 +4,9 @@ import java.util.ArrayList;
 
 public abstract class Piece {
 
-    //TODO Add and int variable for checking the value of the piece for "highscore"
-
     private ArrayList<Coordinate> possibleMoves;
-
     private String color;
-
     private String name;
-
     private int moves;
 
     public Piece(String color, String name) {

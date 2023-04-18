@@ -1,10 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class BlackPawn extends Piece{
-
-    int movesMade = 0;
 
     public BlackPawn() {
         super("Black", "Pawn");
@@ -12,10 +8,6 @@ public class BlackPawn extends Piece{
         addMoves(new Coordinate(0,-2));
         addMoves(new Coordinate(-1,-1));
         addMoves(new Coordinate(1,-1));
-    }
-
-    public int getMovesMade() {
-        return movesMade;
     }
 
 }
