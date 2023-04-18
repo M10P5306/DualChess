@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import View.*;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -76,7 +77,11 @@ public class Controller {
                 for (Coordinate coordinate : selectedPieceValidMoves) {
                     int possibleX = coordinate.getX();
                     int possibleY = coordinate.getY();
-                    mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("Black")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
                 }
                 return true;
             }
@@ -86,7 +91,11 @@ public class Controller {
                 for (Coordinate coordinate : selectedPieceValidMoves) {
                     int possibleX = coordinate.getX();
                     int possibleY = coordinate.getY();
-                    mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("White")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
                 }
                 return true;
             }
