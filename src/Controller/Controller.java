@@ -53,18 +53,32 @@ public class Controller {
                 if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece() && board.getSpecificSquare(newPositionX, newPositionY).getPiece() != null) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPositionX, newPositionY).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
+
                 }
 
-                String message = toPrint.toString();
-                Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
-                board.getSpecificSquare(selectedPiece).setPiece(null);
-                board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
-                pieceToMove.addMoves();
-                updateBoardView();
-                turnCounter++;
-                mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
-                mainFrame.getMainPanel().getSouthPanel().insertText(message);
-                log.addEvent(message);
+                if (board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof King) {
+                    String message = toPrint.toString();
+                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                    board.getSpecificSquare(selectedPiece).setPiece(null);
+                    board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                    pieceToMove.addMoves();
+                    updateBoardView();
+                    mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                    log.addEvent(message);
+                    win();
+                }
+                else {
+                    String message = toPrint.toString();
+                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                    board.getSpecificSquare(selectedPiece).setPiece(null);
+                    board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                    pieceToMove.addMoves();
+                    updateBoardView();
+                    turnCounter++;
+                    mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
+                    mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                    log.addEvent(message);
+                }
             }
         }
     }
@@ -103,6 +117,28 @@ public class Controller {
         return false;
     }
 
+    public void win() {
+        String winner = "";
+        if (turnCounter % 2 != 1) {
+            winner = whitePlayer;
+        } else {
+            winner = blackPlayer;
+        }
+        log.addEvent(winner + " won the game!");
+        log.writeHistoryToFile();
+        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
+
+        int answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        if (answer == 0) {
+            board = new Board();
+            turnCounter = 0;
+            updateBoardView();
+            mainFrame.getMainPanel().getEastPanel().resetTimers();
+            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
+
+        }
+    }
+
     public void resetBoard() {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
@@ -115,6 +151,8 @@ public class Controller {
             turnCounter = 0;
             updateBoardView();
             log.writeHistoryToFile();
+            mainFrame.getMainPanel().getEastPanel().resetTimers();
+            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
         }
     }
 
