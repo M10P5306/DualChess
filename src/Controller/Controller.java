@@ -142,11 +142,17 @@ public class Controller {
     public void resetBoard() {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
+            String winner = "";
+            String loser = "";
             if (turnCounter % 2 != 1) {
-                log.addEvent(whitePlayer + " forfeited");
+                loser = whitePlayer;
+                winner = blackPlayer;
             } else {
-                log.addEvent(blackPlayer + " forfeited");
+                loser = blackPlayer;
+                winner = whitePlayer;
             }
+            log.addEvent(loser + " forfeited");
+            JOptionPane.showMessageDialog(null, winner + " won the game!");
             board = new Board();
             turnCounter = 0;
             updateBoardView();
