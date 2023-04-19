@@ -101,8 +101,8 @@ public class EastPanel extends JPanel {
         whiteLabel.setForeground(Color.ORANGE);
         whiteTimeRemaining = gameModeTime;
         blackTimeRemaining = gameModeTime;
-        blackPlayerTime.setText("30:00");
-        whitePlayerTime.setText("30:00");
+        blackPlayerTime.setText(gameMode);
+        whitePlayerTime.setText(gameMode);
         blackTimer.stop();
         whiteTimer.stop();
         whiteTimer.start();
