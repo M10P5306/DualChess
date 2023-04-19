@@ -1,10 +1,12 @@
 package View;
 
+import Controller.Controller;
 import Controller.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
+import java.util.Enumeration;
 
 public class MenuPanelCenter extends JPanel {
     private Main main;
@@ -13,10 +15,13 @@ public class MenuPanelCenter extends JPanel {
     private JTextArea nameInputTwo;
     private JButton startButton;
     private JLabel nameLabelTwo;
+    private String whitePlayer;
+    private String blackPLayer;
+    private int gameModeTime;
+    private String gameMode;
 
     public MenuPanelCenter(MenuPanel menuPanel) {
         this.menuPanel = menuPanel;
-
         this.setBorder(BorderFactory.createTitledBorder("PLAYER SETTINGS"));
         this.setLayout(null);
         setUp();
@@ -57,20 +62,24 @@ public class MenuPanelCenter extends JPanel {
         startButton = new JButton("Start game");
         startButton.setSize(220,40);
         startButton.setLocation(50,250);
+        setupStartButtonActionListener();
+        this.add(startButton);
+    }
 
+    public void setupStartButtonActionListener() {
         startButton.addActionListener(e -> {
-            String text1 = nameInputOne.getText();
-            String text2 = nameInputTwo.getText();
+            this.whitePlayer = nameInputOne.getText();
+            this.blackPLayer = nameInputTwo.getText();
 
             if (menuPanel.getGamemodeGroup().getSelection() == null) {
                 JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
-            } else if (text1.equals("") || text2.equals("")) {
+            } else if (whitePlayer.equals("") || blackPLayer.equals("")) {
                 JOptionPane.showMessageDialog(null, "Please enter your name(s) before continuing!");
             } else {
-                menuPanel.getMainFrame().startGame();
+                checkWhichGameModeIsSelected();
+                menuPanel.getMainFrame().startGame(whitePlayer, blackPLayer, gameMode, gameModeTime);
             }
         });
-        this.add(startButton);
     }
 
     public void setUpTutorialButton() {
@@ -93,6 +102,32 @@ public class MenuPanelCenter extends JPanel {
 
         this.add(tutorialButton);
         this.add(tutorialLabel);
+    }
+
+    public void checkWhichGameModeIsSelected() {
+        String selectedMode = "";
+
+        for (Enumeration<AbstractButton> buttons = menuPanel.getGamemodeGroup().getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()){
+                selectedMode = button.getText();
+            }
+        }
+
+        if (selectedMode.equals("Classic")){
+            this.gameMode = "20:00";
+            this.gameModeTime = 1200;
+        } else if (selectedMode.equals("Rapid")) {
+            this.gameMode = "10:00";
+            this.gameModeTime = 600;
+        } else if (selectedMode.equals("Bullet")) {
+            this.gameMode = "01:00";
+            this.gameModeTime = 60;
+        } else if (selectedMode.equals("Extreme")) {
+            this.gameMode = "30:00";
+            this.gameModeTime = 1800;
+        }
+
     }
 
     public JTextArea getNameInputTwo() {

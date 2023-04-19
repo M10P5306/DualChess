@@ -12,9 +12,15 @@ public class EastPanel extends JPanel {
     private Timer blackTimer;
     private JLabel whiteLabel;
     private JLabel blackLabel;
+    private String gameMode;
+    private int gameModeTime;
 
 
-    public EastPanel(String whitePlayer, String blackPlayer) {
+
+    public EastPanel(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        this.gameMode = gameMode;
+        this.gameModeTime = gameModeTime;
+
         this.setLayout(new GridLayout(8, 1));
         this.setPreferredSize(new Dimension(150, 900));
         this.setMaximumSize(new Dimension(150,900));
@@ -30,10 +36,10 @@ public class EastPanel extends JPanel {
         whiteLabel.setForeground(Color.ORANGE);
         this.add(whiteLabel);
 
-        whitePlayerTime = new JLabel("30:00", SwingConstants.CENTER);
+        whitePlayerTime = new JLabel(gameMode, SwingConstants.CENTER);
         whitePlayerTime.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(whitePlayerTime);
-        whiteTimeRemaining = 1800;
+        whiteTimeRemaining = gameModeTime;
 
         whiteTimer = new Timer(1000, e -> {
             changeWhitePlayerTime();
@@ -45,10 +51,10 @@ public class EastPanel extends JPanel {
         blackLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(blackLabel);
 
-        blackPlayerTime = new JLabel("30:00", SwingConstants.CENTER);
+        blackPlayerTime = new JLabel(gameMode, SwingConstants.CENTER);
         blackPlayerTime.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(blackPlayerTime);
-        blackTimeRemaining = 1800;
+        blackTimeRemaining = gameModeTime;
 
         blackTimer = new Timer(1000, e -> {
             changeBlackPlayerTime();
@@ -93,8 +99,8 @@ public class EastPanel extends JPanel {
     public void resetTimers(){
         blackLabel.setForeground(Color.BLACK);
         whiteLabel.setForeground(Color.ORANGE);
-        whiteTimeRemaining = 1800;
-        blackTimeRemaining = 1800;
+        whiteTimeRemaining = gameModeTime;
+        blackTimeRemaining = gameModeTime;
         blackPlayerTime.setText("30:00");
         whitePlayerTime.setText("30:00");
         blackTimer.stop();
@@ -111,6 +117,7 @@ public class EastPanel extends JPanel {
             blackLabel.setForeground(Color.ORANGE);
         }
     }
+
 }
 
 

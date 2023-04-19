@@ -16,8 +16,8 @@ public class Controller {
     private String whitePlayer;
     private String blackPlayer;
 
-    public Controller(String whitePlayer, String blackPlayer) {
-        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
+    public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
         this.board = new Board();
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
