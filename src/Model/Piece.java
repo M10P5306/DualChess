@@ -1,5 +1,6 @@
 package Model;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public abstract class Piece {
@@ -8,6 +9,8 @@ public abstract class Piece {
     private String color;
     private String name;
     private int moves;
+
+    private ImageIcon icon;
 
     public Piece(String color, String name) {
         this.color = color;
@@ -38,6 +41,10 @@ public abstract class Piece {
 
     public void addMoves() {
         moves++;
+    }
+
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
     }
 
 }
