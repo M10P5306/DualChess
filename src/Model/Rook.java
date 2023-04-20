@@ -3,7 +3,7 @@ package Model;
 public class Rook extends Piece{
 
     public Rook(String color) {
-        super(color, "Rook");
+        super(color, "Rook", "C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
         addMoves(new Coordinate(0,3));

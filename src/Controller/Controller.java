@@ -16,6 +16,7 @@ public class Controller {
     private Logger log;
     private String whitePlayer;
     private String blackPlayer;
+    private AudioPlayer audioPlayer;
 
     public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
@@ -92,6 +93,8 @@ public class Controller {
 
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
+            audioPlayer = new AudioPlayer(board.getSpecificSquare(x, y).getPiece().getSelectSound());
+            audioPlayer.playSound();
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);

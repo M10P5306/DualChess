@@ -3,7 +3,7 @@ package Model;
 public class Bishop extends Piece{
 
     public Bishop(String color) {
-        super(color, "Bishop");
+        super(color, "Bishop", "C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
         addMoves(new Coordinate(1, 1));
         addMoves(new Coordinate(2,2));
         addMoves(new Coordinate(3,3));

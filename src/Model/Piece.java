@@ -9,10 +9,12 @@ public abstract class Piece {
     private String color;
     private String name;
     private int moves;
+    //private ImageIcon icon;
+    private String selectSound;
 
-    private ImageIcon icon;
 
-    public Piece(String color, String name) {
+    public Piece(String color, String name, String filePath) {
+        this.selectSound = filePath;
         this.color = color;
         this.name = name;
         this.possibleMoves = new ArrayList<>();
@@ -43,10 +45,19 @@ public abstract class Piece {
         moves++;
     }
 
+    /*
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
     }
+     */
 
+    public void setSelectSound(String selectSound) {
+        this.selectSound = selectSound;
+    }
+
+    public String getSelectSound() {
+        return selectSound;
+    }
 }
 
 

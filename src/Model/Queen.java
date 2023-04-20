@@ -3,7 +3,7 @@ package Model;
 public class Queen extends Piece{
 
     public Queen(String color) {
-        super(color, "Queen");
+        super(color, "Queen", "C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
         addMoves(new Coordinate(1, 1));
         addMoves(new Coordinate(2,2));
         addMoves(new Coordinate(3,3));
