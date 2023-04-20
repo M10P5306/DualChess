@@ -9,48 +9,34 @@ import java.util.ArrayList;
 public class Controller {
 
     private MainFrame mainFrame;
-
     private Board board;
-
     private Coordinate selectedPiece;
-
     private ArrayList<Coordinate> selectedPieceValidMoves;
-
     private int turnCounter;
-
     private Logger log;
-
     private String whitePlayer;
     private String blackPlayer;
-    private AudioPlayer selectedSound;
-    private AudioPlayer captureSound;
 
     public Controller(String whitePlayer, String blackPlayer) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer);
-        this.board = new Board(this);
+        this.board = new Board();
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
-        this.selectedSound = new AudioPlayer("C:\\Users\\edinj\\Downloads\\On The Rocks - TrackTribe.wav");
-        //this.captureSound = new AudioPlayer();
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
+
         updateBoardView();
-
-
     }
 
     public void updateBoardView() {
-
-        Square[][] temporarySquares = board.getSquares();
-
-        for (int x = 0; x < temporarySquares.length; x++) {
-            for (int y = 0; y < temporarySquares[x].length; y++) {
-                if (temporarySquares[x][y].getPiece() != null) {
-                    String text = temporarySquares[x][y].getPiece().colorAndNameToString();
+        for (int x = 0; x < board.getSquares().length; x++) {
+            for (int y = 0; y < board.getSquares()[x].length; y++) {
+                if (board.getSquares()[x][y].getPiece() != null) {
+                    String text = board.getSquares()[x][y].getPiece().colorAndNameToString();
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
                 } else {
-                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(x + "," + y);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText("");
                 }
             }
         }
@@ -61,73 +47,126 @@ public class Controller {
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
-
                 String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " + selectedPiece.getX() + "," + selectedPiece.getY() + " to " + newPositionX + "," + newPositionY;
                 StringBuilder toPrint = new StringBuilder(event);
+
                 if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece() && board.getSpecificSquare(newPositionX, newPositionY).getPiece() != null) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPositionX, newPositionY).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
-                }
-                String message = toPrint.toString();
 
-                Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
-                board.getSpecificSquare(selectedPiece).setPiece(null);
-                board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
-                pieceToMove.addMoves();
-                updateBoardView();
-                turnCounter++;
-                mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
-                mainFrame.getMainPanel().getSouthPanel().insertText(message);
-                log.addEvent(message);
+                }
+
+                if (board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof King) {
+                    String message = toPrint.toString();
+                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                    board.getSpecificSquare(selectedPiece).setPiece(null);
+                    board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                    pieceToMove.addMoves();
+                    updateBoardView();
+                    mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                    log.addEvent(message);
+                    win();
+                }
+                else {
+                    String message = toPrint.toString();
+                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+                    board.getSpecificSquare(selectedPiece).setPiece(null);
+                    board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                    pieceToMove.addMoves();
+                    updateBoardView();
+                    turnCounter++;
+                    mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
+                    mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                    log.addEvent(message);
+                    if(board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof BlackPawn || board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof WhitePawn) {
+                        if (newPositionY == 0 || newPositionY == 7) {
+                            String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
+                            board.getSpecificSquare(newPositionX, newPositionY).setPiece(new Queen(color));
+                            updateBoardView();
+                        }
+                    }
+                }
             }
         }
     }
 
     public boolean boardButtonSelected(int x, int y) {
-
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("Black")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
+                }
                 return true;
             }
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
                 this.selectedPiece = new Coordinate(x, y);
                 selectedPieceValidMoves = board.getValidMoves(selectedPiece);
-                mainFrame.getMainPanel().getCenterPanel().setValidMoves(selectedPieceValidMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("White")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
+                }
                 return true;
             }
         }
         return false;
     }
 
+    public void win() {
+        String winner = "";
+        if (turnCounter % 2 != 1) {
+            winner = whitePlayer;
+        } else {
+            winner = blackPlayer;
+        }
+        log.addEvent(winner + " won the game!");
+        log.writeHistoryToFile();
+        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
+
+        int answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        if (answer == 0) {
+            board = new Board();
+            turnCounter = 0;
+            updateBoardView();
+            mainFrame.getMainPanel().getEastPanel().resetTimers();
+            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
+
+        }
+    }
+
     public void resetBoard() {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
+            String winner = "";
+            String loser = "";
             if (turnCounter % 2 != 1) {
-                log.addEvent(whitePlayer + " forfeited");
+                loser = whitePlayer;
+                winner = blackPlayer;
             } else {
-                log.addEvent(blackPlayer + " forfeited");
+                loser = blackPlayer;
+                winner = whitePlayer;
             }
-
-            board = new Board(this);
+            log.addEvent(loser + " forfeited");
+            JOptionPane.showMessageDialog(null, winner + " won the game!");
+            board = new Board();
             turnCounter = 0;
             updateBoardView();
             log.writeHistoryToFile();
+            mainFrame.getMainPanel().getEastPanel().resetTimers();
+            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
         }
     }
 
-    public void playSound(int x, int y) {
-        this.selectedSound = new AudioPlayer("C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
-        if (board.getSpecificSquare(x, y).getPiece() != null){
-            selectedSound.playSound();
-        }
-
-    }
-
-    //TODO Metoden nedan behövs ej
-    public void stopSound() {
-        this.selectedSound.stopSound();
-    }
 }

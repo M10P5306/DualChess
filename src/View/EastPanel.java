@@ -10,16 +10,24 @@ public class EastPanel extends JPanel {
     private JLabel blackPlayerTime;
     private Timer whiteTimer;
     private Timer blackTimer;
+    private JLabel whiteLabel;
+    private JLabel blackLabel;
+
 
     public EastPanel(String whitePlayer, String blackPlayer) {
         this.setLayout(new GridLayout(8, 1));
-        setUp(whitePlayer, blackPlayer);
+        this.setPreferredSize(new Dimension(150, 900));
+        this.setMaximumSize(new Dimension(150,900));
+
+        setUpWhitePlayer(whitePlayer);
+        setUpBlackPlayer(blackPlayer);
         whiteTimer.start();
     }
 
-    private void setUp(String whitePlayer, String blackPlayer){
-        JLabel whiteLabel = new JLabel(whitePlayer);
+    private void setUpWhitePlayer(String whitePlayer){
+        whiteLabel = new JLabel(whitePlayer, SwingConstants.CENTER);
         whiteLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        whiteLabel.setForeground(Color.ORANGE);
         this.add(whiteLabel);
 
         whitePlayerTime = new JLabel("30:00", SwingConstants.CENTER);
@@ -30,8 +38,10 @@ public class EastPanel extends JPanel {
         whiteTimer = new Timer(1000, e -> {
             changeWhitePlayerTime();
         });
+    }
 
-        JLabel blackLabel = new JLabel(blackPlayer);
+    private void setUpBlackPlayer (String blackPlayer){
+        blackLabel = new JLabel(blackPlayer, SwingConstants.CENTER);
         blackLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         this.add(blackLabel);
 
@@ -64,6 +74,7 @@ public class EastPanel extends JPanel {
             int minutes = whiteTimeRemaining / 60;
             int seconds = whiteTimeRemaining % 60;
             whitePlayerTime.setText(String.format("%02d:%02d", minutes, seconds));
+
         }
     }
 
@@ -76,6 +87,28 @@ public class EastPanel extends JPanel {
             int minutes = blackTimeRemaining / 60;
             int seconds = blackTimeRemaining % 60;
             blackPlayerTime.setText(String.format("%02d:%02d", minutes, seconds));
+        }
+    }
+
+    public void resetTimers(){
+        blackLabel.setForeground(Color.BLACK);
+        whiteLabel.setForeground(Color.ORANGE);
+        whiteTimeRemaining = 1800;
+        blackTimeRemaining = 1800;
+        blackPlayerTime.setText("30:00");
+        whitePlayerTime.setText("30:00");
+        blackTimer.stop();
+        whiteTimer.stop();
+        whiteTimer.start();
+    }
+
+    public void changeColorOfTimer(){
+        if(whiteTimer.isRunning()){
+            blackLabel.setForeground(Color.BLACK);
+            whiteLabel.setForeground(Color.ORANGE);
+        } else {
+            whiteLabel.setForeground(Color.BLACK);
+            blackLabel.setForeground(Color.ORANGE);
         }
     }
 }

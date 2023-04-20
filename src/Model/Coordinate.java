@@ -3,7 +3,6 @@ package Model;
 public class Coordinate {
 
     private int x;
-
     private int y;
 
     public Coordinate(int x, int y) {
@@ -17,11 +16,6 @@ public class Coordinate {
 
     public int getY() {
         return y;
-    }
-
-    public String toString() {
-        String coordinates = "X = " + x + "Y = " + y;
-        return coordinates;
     }
 
     public boolean equals(Coordinate coordinate) {

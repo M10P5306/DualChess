@@ -13,6 +13,7 @@ public class MainPanel extends JPanel {
     public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer) {
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
+
         setupPanels(whitePlayer, blackPlayer);
         addPanels();
     }
@@ -46,5 +47,6 @@ public class MainPanel extends JPanel {
     public EastPanel getEastPanel(){
         return eastPanel;
     }
+
 }
 

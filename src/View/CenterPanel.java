@@ -1,10 +1,7 @@
 package View;
 
-import Model.Coordinate;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class CenterPanel extends JPanel {
     private MainPanel mainPanel;
@@ -22,23 +19,19 @@ public class CenterPanel extends JPanel {
         for (int y = buttons.length - 1; y >= 0; y--) {
             for (int x = 0; x < buttons[y].length; x++) {
                 buttons[x][y] = new BoardButton(x, y);
-                buttons[x][y].setText(x + "," + y);
-
-                final int f_x = x;
-                final int f_y = y;
-
+                final int finalX = x;
+                final int finalY = y;
                 buttons[x][y].addActionListener(e -> {
-                    mainPanel.getMainFrame().getController().playSound(f_x,f_y);
                     if (selectedButton != null) {
-                        if (buttons[f_x][f_y] != selectedButton) {
-                            mainPanel.getMainFrame().getController().movePiece(f_x, f_y);
+                        if (buttons[finalX][finalY] != selectedButton) {
+                            mainPanel.getMainFrame().getController().movePiece(finalX, finalY);
+                            mainPanel.getEastPanel().changeColorOfTimer();
                         }
-                        //mainPanel.getMainFrame().getController().stopSound();
                         selectedButton = null;
                         restoreDefaultColors();
                     } else {
-                        if (mainPanel.getMainFrame().getController().boardButtonSelected(f_x, f_y)) {
-                            selectedButton = buttons[f_x][f_y];
+                        if (mainPanel.getMainFrame().getController().boardButtonSelected(finalX, finalY)) {
+                            selectedButton = buttons[finalX][finalY];
                             selectedButton.setBackground(Color.ORANGE);
                         }
                     }
@@ -52,14 +45,11 @@ public class CenterPanel extends JPanel {
         return buttons;
     }
 
-    //TODO: Se till att setValidMoves inte tar emot coordinate! Skicka två ints i taget från controllern istället.
-    public void setValidMoves(ArrayList<Coordinate> validMoves) {
-        for (Coordinate coordinate : validMoves) {
-            int x = coordinate.getX();
-            int y = coordinate.getY();
-            buttons[x][y].setBackground(Color.yellow);
-        }
+    public void setValidMoves(int x, int y) {
+        buttons[x][y].setBackground(Color.yellow);
     }
+
+    public void setPossibleAttack(int x, int y) {buttons[x][y].setBackground(Color.red);}
 
     public void restoreDefaultColors() {
         for (int x = 0; x < buttons.length; x++) {
@@ -68,5 +58,4 @@ public class CenterPanel extends JPanel {
             }
         }
     }
-
 }

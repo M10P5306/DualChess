@@ -1,18 +1,16 @@
 package Model;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public abstract class Piece {
 
-    //TODO Add and int variable for checking the value of the piece for "highscore"
-
     private ArrayList<Coordinate> possibleMoves;
-
     private String color;
-
     private String name;
-
     private int moves;
+
+    private ImageIcon icon;
 
     public Piece(String color, String name) {
         this.color = color;
@@ -43,6 +41,10 @@ public abstract class Piece {
 
     public void addMoves() {
         moves++;
+    }
+
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
     }
 
 }
