@@ -78,6 +78,13 @@ public class Controller {
                     mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
                     mainFrame.getMainPanel().getSouthPanel().insertText(message);
                     log.addEvent(message);
+                    if(board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof BlackPawn || board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof WhitePawn) {
+                        if (newPositionY == 0 || newPositionY == 7) {
+                            String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
+                            board.getSpecificSquare(newPositionX, newPositionY).setPiece(new Queen(color));
+                            updateBoardView();
+                        }
+                    }
                 }
             }
         }
