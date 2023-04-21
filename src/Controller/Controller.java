@@ -33,10 +33,10 @@ public class Controller {
         for (int x = 0; x < board.getSquares().length; x++) {
             for (int y = 0; y < board.getSquares()[x].length; y++) {
                 if (board.getSquares()[x][y].getPiece() != null) {
-                    String text = board.getSquares()[x][y].getPiece().colorAndNameToString();
-                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText(text);
+                    ImageIcon icon = board.getSquares()[x][y].getPiece().getIcon();
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(icon);
                 } else {
-                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setText("");
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(null);
                 }
             }
         }

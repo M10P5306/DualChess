@@ -1,6 +1,8 @@
 package Model;
 
 import Controller.Controller;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Board {
@@ -14,6 +16,7 @@ public class Board {
 
         setupSquares();
         setupPieces();
+        setIcons();
     }
 
     private void setupSquares() {
@@ -47,6 +50,29 @@ public class Board {
         squares[5][7].setPiece(new Bishop("Black"));
         squares[6][7].setPiece(new Knight("Black"));
         squares[7][7].setPiece(new Rook("Black"));
+    }
+    public void setIcons () {
+        for (int x = 0; x<squares.length; x++) {
+            squares[x][1].getPiece().setIcon(new ImageIcon("src/Icons/WhitePawn.png"));
+            squares[x][6].getPiece().setIcon(new ImageIcon("src/Icons/BlackPawn.png"));
+        }
+        squares[0][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
+        squares[1][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteKnight.png"));
+        squares[2][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteBishop.png"));
+        squares[3][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteQueen.png"));
+        squares[4][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteKing.png"));
+        squares[5][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteBishop.png"));
+        squares[6][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteKnight.png"));
+        squares[7][0].getPiece().setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
+
+        squares[0][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackRook.png"));
+        squares[1][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackKnight.png"));
+        squares[2][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackBishop.png"));
+        squares[3][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackQueen.png"));
+        squares[4][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackKing.png"));
+        squares[5][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackBishop.png"));
+        squares[6][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackKnight.png"));
+        squares[7][7].getPiece().setIcon(new ImageIcon("src/Icons/BlackRook.png"));
     }
 
     public Square[][] getSquares() {

@@ -47,6 +47,9 @@ public abstract class Piece {
         this.icon = icon;
     }
 
+    public ImageIcon getIcon() {
+        return icon;
+    }
 }
 
 
