@@ -114,18 +114,23 @@ public class MenuPanelCenter extends JPanel {
             }
         }
 
-        if (selectedMode.equals("Classic")){
-            this.gameMode = "20:00";
-            this.gameModeTime = 1200;
-        } else if (selectedMode.equals("Rapid")) {
-            this.gameMode = "10:00";
-            this.gameModeTime = 600;
-        } else if (selectedMode.equals("Bullet")) {
-            this.gameMode = "01:00";
-            this.gameModeTime = 60;
-        } else if (selectedMode.equals("Extreme")) {
-            this.gameMode = "30:00";
-            this.gameModeTime = 1800;
+        switch (selectedMode) {
+            case "Classic" -> {
+                this.gameMode = "20:00";
+                this.gameModeTime = 1200;
+            }
+            case "Rapid" -> {
+                this.gameMode = "10:00";
+                this.gameModeTime = 600;
+            }
+            case "Bullet" -> {
+                this.gameMode = "01:00";
+                this.gameModeTime = 60;
+            }
+            case "Extreme" -> {
+                this.gameMode = "30:00";
+                this.gameModeTime = 1800;
+            }
         }
 
     }
