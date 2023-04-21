@@ -49,6 +49,8 @@ public class CenterPanel extends JPanel {
         buttons[x][y].setBackground(Color.yellow);
     }
 
+    public void setPossibleAttack(int x, int y) {buttons[x][y].setBackground(Color.red);}
+
     public void restoreDefaultColors() {
         for (int x = 0; x < buttons.length; x++) {
             for (int y = 0; y < buttons[x].length; y++) {

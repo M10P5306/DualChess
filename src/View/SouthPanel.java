@@ -36,8 +36,6 @@ public class SouthPanel extends JPanel{
         resetButton.setSize(100,60);
         resetButton.addActionListener(e ->  {
             mainPanel.getMainFrame().getController().resetBoard();
-            mainPanel.getEastPanel().resetTimers();
-            jTextPane.setText("");
         });
         this.add(jScrollPane,BorderLayout.CENTER);
         this.add(resetButton, BorderLayout.EAST);
@@ -55,4 +53,9 @@ public class SouthPanel extends JPanel{
             e.printStackTrace();
         }
     }
+
+    public JTextPane getJTextPane() {
+        return jTextPane;
+    }
+
 }
