@@ -33,6 +33,8 @@ public class MenuPanelEast extends JPanel {
         this.add(rapidAlternative);
         this.add(bulletAlternative);
         this.add(extremeAlternative);
+
+        classicAlternative.setSelected(true);
     }
 
     public ButtonGroup getGameModeGroup() {

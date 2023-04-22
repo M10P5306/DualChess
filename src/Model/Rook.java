@@ -1,9 +1,17 @@
 package Model;
 
+import javax.swing.*;
+
 public class Rook extends Piece{
 
     public Rook(String color) {
         super(color, "Rook");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackRook.png"));
+        }
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
         addMoves(new Coordinate(0,3));

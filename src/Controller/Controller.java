@@ -153,7 +153,6 @@ public class Controller {
     }
 
     public void rockad(int direction) {
-        System.out.println("Rockad" + direction);
         Coordinate rookPosition;
         Piece rookToMove;
 

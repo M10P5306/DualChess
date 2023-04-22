@@ -1,9 +1,17 @@
 package Model;
 
+import javax.swing.*;
+
 public class Bishop extends Piece{
 
     public Bishop(String color) {
         super(color, "Bishop");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteBishop.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackBishop.png"));
+        }
         addMoves(new Coordinate(1, 1));
         addMoves(new Coordinate(2,2));
         addMoves(new Coordinate(3,3));
