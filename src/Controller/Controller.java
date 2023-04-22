@@ -49,7 +49,7 @@ public class Controller {
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
-                String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " + selectedPiece.getX() + "," + selectedPiece.getY() + " to " + newPositionX + "," + newPositionY;
+                String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " + intToLetter(selectedPiece.getX()) + "," + (selectedPiece.getY()+1) + " to " + intToLetter(newPositionX) + "," + (newPositionY+1);
                 StringBuilder toPrint = new StringBuilder(event);
 
                 if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece()) {
@@ -174,6 +174,11 @@ public class Controller {
         }
 
 
+    }
+
+    public char intToLetter(int position) {
+        char[] chars = {'A','B','C','D','E','F','G','H'};
+        return chars[position];
     }
 
     public void resetBoard() {
