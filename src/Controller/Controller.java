@@ -161,7 +161,6 @@ public class Controller {
 
     public String enPassant(Piece pieceToMove, Coordinate newPosition) {
         String message = "";
-        System.out.println("en-passant!");
 
         if (pieceToMove.getColor().equals("White")) {
             message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY()-1)).getPiece().colorAndNameToString();
