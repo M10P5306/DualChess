@@ -100,8 +100,11 @@ public class Board {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
             return validMoves;
         }
+        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof King) {
+            validMoves = ruleHandler.kingValidMoves(coordinate);
+        }
         else {
-            validMoves = ruleHandler.kingOrKnightValidMoves(coordinate);
+            validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
     }

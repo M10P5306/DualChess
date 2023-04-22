@@ -64,7 +64,28 @@ public class RuleHandler {
         return validMoves;
     }
 
-    public ArrayList<Coordinate> kingOrKnightValidMoves(Coordinate coordinate) {
+    public ArrayList<Coordinate> knightValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (int i = 0; i<possibleMoves.size(); i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+                    if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate)))
+                    {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                    }
+                }
+                else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+        return validMoves;
+    }
+
+
+    public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
 
