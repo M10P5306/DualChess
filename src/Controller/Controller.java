@@ -6,6 +6,8 @@ import View.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
+import static java.lang.Math.abs;
+
 public class Controller {
 
     private MainFrame mainFrame;
@@ -50,7 +52,7 @@ public class Controller {
                 String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " + selectedPiece.getX() + "," + selectedPiece.getY() + " to " + newPositionX + "," + newPositionY;
                 StringBuilder toPrint = new StringBuilder(event);
 
-                if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece() && board.getSpecificSquare(newPositionX, newPositionY).getPiece() != null) {
+                if (board.getSpecificSquare(newPositionX, newPositionY).hasPiece()) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPositionX, newPositionY).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
 
@@ -72,13 +74,17 @@ public class Controller {
                     Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
                     board.getSpecificSquare(selectedPiece).setPiece(null);
                     board.getSpecificSquare(newPositionX, newPositionY).setPiece(pieceToMove);
+                    if (pieceToMove instanceof King && abs(selectedPiece.getX() - newPositionX) == 2) {
+                        rockad(newPositionX - selectedPiece.getX());
+                    }
                     pieceToMove.addMoves();
                     updateBoardView();
                     turnCounter++;
                     mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
                     mainFrame.getMainPanel().getSouthPanel().insertText(message);
                     log.addEvent(message);
-                    if(board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof BlackPawn || board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof WhitePawn) {
+                    if(board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof BlackPawn ||
+                            board.getSpecificSquare(newPositionX, newPositionY).getPiece() instanceof WhitePawn) {
                         if (newPositionY == 0 || newPositionY == 7) {
                             String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
                             board.getSpecificSquare(newPositionX, newPositionY).setPiece(new Queen(color));
@@ -144,6 +150,31 @@ public class Controller {
             mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
 
         }
+    }
+
+    public void rockad(int direction) {
+        System.out.println("Rockad" + direction);
+        Coordinate rookPosition;
+        Piece rookToMove;
+
+        if (direction == 2) {
+            rookPosition = new Coordinate(selectedPiece.getX()+3, selectedPiece.getY());
+            rookToMove = board.getSpecificSquare(rookPosition).getPiece();
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX()+1, selectedPiece.getY());
+            board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
+            board.getSpecificSquare(rookPosition).setPiece(null);
+            rookToMove.addMoves();
+        }
+        if (direction == -2) {
+            rookPosition = new Coordinate(selectedPiece.getX()-4, selectedPiece.getY());
+            rookToMove = board.getSpecificSquare(rookPosition).getPiece();
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX()-1, selectedPiece.getY());
+            board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
+            board.getSpecificSquare(rookPosition).setPiece(null);
+            rookToMove.addMoves();
+        }
+
+
     }
 
     public void resetBoard() {

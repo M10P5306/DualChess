@@ -12,6 +12,8 @@ public class King extends Piece{
         addMoves(new Coordinate(1,1));
         addMoves(new Coordinate(1,0));
         addMoves(new Coordinate(1,-1));
+        addMoves(new Coordinate(2,0));
+        addMoves(new Coordinate(-2,0));
     }
 
 }
