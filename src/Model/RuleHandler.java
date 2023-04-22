@@ -54,11 +54,29 @@ public class RuleHandler {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
             }
+            if (board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).hasPiece() &&
+                    !board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)).hasPiece() &&
+                    (coordinate.getY() == 3 || coordinate.getY() == 4)) {
+                if (board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() instanceof BlackPawn ||
+                        board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() instanceof WhitePawn &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece().getMoves() == 1) {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
+                }
+            }
         }
         if (withInRange(coordinate, possibleMoves.get(3))) {
             if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece()) {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
+            }
+            if (board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).hasPiece() &&
+                    !board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece() &&
+                    (coordinate.getY() == 3 || coordinate.getY() == 4)) {
+                if (board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() instanceof BlackPawn ||
+                        board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() instanceof WhitePawn &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece().getMoves() == 1) {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
+                }
             }
         }
         return validMoves;
@@ -132,16 +150,6 @@ public class RuleHandler {
             }
         }
         return validMoves;
-    }
-
-    public boolean withInRange(Coordinate coordinate) {
-        int x = coordinate.getX();
-        int y = coordinate.getY();
-
-        if (y < 8 && y >= 0 && x < 8 && x >= 0) {
-            return true;
-        }
-        return false;
     }
 
     public boolean withInRange(Coordinate currentPosition, Coordinate nextMove) {
