@@ -42,11 +42,11 @@ public class RuleHandler {
         if (withInRange(coordinate, possibleMoves.get(0))) {
             if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(0), coordinate)).hasPiece()) {
                 validMoves.add(combineCoordinates(coordinate, possibleMoves.get(0)));
-            }
-        }
-        if (withInRange(coordinate, possibleMoves.get(1))) {
-            if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(1), coordinate)).hasPiece() && board.getSpecificSquare(coordinate).getPiece().getMoves() == 0) {
-                validMoves.add(combineCoordinates(coordinate, possibleMoves.get(1)));
+                if (withInRange(coordinate, possibleMoves.get(1))) {
+                    if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(1), coordinate)).hasPiece() && board.getSpecificSquare(coordinate).getPiece().getMoves() == 0) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(1)));
+                    }
+                }
             }
         }
         if (withInRange(coordinate, possibleMoves.get(2))) {
