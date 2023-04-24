@@ -75,6 +75,8 @@ public class MenuPanelCenter extends JPanel {
                 JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
             } else if (whitePlayer.equals("") || blackPLayer.equals("")) {
                 JOptionPane.showMessageDialog(null, "Please enter your name(s) before continuing!");
+            } else if (whitePlayer.equals(blackPLayer)) {
+                JOptionPane.showMessageDialog(null, "Please enter two different names!");
             } else {
                 checkWhichGameModeIsSelected();
                 menuPanel.getMainFrame().startGame(whitePlayer, blackPLayer, gameMode, gameModeTime);
