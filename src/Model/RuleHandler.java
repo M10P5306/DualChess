@@ -54,7 +54,8 @@ public class RuleHandler {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
             }
-            if (board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).hasPiece() &&
+            if (board.getSpecificSquare(coordinate).getPiece().getMoves()>1 &&
+                    board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).hasPiece() &&
                     !board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)).hasPiece() &&
                     (coordinate.getY() == 3 || coordinate.getY() == 4)) {
                 if (board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() instanceof BlackPawn ||
@@ -69,7 +70,8 @@ public class RuleHandler {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
             }
-            if (board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).hasPiece() &&
+            if (board.getSpecificSquare(coordinate).getPiece().getMoves()>1 &&
+                    board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).hasPiece() &&
                     !board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece() &&
                     (coordinate.getY() == 3 || coordinate.getY() == 4)) {
                 if (board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() instanceof BlackPawn ||
