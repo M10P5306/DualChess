@@ -90,6 +90,7 @@ public class Controller {
                     mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
                     mainFrame.getMainPanel().getSouthPanel().insertText(message);
                     log.addEvent(message);
+                    board.setLastMovedPiece(pieceToMove);
                     if(board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
                             board.getSpecificSquare(newPosition).getPiece() instanceof WhitePawn) {
                         if (newPositionY == 0 || newPositionY == 7) {

@@ -10,6 +10,8 @@ public class Board {
     private Square[][] squares;
     private RuleHandler ruleHandler;
 
+    private Piece lastMovedPiece;
+
     public Board() {
         this.squares = new Square[8][8];
         this.ruleHandler = new RuleHandler(this);
@@ -83,6 +85,13 @@ public class Board {
             validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
+    }
+
+    public Piece getLastMovedPiece() {
+        return lastMovedPiece;
+    }
+    public void setLastMovedPiece(Piece lastMovedPiece) {
+        this.lastMovedPiece = lastMovedPiece;
     }
 
 }
