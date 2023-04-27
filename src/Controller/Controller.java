@@ -239,14 +239,17 @@ public class Controller {
        audioPlayer = new AudioPlayer("src/Sounds/death.wav");
        audioPlayer.playSound();
     }
+    
     public void playRockadSound() {
         audioPlayer = new AudioPlayer("src/Sounds/wow-113128.wav");
         audioPlayer.playSound();
     }
+
     public void playEnPassantSound() {
         audioPlayer = new AudioPlayer("src/Sounds/Genius.wav");
         audioPlayer.playSound();
     }
+
     public void playPromotionSound(){
         audioPlayer = new AudioPlayer("src/Sounds/yeah-boy.wav");
         audioPlayer.playSound();
