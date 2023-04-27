@@ -6,6 +6,7 @@ public class Rook extends Piece implements SpecialPiece{
 
     public Rook(String color) {
         super(color, "Rook");
+        super.setSoundFilePath("src/Sounds/stone-push-Rook.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
         }

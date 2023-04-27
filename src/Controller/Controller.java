@@ -18,6 +18,7 @@ public class Controller {
     private Logger log;
     private String whitePlayer;
     private String blackPlayer;
+    private AudioPlayer audioPlayer;
 
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
@@ -39,6 +40,7 @@ public class Controller {
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(icon);
                 } else {
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(null);
+
                 }
             }
         }
@@ -50,12 +52,13 @@ public class Controller {
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
                 String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " +
-                        intToLetter(selectedPiece.getX()) + "," + (selectedPiece.getY()+1) + " to " + intToLetter(newPositionX) + "," + (newPositionY+1);
+                        intToLetter(selectedPiece.getX()) + "," + (selectedPiece.getY() + 1) + " to " + intToLetter(newPositionX) + "," + (newPositionY + 1);
                 StringBuilder toPrint = new StringBuilder(event);
 
                 if (board.getSpecificSquare(newPosition).hasPiece()) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPosition).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
+                    playCapturedSound();
 
                 }
 
@@ -69,15 +72,14 @@ public class Controller {
                     mainFrame.getMainPanel().getSouthPanel().insertText(message);
                     log.addEvent(message);
                     win();
-                }
-                else {
+                } else {
                     Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
                     board.getSpecificSquare(selectedPiece).setPiece(null);
                     if ((pieceToMove instanceof WhitePawn || pieceToMove instanceof BlackPawn) &&
                             !(selectedPiece.getX() == newPositionX) &&
                             !board.getSpecificSquare(newPosition).hasPiece()) {
-                      String takenPiece = " and took " + enPassant(pieceToMove, newPosition);
-                      toPrint.append(takenPiece);
+                        String takenPiece = " and took " + enPassant(pieceToMove, newPosition);
+                        toPrint.append(takenPiece);
                     }
                     board.getSpecificSquare(newPosition).setPiece(pieceToMove);
                     if (pieceToMove instanceof King && abs(selectedPiece.getX() - newPositionX) == 2) {
@@ -91,11 +93,12 @@ public class Controller {
                     mainFrame.getMainPanel().getSouthPanel().insertText(message);
                     log.addEvent(message);
                     board.setLastMovedPiece(pieceToMove);
-                    if(board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
+                    if (board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
                             board.getSpecificSquare(newPosition).getPiece() instanceof WhitePawn) {
                         if (newPositionY == 0 || newPositionY == 7) {
                             String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
                             board.getSpecificSquare(newPosition).setPiece(new Queen(color));
+                            playPromotionSound();
                             updateBoardView();
                         }
                     }
@@ -159,13 +162,13 @@ public class Controller {
         String message = "";
 
         if (pieceToMove.getColor().equals("White")) {
-            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY()-1)).getPiece().colorAndNameToString();
-            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY()-1)).setPiece(null);
+            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() - 1)).getPiece().colorAndNameToString();
+            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() - 1)).setPiece(null);
+        } else {
+            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).getPiece().colorAndNameToString();
+            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).setPiece(null);
         }
-        else {
-            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY()+1)).getPiece().colorAndNameToString();
-            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY()+1)).setPiece(null);
-        }
+        playEnPassantSound();
         return message;
     }
 
@@ -174,25 +177,26 @@ public class Controller {
         Piece rookToMove;
 
         if (direction == 2) {
-            rookPosition = new Coordinate(selectedPiece.getX()+3, selectedPiece.getY());
+            rookPosition = new Coordinate(selectedPiece.getX() + 3, selectedPiece.getY());
             rookToMove = board.getSpecificSquare(rookPosition).getPiece();
-            Coordinate newRookPosition = new Coordinate(selectedPiece.getX()+1, selectedPiece.getY());
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX() + 1, selectedPiece.getY());
             board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
             board.getSpecificSquare(rookPosition).setPiece(null);
             rookToMove.addMoves();
         }
         if (direction == -2) {
-            rookPosition = new Coordinate(selectedPiece.getX()-4, selectedPiece.getY());
+            rookPosition = new Coordinate(selectedPiece.getX() - 4, selectedPiece.getY());
             rookToMove = board.getSpecificSquare(rookPosition).getPiece();
-            Coordinate newRookPosition = new Coordinate(selectedPiece.getX()-1, selectedPiece.getY());
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX() - 1, selectedPiece.getY());
             board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
             board.getSpecificSquare(rookPosition).setPiece(null);
             rookToMove.addMoves();
         }
+        playRockadSound();
     }
 
     public char intToLetter(int position) {
-        char[] chars = {'A','B','C','D','E','F','G','H'};
+        char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         return chars[position];
     }
 
@@ -223,5 +227,30 @@ public class Controller {
         mainFrame.getMainPanel().getEastPanel().resetTimers();
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
+
+    public void playSound(int x , int y) {
+        String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
+        audioPlayer = new AudioPlayer(filePath);
+        audioPlayer.playSound();
+
+    }
+
+    public void playCapturedSound() {
+       audioPlayer = new AudioPlayer("src/Sounds/death.wav");
+       audioPlayer.playSound();
+    }
+    public void playRockadSound() {
+        audioPlayer = new AudioPlayer("src/Sounds/wow-113128.wav");
+        audioPlayer.playSound();
+    }
+    public void playEnPassantSound() {
+        audioPlayer = new AudioPlayer("src/Sounds/Genius.wav");
+        audioPlayer.playSound();
+    }
+    public void playPromotionSound(){
+        audioPlayer = new AudioPlayer("src/Sounds/yeah-boy.wav");
+        audioPlayer.playSound();
+    }
+
 
 }

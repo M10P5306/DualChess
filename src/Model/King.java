@@ -6,6 +6,7 @@ public class King extends Piece{
 
     public King(String color) {
         super(color, "King");
+        super.setSoundFilePath("src/Sounds/hello_king.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteKing.png"));
         }

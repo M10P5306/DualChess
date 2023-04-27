@@ -10,12 +10,14 @@ public abstract class Piece {
     private String name;
     private int moves;
     private ImageIcon icon;
+    private String soundFilePath;
 
     public Piece(String color, String name) {
         this.color = color;
         this.name = name;
         this.possibleMoves = new ArrayList<>();
         this.moves = 0;
+        this.soundFilePath= "src/Sounds/handgun.wav";
     }
 
     public String getColor() {
@@ -49,6 +51,17 @@ public abstract class Piece {
     public ImageIcon getIcon() {
         return icon;
     }
+
+
+    public String getSoundFilePath() {
+        return soundFilePath;
+    }
+
+    public void setSoundFilePath(String soundFilePath) {
+        this.soundFilePath = soundFilePath;
+    }
+
+
 }
 
 

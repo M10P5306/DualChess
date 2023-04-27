@@ -25,6 +25,7 @@ public class CenterPanel extends JPanel {
                     if (selectedButton != null) {
                         if (buttons[finalX][finalY] != selectedButton) {
                             mainPanel.getMainFrame().getController().movePiece(finalX, finalY);
+
                         }
                         selectedButton = null;
                         restoreDefaultColors();
@@ -32,6 +33,7 @@ public class CenterPanel extends JPanel {
                         if (mainPanel.getMainFrame().getController().boardButtonSelected(finalX, finalY)) {
                             selectedButton = buttons[finalX][finalY];
                             selectedButton.setBackground(Color.ORANGE);
+                            mainPanel.getMainFrame().getController().playSound(finalX,finalY);
                         }
                     }
                 });

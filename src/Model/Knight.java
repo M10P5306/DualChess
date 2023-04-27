@@ -6,6 +6,7 @@ public class Knight extends Piece{
 
     public Knight(String color) {
         super(color, "Knight");
+        super.setSoundFilePath("src/Sounds/horse.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteKnight.png"));
         }

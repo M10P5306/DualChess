@@ -6,6 +6,7 @@ public class Bishop extends Piece implements SpecialPiece{
 
     public Bishop(String color) {
         super(color, "Bishop");
+        super.setSoundFilePath("src/Sounds/sword-hit-bishop.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteBishop.png"));
         }
