@@ -2,7 +2,7 @@ package Model;
 
 import javax.swing.*;
 
-public class BlackPawn extends Piece{
+public class BlackPawn extends Piece implements Pawn{
 
     public BlackPawn() {
         super("Black", "Pawn");

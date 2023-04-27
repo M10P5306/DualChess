@@ -2,7 +2,7 @@ package Model;
 
 import javax.swing.*;
 
-public class Bishop extends Piece{
+public class Bishop extends Piece implements SpecialPiece{
 
     public Bishop(String color) {
         super(color, "Bishop");

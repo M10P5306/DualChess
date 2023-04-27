@@ -2,7 +2,7 @@ package Model;
 
 import javax.swing.*;
 
-public class Queen extends Piece{
+public class Queen extends Piece implements SpecialPiece{
 
     public Queen(String color) {
         super(color, "Queen");

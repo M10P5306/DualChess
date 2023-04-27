@@ -9,7 +9,6 @@ public class Board {
 
     private Square[][] squares;
     private RuleHandler ruleHandler;
-
     private Piece lastMovedPiece;
 
     public Board() {
@@ -70,15 +69,13 @@ public class Board {
         ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves;
 
-        if (selectedPiece instanceof Queen || selectedPiece instanceof Bishop || selectedPiece instanceof Rook) {
+        if (selectedPiece instanceof SpecialPiece) {
             validMoves = ruleHandler.specialPieceValidMoves(coordinate);
-            return validMoves;
         }
-        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof WhitePawn) {
+        else if (selectedPiece instanceof Pawn) {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
-            return validMoves;
         }
-        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof King) {
+        else if (selectedPiece instanceof King) {
             validMoves = ruleHandler.kingValidMoves(coordinate);
         }
         else {

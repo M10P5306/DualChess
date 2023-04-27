@@ -151,12 +151,7 @@ public class Controller {
 
         int answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
         if (answer == 0) {
-            board = new Board();
-            turnCounter = 0;
-            updateBoardView();
-            mainFrame.getMainPanel().getEastPanel().resetTimers();
-            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
-
+            resetGame();
         }
     }
 
@@ -215,13 +210,18 @@ public class Controller {
             }
             log.addEvent(loser + " forfeited");
             JOptionPane.showMessageDialog(null, winner + " won the game!");
-            board = new Board();
-            turnCounter = 0;
-            updateBoardView();
+            resetGame();
             log.writeHistoryToFile();
-            mainFrame.getMainPanel().getEastPanel().resetTimers();
-            mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
+
         }
+    }
+
+    public void resetGame() {
+        board = new Board();
+        turnCounter = 0;
+        updateBoardView();
+        mainFrame.getMainPanel().getEastPanel().resetTimers();
+        mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
 
 }

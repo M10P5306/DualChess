@@ -9,7 +9,6 @@ public abstract class Piece {
     private String color;
     private String name;
     private int moves;
-
     private ImageIcon icon;
 
     public Piece(String color, String name) {
