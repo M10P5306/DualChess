@@ -2,24 +2,21 @@ package Model;
 
 import Controller.Controller;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Board {
 
-    private Controller controller;
-
     private Square[][] squares;
-
     private RuleHandler ruleHandler;
+    private Piece lastMovedPiece;
 
-    public Board(Controller controller) {
-        this.controller = controller;
+    public Board() {
         this.squares = new Square[8][8];
         this.ruleHandler = new RuleHandler(this);
 
         setupSquares();
         setupPieces();
-
     }
 
     private void setupSquares() {
@@ -31,7 +28,6 @@ public class Board {
     }
 
     private void setupPieces() {
-
         for (int x = 0; x<squares.length; x++) {
             squares[x][1].setPiece(new WhitePawn());
             squares[x][6].setPiece(new BlackPawn());
@@ -54,7 +50,6 @@ public class Board {
         squares[5][7].setPiece(new Bishop("Black"));
         squares[6][7].setPiece(new Knight("Black"));
         squares[7][7].setPiece(new Rook("Black"));
-
     }
 
     public Square[][] getSquares() {
@@ -64,29 +59,36 @@ public class Board {
     public Square getSpecificSquare(int x, int y) {
         return squares[x][y];
     }
+
     public Square getSpecificSquare(Coordinate coordinate) {
         return squares[coordinate.getX()][coordinate.getY()];
     }
 
-
     public ArrayList<Coordinate> getValidMoves(Coordinate coordinate) {
-
         Piece selectedPiece = getSpecificSquare(coordinate).getPiece();
         ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
-        ArrayList<Coordinate> validMoves = new ArrayList<>();
+        ArrayList<Coordinate> validMoves;
 
-        if (selectedPiece instanceof Queen || selectedPiece instanceof Bishop || selectedPiece instanceof Rook) {
+        if (selectedPiece instanceof SpecialPiece) {
             validMoves = ruleHandler.specialPieceValidMoves(coordinate);
-            return validMoves;
         }
-        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof WhitePawn) {
+        else if (selectedPiece instanceof Pawn) {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
-            return validMoves;
+        }
+        else if (selectedPiece instanceof King) {
+            validMoves = ruleHandler.kingValidMoves(coordinate);
         }
         else {
-            validMoves = ruleHandler.kingOrKnightValidMoves(coordinate);
+            validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
+    }
+
+    public Piece getLastMovedPiece() {
+        return lastMovedPiece;
+    }
+    public void setLastMovedPiece(Piece lastMovedPiece) {
+        this.lastMovedPiece = lastMovedPiece;
     }
 
 }

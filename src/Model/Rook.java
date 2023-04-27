@@ -1,13 +1,17 @@
 package Model;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
-public class Rook extends Piece{
-
-    int movesMade = 0;
+public class Rook extends Piece implements SpecialPiece{
 
     public Rook(String color) {
         super(color, "Rook");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackRook.png"));
+        }
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
         addMoves(new Coordinate(0,3));
@@ -36,10 +40,6 @@ public class Rook extends Piece{
         addMoves(new Coordinate(-5,0));
         addMoves(new Coordinate(-6,0));
         addMoves(new Coordinate(-7,0));
-    }
-
-    public int getMovesMade() {
-        return movesMade;
     }
 
 }

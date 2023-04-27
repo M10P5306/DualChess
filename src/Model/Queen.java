@@ -1,11 +1,17 @@
 package Model;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
-public class Queen extends Piece{
+public class Queen extends Piece implements SpecialPiece{
 
     public Queen(String color) {
         super(color, "Queen");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteQueen.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackQueen.png"));
+        }
         addMoves(new Coordinate(1, 1));
         addMoves(new Coordinate(2,2));
         addMoves(new Coordinate(3,3));

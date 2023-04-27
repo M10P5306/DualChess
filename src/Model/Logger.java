@@ -24,16 +24,15 @@ public class Logger {
     }
 
     public void writeHistoryToFile() {
-
         try {
-            FileWriter fr = new FileWriter(fileName);
-            BufferedWriter br = new BufferedWriter(fr);
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
             for(String event : matchHistory) {
-                br.write(event+"\n");
+                bufferedWriter.write(event+"\n");
             }
-            br.flush();
-            br.close();
+            bufferedWriter.flush();
+            bufferedWriter.close();
         }
         catch (IOException e) {}
     }

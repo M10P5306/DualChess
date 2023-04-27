@@ -1,11 +1,17 @@
 package Model;
 
-import java.util.ArrayList;
+import javax.swing.*;
 
 public class Knight extends Piece{
 
     public Knight(String color) {
         super(color, "Knight");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteKnight.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackKnight.png"));
+        }
         addMoves(new Coordinate(-1,2));
         addMoves(new Coordinate(1,2));
         addMoves(new Coordinate(-2,1));

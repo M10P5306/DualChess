@@ -16,6 +16,7 @@ public class SouthPanel extends JPanel{
     public SouthPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.setLayout(new BorderLayout());
+
         setUp();
     }
 
@@ -27,13 +28,12 @@ public class SouthPanel extends JPanel{
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         verticalScrollBar = jScrollPane.getVerticalScrollBar();
 
-        jScrollPane.setPreferredSize(new Dimension(600,60));
-        jScrollPane.setMaximumSize(new Dimension(600,60));
+        jScrollPane.setPreferredSize(new Dimension(600,70));
+        jScrollPane.setMaximumSize(new Dimension(600,70));
 
         JButton resetButton = new JButton();
-        resetButton.setText("Reset");
+        resetButton.setText("Ge Upp");
         resetButton.setSize(100,60);
-        //resetButton.setLocation(800,100); //trying to decide location ???
         resetButton.addActionListener(e ->  {
             mainPanel.getMainFrame().getController().resetBoard();
         });
@@ -45,12 +45,18 @@ public class SouthPanel extends JPanel{
         StyledDocument styleDocument = jTextPane.getStyledDocument();
         Style style = styleDocument.addStyle("Style", null);
         StyleConstants.setForeground(style, Color.BLACK);
-        StyleConstants.setFontSize(style, 15);
+        StyleConstants.setFontSize(style, 20);
         try {
             styleDocument.insertString(styleDocument.getLength(), text + "\n", style);
-            verticalScrollBar.setValue(verticalScrollBar.getMaximum());
+            verticalScrollBar.setValue(5);
+            verticalScrollBar.setLocation(5, 5);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
     }
+
+    public JTextPane getJTextPane() {
+        return jTextPane;
+    }
+
 }

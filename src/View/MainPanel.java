@@ -10,16 +10,17 @@ public class MainPanel extends JPanel {
     private EastPanel eastPanel;
     private SouthPanel southPanel;
 
-    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer) {
+    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
-        setupPanels(whitePlayer, blackPlayer);
+
+        setupPanels(whitePlayer, blackPlayer, gameMode, gameModeTime);
         addPanels();
     }
 
-    private void setupPanels(String whitePlayer, String blackPlayer) {
+    private void setupPanels(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         centerPanel = new CenterPanel(this);
-        eastPanel = new EastPanel(whitePlayer, blackPlayer);
+        eastPanel = new EastPanel(whitePlayer, blackPlayer, gameMode, gameModeTime);
         southPanel = new SouthPanel(this);
     }
 
@@ -46,5 +47,6 @@ public class MainPanel extends JPanel {
     public EastPanel getEastPanel(){
         return eastPanel;
     }
+
 }
 

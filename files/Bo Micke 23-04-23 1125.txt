@@ -1,0 +1,32 @@
+WhitePawn moved from B,2 to B,4
+BlackKnight moved from B,8 to C,6
+WhitePawn moved from C,2 to C,4
+BlackKnight moved from C,6 to B,4 and took WhitePawn
+WhitePawn moved from A,2 to A,3
+BlackKnight moved from G,8 to H,6
+WhitePawn moved from A,3 to B,4 and took BlackKnight
+BlackPawn moved from G,7 to G,5
+WhiteQueen moved from D,1 to A,4
+BlackPawn moved from B,7 to B,5
+WhiteKing moved from E,1 to D,1
+BlackPawn moved from E,7 to E,5
+WhiteKnight moved from G,1 to H,3
+BlackPawn moved from E,5 to E,4
+WhiteRook moved from A,1 to A,3
+BlackPawn moved from E,4 to E,3
+WhiteBishop moved from C,1 to B,2
+BlackPawn moved from E,3 to F,2 and took WhitePawn
+WhitePawn moved from D,2 to D,4
+BlackPawn moved from B,5 to C,4 and took WhitePawn
+WhitePawn moved from H,2 to H,4
+BlackPawn moved from C,4 to C,3
+WhitePawn moved from D,4 to D,5
+BlackPawn moved from C,3 to C,2
+WhitePawn moved from D,5 to D,6
+BlackKnight moved from H,6 to G,4
+WhitePawn moved from D,6 to C,7 and took BlackPawn
+BlackBishop moved from F,8 to G,7
+WhitePawn moved from C,7 to D,8 and took BlackQueen
+BlackBishop moved from G,7 to B,2 and took WhiteBishop
+WhiteQueen moved from D,8 to E,8 and took BlackKing
+Bo won the game!

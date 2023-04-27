@@ -1,20 +1,16 @@
 package Model;
 
-public class WhitePawn extends Piece{
+import javax.swing.*;
 
-    int movesMade = 0;
+public class WhitePawn extends Piece implements Pawn{
 
     public WhitePawn() {
         super("White", "Pawn");
+        super.setIcon(new ImageIcon("src/Icons/WhitePawn.png"));
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
         addMoves(new Coordinate(-1,1));
         addMoves(new Coordinate(1,1));
     }
-
-    public int getMovesMade() {
-        return movesMade;
-    }
-
 
 }
