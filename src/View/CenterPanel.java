@@ -33,7 +33,7 @@ public class CenterPanel extends JPanel {
                         if (mainPanel.getMainFrame().getController().boardButtonSelected(finalX, finalY)) {
                             selectedButton = buttons[finalX][finalY];
                             selectedButton.setBackground(Color.ORANGE);
-                            mainPanel.getMainFrame().getController().playSound(finalX,finalY);
+                            mainPanel.getMainFrame().getController().playMarkingSound(finalX,finalY);
                         }
                     }
                 });

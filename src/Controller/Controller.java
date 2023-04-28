@@ -28,6 +28,7 @@ public class Controller {
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
+        this.audioPlayer = new AudioPlayer();
 
         updateBoardView();
     }
@@ -58,7 +59,7 @@ public class Controller {
                 if (board.getSpecificSquare(newPosition).hasPiece()) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPosition).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
-                    playCapturedSound();
+                    audioPlayer.playSound("src/Sounds/death.wav");
 
                 }
 
@@ -98,7 +99,7 @@ public class Controller {
                         if (newPositionY == 0 || newPositionY == 7) {
                             String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
                             board.getSpecificSquare(newPosition).setPiece(new Queen(color));
-                            playPromotionSound();
+                            audioPlayer.playSound("src/Sounds/yeah-boy.wav");
                             updateBoardView();
                         }
                     }
@@ -168,7 +169,7 @@ public class Controller {
             message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).getPiece().colorAndNameToString();
             board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).setPiece(null);
         }
-        playEnPassantSound();
+        audioPlayer.playSound("src/Sounds/Genius.wav");
         return message;
     }
 
@@ -192,7 +193,7 @@ public class Controller {
             board.getSpecificSquare(rookPosition).setPiece(null);
             rookToMove.addMoves();
         }
-        playRockadSound();
+        audioPlayer.playSound("src/Sounds/wow-113128.wav");
     }
 
     public char intToLetter(int position) {
@@ -228,29 +229,9 @@ public class Controller {
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
 
-    public void playSound(int x , int y) {
+    public void playMarkingSound(int x , int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
-        audioPlayer = new AudioPlayer(filePath);
-        audioPlayer.playSound();
-
+        audioPlayer.playSound(filePath);
     }
-
-    public void playCapturedSound() {
-       audioPlayer = new AudioPlayer("src/Sounds/death.wav");
-       audioPlayer.playSound();
-    }
-    public void playRockadSound() {
-        audioPlayer = new AudioPlayer("src/Sounds/wow-113128.wav");
-        audioPlayer.playSound();
-    }
-    public void playEnPassantSound() {
-        audioPlayer = new AudioPlayer("src/Sounds/Genius.wav");
-        audioPlayer.playSound();
-    }
-    public void playPromotionSound(){
-        audioPlayer = new AudioPlayer("src/Sounds/yeah-boy.wav");
-        audioPlayer.playSound();
-    }
-
 
 }
