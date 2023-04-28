@@ -1,12 +1,15 @@
 package Model;
 
 import Controller.Controller;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Board {
 
     private Square[][] squares;
     private RuleHandler ruleHandler;
+    private Piece lastMovedPiece;
 
     public Board() {
         this.squares = new Square[8][8];
@@ -66,18 +69,26 @@ public class Board {
         ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves;
 
-        if (selectedPiece instanceof Queen || selectedPiece instanceof Bishop || selectedPiece instanceof Rook) {
+        if (selectedPiece instanceof SpecialPiece) {
             validMoves = ruleHandler.specialPieceValidMoves(coordinate);
-            return validMoves;
         }
-        else if (selectedPiece instanceof BlackPawn || selectedPiece instanceof WhitePawn) {
+        else if (selectedPiece instanceof Pawn) {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
-            return validMoves;
+        }
+        else if (selectedPiece instanceof King) {
+            validMoves = ruleHandler.kingValidMoves(coordinate);
         }
         else {
-            validMoves = ruleHandler.kingOrKnightValidMoves(coordinate);
+            validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
+    }
+
+    public Piece getLastMovedPiece() {
+        return lastMovedPiece;
+    }
+    public void setLastMovedPiece(Piece lastMovedPiece) {
+        this.lastMovedPiece = lastMovedPiece;
     }
 
 }

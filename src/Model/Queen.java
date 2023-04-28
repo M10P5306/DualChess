@@ -1,9 +1,18 @@
 package Model;
 
-public class Queen extends Piece{
+import javax.swing.*;
+
+public class Queen extends Piece implements SpecialPiece{
 
     public Queen(String color) {
-        super(color, "Queen", "C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
+        super(color, "Queen");
+        super.setSoundFilePath("src/Sounds/tada-fanfare-Queen.wav");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteQueen.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackQueen.png"));
+        }
         addMoves(new Coordinate(1, 1));
         addMoves(new Coordinate(2,2));
         addMoves(new Coordinate(3,3));

@@ -8,13 +8,13 @@ import java.io.File;
 public class AudioPlayer {
     private Clip clip;
     private String filePath;
-    private AudioInputStream ais;
+    private AudioInputStream audioInputStream;
 
     public AudioPlayer(String filePath) {
         try {
-            ais = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
             clip =AudioSystem.getClip();
-            clip.open(ais);
+            clip.open(audioInputStream);
 
         } catch (Exception e ) {
             e.printStackTrace();
@@ -29,4 +29,5 @@ public class AudioPlayer {
         clip.stop();
         clip.close();
     }
+
 }

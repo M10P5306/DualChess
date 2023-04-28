@@ -9,16 +9,15 @@ public abstract class Piece {
     private String color;
     private String name;
     private int moves;
-    //private ImageIcon icon;
-    private String selectSound;
+    private ImageIcon icon;
+    private String soundFilePath;
 
-
-    public Piece(String color, String name, String filePath) {
-        this.selectSound = filePath;
+    public Piece(String color, String name) {
         this.color = color;
         this.name = name;
         this.possibleMoves = new ArrayList<>();
         this.moves = 0;
+        this.soundFilePath= "src/Sounds/handgun.wav";
     }
 
     public String getColor() {
@@ -45,19 +44,24 @@ public abstract class Piece {
         moves++;
     }
 
-    /*
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
     }
-     */
 
-    public void setSelectSound(String selectSound) {
-        this.selectSound = selectSound;
+    public ImageIcon getIcon() {
+        return icon;
     }
 
-    public String getSelectSound() {
-        return selectSound;
+
+    public String getSoundFilePath() {
+        return soundFilePath;
     }
+
+    public void setSoundFilePath(String soundFilePath) {
+        this.soundFilePath = soundFilePath;
+    }
+
+
 }
 
 

@@ -1,9 +1,18 @@
 package Model;
 
-public class Rook extends Piece{
+import javax.swing.*;
+
+public class Rook extends Piece implements SpecialPiece{
 
     public Rook(String color) {
-        super(color, "Rook", "C:\\Users\\edinj\\Downloads\\mixkit-gear-fast-lock-tap-2857.wav");
+        super(color, "Rook");
+        super.setSoundFilePath("src/Sounds/stone-push-Rook.wav");
+        if (super.getColor().equals("White")) {
+            super.setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
+        }
+        else {
+            super.setIcon(new ImageIcon("src/Icons/BlackRook.png"));
+        }
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
         addMoves(new Coordinate(0,3));

@@ -42,11 +42,11 @@ public class RuleHandler {
         if (withInRange(coordinate, possibleMoves.get(0))) {
             if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(0), coordinate)).hasPiece()) {
                 validMoves.add(combineCoordinates(coordinate, possibleMoves.get(0)));
-            }
-        }
-        if (withInRange(coordinate, possibleMoves.get(1))) {
-            if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(1), coordinate)).hasPiece() && board.getSpecificSquare(coordinate).getPiece().getMoves() == 0) {
-                validMoves.add(combineCoordinates(coordinate, possibleMoves.get(1)));
+                if (withInRange(coordinate, possibleMoves.get(1))) {
+                    if (!board.getSpecificSquare(combineCoordinates(possibleMoves.get(1), coordinate)).hasPiece() && board.getSpecificSquare(coordinate).getPiece().getMoves() == 0) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(1)));
+                    }
+                }
             }
         }
         if (withInRange(coordinate, possibleMoves.get(2))) {
@@ -54,17 +54,39 @@ public class RuleHandler {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
             }
+            if (board.getSpecificSquare(coordinate).getPiece().getMoves()>1 &&
+                    board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).hasPiece() &&
+                    !board.getSpecificSquare(combineCoordinates(possibleMoves.get(2), coordinate)).hasPiece() &&
+                    (coordinate.getY() == 3 || coordinate.getY() == 4)) {
+                if ((board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() instanceof BlackPawn ||
+                        board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() instanceof WhitePawn) &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece() == board.getLastMovedPiece() &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()-1, coordinate.getY())).getPiece().getMoves() == 1) {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(2)));
+                }
+            }
         }
         if (withInRange(coordinate, possibleMoves.get(3))) {
             if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece()) {
                 if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)), board.getSpecificSquare(coordinate)))
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
             }
+            if (board.getSpecificSquare(coordinate).getPiece().getMoves()>1 &&
+                    board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).hasPiece() &&
+                    !board.getSpecificSquare(combineCoordinates(possibleMoves.get(3), coordinate)).hasPiece() &&
+                    (coordinate.getY() == 3 || coordinate.getY() == 4)) {
+                if ((board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() instanceof BlackPawn ||
+                        board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() instanceof WhitePawn) &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece() == board.getLastMovedPiece() &&
+                                board.getSpecificSquare(new Coordinate(coordinate.getX()+1, coordinate.getY())).getPiece().getMoves() == 1) {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(3)));
+                }
+            }
         }
         return validMoves;
     }
 
-    public ArrayList<Coordinate> kingOrKnightValidMoves(Coordinate coordinate) {
+    public ArrayList<Coordinate> knightValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
 
@@ -78,6 +100,56 @@ public class RuleHandler {
                 }
                 else {
                     validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+        return validMoves;
+    }
+
+
+    public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+        Piece selectedKing = board.getSpecificSquare(coordinate).getPiece();
+
+        for (int i = 0; i<possibleMoves.size()-2; i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+                    if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate)))
+                    {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                    }
+                }
+                else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+
+        if(selectedKing.getMoves() == 0) {
+            for(int i = 1; i<4; i++) {
+
+                if (i==3 && board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                    if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).getPiece() instanceof Rook &&
+                          board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).getPiece().getMoves() == 0) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(possibleMoves.size()-2)));
+                        break;
+                    }
+                }
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                    break;
+                }
+            }
+            for(int i = -1; i>-5; i--) {
+                if (i==-4 && board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                    if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).getPiece() instanceof Rook &&
+                            board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).getPiece().getMoves() == 0) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(possibleMoves.size()-1)));
+                        break;
+                    }
+                }
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                    break;
                 }
             }
         }
