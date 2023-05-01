@@ -18,11 +18,22 @@ public class Coordinate {
         return y;
     }
 
-    public boolean equals(Coordinate coordinate) {
-        if (coordinate.getX() == x && coordinate.getY() == y) {
+    @Override
+    public boolean equals(Object o) {
+        Coordinate coordinate = (Coordinate) o;
+
+        if (coordinate.getX() == this.x && coordinate.getY() == this.y) {
             return true;
         }
         return false;
     }
 
+    public String toString() {
+        return x + "," + y;
+    }
+
+    @Override
+    public int hashCode() {
+        return String.format("%d,%d", x, y).hashCode();
+    }
 }

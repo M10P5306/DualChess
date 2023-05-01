@@ -5,6 +5,7 @@ import View.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import static java.lang.Math.abs;
 
@@ -19,6 +20,8 @@ public class Controller {
     private String whitePlayer;
     private String blackPlayer;
     private AudioPlayer audioPlayer;
+    private ArrayList<Coordinate> opponentsMoves;
+
 
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
@@ -27,6 +30,7 @@ public class Controller {
         this.blackPlayer = blackPlayer;
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
+        this.opponentsMoves = new ArrayList<>();
         this.turnCounter = 0;
         this.audioPlayer = new AudioPlayer();
 
@@ -49,6 +53,11 @@ public class Controller {
 
     public void movePiece(int newPositionX, int newPositionY) {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
+        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+
+        if (pieceToMove instanceof King && opponentsMoves.contains(newPosition)) {
+            return;
+        }
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
@@ -65,7 +74,6 @@ public class Controller {
 
                 if (board.getSpecificSquare(newPosition).getPiece() instanceof King) {
                     String message = toPrint.toString();
-                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
                     board.getSpecificSquare(selectedPiece).setPiece(null);
                     board.getSpecificSquare(newPosition).setPiece(pieceToMove);
                     pieceToMove.addMoves();
@@ -74,7 +82,6 @@ public class Controller {
                     log.addEvent(message);
                     win();
                 } else {
-                    Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
                     board.getSpecificSquare(selectedPiece).setPiece(null);
                     if ((pieceToMove instanceof WhitePawn || pieceToMove instanceof BlackPawn) &&
                             !(selectedPiece.getX() == newPositionX) &&
@@ -103,6 +110,8 @@ public class Controller {
                             updateBoardView();
                         }
                     }
+                    updateOpponentsMoves(pieceToMove);
+                    checkForCheck(pieceToMove);
                 }
             }
         }
@@ -232,6 +241,44 @@ public class Controller {
     public void playMarkingSound(int x , int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
         audioPlayer.playSound(filePath);
+    }
+
+    public void updateOpponentsMoves(Piece lastMovedPiece) {
+        String colorOfPiece = lastMovedPiece.getColor();
+        ArrayList<Coordinate> piecePositions = board.getPiecesPositions(colorOfPiece);
+        HashSet<Coordinate> playersEveryMove = new HashSet<>();
+        ArrayList<Coordinate> temporaryPlayersEveryMove = new ArrayList<>();
+
+        for (Coordinate currentCoordinate : piecePositions) {
+            ArrayList<Coordinate> currentPieceValidMoves = board.getValidMoves(currentCoordinate);
+            for (Coordinate pieceMove : currentPieceValidMoves) {
+                playersEveryMove.add(pieceMove);
+            }
+        }
+
+        for (Coordinate coordinate : playersEveryMove) {
+            temporaryPlayersEveryMove.add(coordinate);
+            }
+
+            opponentsMoves = temporaryPlayersEveryMove;
+        }
+
+
+    public void checkForCheck(Piece piece) {
+        Coordinate kingsPosition = new Coordinate(0,0);
+    if (piece.getColor().equals("White")) {
+        kingsPosition = board.getKingPosition("Black");
+    }
+    else {
+        kingsPosition = board.getKingPosition("White");
+    }
+
+    for (Coordinate coordinate : opponentsMoves) {
+        if (coordinate.equals(kingsPosition)) {
+            mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
+            log.addEvent("Check!");
+        }
+    }
     }
 
 }

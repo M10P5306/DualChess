@@ -91,4 +91,32 @@ public class Board {
         this.lastMovedPiece = lastMovedPiece;
     }
 
+    public ArrayList<Coordinate> getPiecesPositions(String color) {
+        ArrayList<Coordinate> piecePositions = new ArrayList<>();
+
+        for (int x = 0; x < squares.length; x++) {
+            for (int y = 0; y < squares[x].length; y++) {
+                if (squares[x][y].hasPiece() && squares[x][y].getPiece().getColor().equals(color)) {
+                    piecePositions.add(new Coordinate(x, y));
+                }
+            }
+        }
+        return piecePositions;
+    }
+
+    public Coordinate getKingPosition(String color) {
+        Coordinate kingsCoordinate = new Coordinate(0,0);
+
+        for (int x = 0; x < squares.length; x++) {
+            for (int y = 0; y < squares[x].length; y++) {
+                if (squares[x][y].hasPiece() && (squares[x][y].getPiece() instanceof King && squares[x][y].getPiece().getColor().equals(color))) {
+                    kingsCoordinate = new Coordinate(x, y);
+                    break;
+                }
+            }
+        }
+
+        return kingsCoordinate;
+    }
+
 }
