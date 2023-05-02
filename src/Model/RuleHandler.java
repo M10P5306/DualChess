@@ -13,6 +13,7 @@ public class RuleHandler {
     public ArrayList<Coordinate> specialPieceValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
+        System.out.println(board.getSpecificSquare(coordinate).getPiece().colorAndNameToString());
 
         for (int i = 0; i<possibleMoves.size(); i++) {
             if (withInRange(coordinate, possibleMoves.get(i))) {
@@ -20,8 +21,9 @@ public class RuleHandler {
                     if(!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
                         validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
                     }
+
                     if (i % 7 != 0) {
-                        i = i + (7 - ((i+1) % 7));
+                        i = i + (6 - (i % 7));
                     }
                     else {
                         i = i+6;
