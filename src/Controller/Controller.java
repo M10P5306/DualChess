@@ -20,7 +20,6 @@ public class Controller {
     private String whitePlayer;
     private String blackPlayer;
     private AudioPlayer audioPlayer;
-    private ArrayList<Coordinate> opponentsMoves;
 
 
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
@@ -30,7 +29,6 @@ public class Controller {
         this.blackPlayer = blackPlayer;
         this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
-        this.opponentsMoves = new ArrayList<>();
         this.turnCounter = 0;
         this.audioPlayer = new AudioPlayer();
 
@@ -55,7 +53,7 @@ public class Controller {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
         Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
 
-        if (pieceToMove instanceof King && opponentsMoves.contains(newPosition)) {
+        if (isCheck(newPosition)) {
             return;
         }
 
@@ -110,8 +108,8 @@ public class Controller {
                             updateBoardView();
                         }
                     }
-                    updateOpponentsMoves(pieceToMove);
-                    checkForCheck(pieceToMove);
+
+                    checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()));
                 }
             }
         }
@@ -243,42 +241,74 @@ public class Controller {
         audioPlayer.playSound(filePath);
     }
 
-    public void updateOpponentsMoves(Piece lastMovedPiece) {
-        String colorOfPiece = lastMovedPiece.getColor();
-        ArrayList<Coordinate> piecePositions = board.getPiecesPositions(colorOfPiece);
-        HashSet<Coordinate> playersEveryMove = new HashSet<>();
-        ArrayList<Coordinate> temporaryPlayersEveryMove = new ArrayList<>();
+    public ArrayList<Coordinate> updateOpponentsMoves(String color) {
+
+        ArrayList<Coordinate> piecePositions = board.getPiecesPositions(color);
+        HashSet<Coordinate> temporaryPlayersEveryMove = new HashSet<>();
+        ArrayList<Coordinate> playersEveryMove = new ArrayList<>();
 
         for (Coordinate currentCoordinate : piecePositions) {
             ArrayList<Coordinate> currentPieceValidMoves = board.getValidMoves(currentCoordinate);
             for (Coordinate pieceMove : currentPieceValidMoves) {
-                playersEveryMove.add(pieceMove);
+                temporaryPlayersEveryMove.add(pieceMove);
             }
         }
 
-        for (Coordinate coordinate : playersEveryMove) {
-            temporaryPlayersEveryMove.add(coordinate);
+        for (Coordinate coordinate : temporaryPlayersEveryMove) {
+            playersEveryMove.add(coordinate);
             }
-
-            opponentsMoves = temporaryPlayersEveryMove;
+            return playersEveryMove;
         }
 
 
-    public void checkForCheck(Piece piece) {
-        Coordinate kingsPosition = new Coordinate(0,0);
-    if (piece.getColor().equals("White")) {
-        kingsPosition = board.getKingPosition("Black");
-    }
-    else {
-        kingsPosition = board.getKingPosition("White");
+    public boolean checkForCheck(String color, ArrayList<Coordinate> opponentsMoves) {
+        Coordinate kingsPosition = null;
+        if (color.equals("White")) {
+            kingsPosition = board.getKingPosition("Black");
+        }
+        else {
+            kingsPosition = board.getKingPosition("White");
+        }
+
+        for (Coordinate coordinate : opponentsMoves) {
+            if (coordinate.equals(kingsPosition)) {
+                mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
+                log.addEvent("Check!");
+                return true;
+            }
+        }
+        return false;
     }
 
-    for (Coordinate coordinate : opponentsMoves) {
-        if (coordinate.equals(kingsPosition)) {
-            mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
-            log.addEvent("Check!");
+    public boolean isCheck(Coordinate newPosition) {
+        Piece takenPiece = null;
+        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+        String color;
+
+        if (board.getSpecificSquare(newPosition).hasPiece()) {
+            takenPiece = board.getSpecificSquare(newPosition).getPiece();
         }
-    }
+
+        board.getSpecificSquare(newPosition).setPiece(pieceToMove);
+        board.getSpecificSquare(selectedPiece).setPiece(null);
+
+        if (pieceToMove.getColor().equals("White")) {
+            color = "Black";
+        }
+        else {
+            color = "White";
+        }
+
+        boolean isGoodMove = checkForCheck(color, updateOpponentsMoves(color));
+
+        board.getSpecificSquare(newPosition).setPiece(null);
+        board.getSpecificSquare(selectedPiece).setPiece(pieceToMove);
+
+        if (takenPiece != null) {
+            board.getSpecificSquare(newPosition).setPiece(takenPiece);
+        }
+
+        return isGoodMove;
     }
 
 }
