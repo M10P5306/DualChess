@@ -109,7 +109,10 @@ public class Controller {
                         }
                     }
 
-                    checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()));
+                    if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
+                        mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
+                        log.addEvent("Check!");
+                    }
                 }
             }
         }
@@ -272,8 +275,6 @@ public class Controller {
 
         for (Coordinate coordinate : opponentsMoves) {
             if (coordinate.equals(kingsPosition)) {
-                mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
-                log.addEvent("Check!");
                 return true;
             }
         }
