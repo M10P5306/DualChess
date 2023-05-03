@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.Controller;
+
 import java.util.ArrayList;
 
 public class RuleHandler {
@@ -13,7 +15,6 @@ public class RuleHandler {
     public ArrayList<Coordinate> specialPieceValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
-        System.out.println(board.getSpecificSquare(coordinate).getPiece().colorAndNameToString());
 
         for (int i = 0; i<possibleMoves.size(); i++) {
             if (withInRange(coordinate, possibleMoves.get(i))) {
@@ -109,7 +110,7 @@ public class RuleHandler {
     }
 
 
-    public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate) {
+    public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
         Piece selectedKing = board.getSpecificSquare(coordinate).getPiece();
@@ -138,7 +139,7 @@ public class RuleHandler {
                         break;
                     }
                 }
-                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() || opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0)))) {
                     break;
                 }
             }
@@ -150,7 +151,7 @@ public class RuleHandler {
                         break;
                     }
                 }
-                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece()) {
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() || opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0)))) {
                     break;
                 }
             }

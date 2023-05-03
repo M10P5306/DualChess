@@ -64,7 +64,7 @@ public class Board {
         return squares[coordinate.getX()][coordinate.getY()];
     }
 
-    public ArrayList<Coordinate> getValidMoves(Coordinate coordinate) {
+    public ArrayList<Coordinate> getValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         Piece selectedPiece = getSpecificSquare(coordinate).getPiece();
         ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves;
@@ -76,7 +76,7 @@ public class Board {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
         }
         else if (selectedPiece instanceof King) {
-            validMoves = ruleHandler.kingValidMoves(coordinate);
+            validMoves = ruleHandler.kingValidMoves(coordinate, opponentsMoves);
         }
         else {
             validMoves = ruleHandler.knightValidMoves(coordinate);

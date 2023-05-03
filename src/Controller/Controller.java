@@ -20,6 +20,7 @@ public class Controller {
     private String whitePlayer;
     private String blackPlayer;
     private AudioPlayer audioPlayer;
+    private ArrayList<Coordinate> opponentsMoves;
 
 
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
@@ -116,13 +117,14 @@ public class Controller {
                 }
             }
         }
+        opponentsMoves = updateOpponentsMoves(pieceToMove.getColor());
     }
 
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
                 this.selectedPiece = new Coordinate(x, y);
-                selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece, opponentsMoves);
                 for (Coordinate coordinate : selectedPieceValidMoves) {
                     int possibleX = coordinate.getX();
                     int possibleY = coordinate.getY();
@@ -136,7 +138,7 @@ public class Controller {
             }
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
                 this.selectedPiece = new Coordinate(x, y);
-                selectedPieceValidMoves = board.getValidMoves(selectedPiece);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece, opponentsMoves);
                 for (Coordinate coordinate : selectedPieceValidMoves) {
                     int possibleX = coordinate.getX();
                     int possibleY = coordinate.getY();
@@ -251,7 +253,7 @@ public class Controller {
         ArrayList<Coordinate> playersEveryMove = new ArrayList<>();
 
         for (Coordinate currentCoordinate : piecePositions) {
-            ArrayList<Coordinate> currentPieceValidMoves = board.getValidMoves(currentCoordinate);
+            ArrayList<Coordinate> currentPieceValidMoves = board.getValidMoves(currentCoordinate, opponentsMoves);
             for (Coordinate pieceMove : currentPieceValidMoves) {
                 temporaryPlayersEveryMove.add(pieceMove);
             }
