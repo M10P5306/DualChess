@@ -54,7 +54,7 @@ public class Controller {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
         Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
 
-        if (isCheck(newPosition)) {
+        if (isCheck(newPosition, selectedPiece)) {
             return;
         }
 
@@ -109,15 +109,18 @@ public class Controller {
                             updateBoardView();
                         }
                     }
+                    opponentsMoves = updateOpponentsMoves(pieceToMove.getColor());
 
                     if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
+                        if (checkForMatt(pieceToMove)) {
+                            System.out.println("Schackmatt!");
+                         }
                         mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
                         log.addEvent("Check!");
                     }
                 }
             }
         }
-        opponentsMoves = updateOpponentsMoves(pieceToMove.getColor());
     }
 
     public boolean boardButtonSelected(int x, int y) {
@@ -283,9 +286,9 @@ public class Controller {
         return false;
     }
 
-    public boolean isCheck(Coordinate newPosition) {
+    public boolean isCheck(Coordinate newPosition, Coordinate currentPiece) {
         Piece takenPiece = null;
-        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
+        Piece pieceToMove = board.getSpecificSquare(currentPiece).getPiece();
         String color;
 
         if (board.getSpecificSquare(newPosition).hasPiece()) {
@@ -293,7 +296,7 @@ public class Controller {
         }
 
         board.getSpecificSquare(newPosition).setPiece(pieceToMove);
-        board.getSpecificSquare(selectedPiece).setPiece(null);
+        board.getSpecificSquare(currentPiece).setPiece(null);
 
         if (pieceToMove.getColor().equals("White")) {
             color = "Black";
@@ -305,7 +308,7 @@ public class Controller {
         boolean isGoodMove = checkForCheck(color, updateOpponentsMoves(color));
 
         board.getSpecificSquare(newPosition).setPiece(null);
-        board.getSpecificSquare(selectedPiece).setPiece(pieceToMove);
+        board.getSpecificSquare(currentPiece).setPiece(pieceToMove);
 
         if (takenPiece != null) {
             board.getSpecificSquare(newPosition).setPiece(takenPiece);
@@ -314,4 +317,24 @@ public class Controller {
         return isGoodMove;
     }
 
+    public boolean checkForMatt(Piece piece) {
+
+        String color = "White";
+        if (piece.getColor().equals("White")) {
+            color = "Black";
+        }
+
+        ArrayList<Coordinate> allPlayersPieces = board.getPiecesPositions(color);
+        for (Coordinate currentPosition : allPlayersPieces) {
+            ArrayList<Coordinate> possibleMoves = board.getValidMoves(currentPosition, opponentsMoves);
+            for(Coordinate move : possibleMoves) {
+                if (!isCheck(move, currentPosition)) {
+                    System.out.println("Det fanns drag kvar att göra");
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
