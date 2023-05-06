@@ -9,7 +9,6 @@ public class MenuPanelSouth extends JPanel {
     public MenuPanelSouth() {
         this.setLayout(new FlowLayout());
         this.setBackground(Color.gray);
-        //this.setBorder(BorderFactory.createTitledBorder("TUTORIAL"));
         addComponents();
     }
 
@@ -22,7 +21,6 @@ public class MenuPanelSouth extends JPanel {
         JButton tutorialButton = new JButton("Take me to the tutorial!");
         tutorialButton.setSize(220,40);
         tutorialButton.setLocation(50, 500);
-        //tutorialButton.setBackground(new Color(153,204,204));
 
         tutorialButton.addActionListener(e -> {
             try {
