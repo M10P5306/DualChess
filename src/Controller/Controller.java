@@ -71,11 +71,11 @@ public class Controller {
 
                 }
                 board.getSpecificSquare(selectedPiece).setPiece(null);
-                if ((pieceToMove instanceof WhitePawn || pieceToMove instanceof BlackPawn) &&
+                if ((pieceToMove instanceof Pawn) &&
                         !(selectedPiece.getX() == newPositionX) &&
                         !board.getSpecificSquare(newPosition).hasPiece()) {
-                            String takenPiece = " and took " + enPassant(pieceToMove, newPosition);
-                            toPrint.append(takenPiece);
+                    String takenPiece = " and took " + enPassant(pieceToMove, newPosition);
+                    toPrint.append(takenPiece);
                 }
                 board.getSpecificSquare(newPosition).setPiece(pieceToMove);
                 if (pieceToMove instanceof King && abs(selectedPiece.getX() - newPositionX) == 2) {
@@ -125,6 +125,8 @@ public class Controller {
                     int possibleY = coordinate.getY();
                     if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("Black")) {
                         mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else if (specialMove(coordinate)) {
+                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
                     } else {
                         mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
                     }
@@ -139,10 +141,28 @@ public class Controller {
                     int possibleY = coordinate.getY();
                     if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("White")) {
                         mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    }
+                    else if (specialMove(coordinate)) {
+                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
                     } else {
                         mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
                     }
                 }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean specialMove(Coordinate newPosition) {
+        if (board.getSpecificSquare(selectedPiece).getPiece() instanceof King && abs(selectedPiece.getX() - newPosition.getX()) == 2) {
+            return true;
+        }
+        if (board.getSpecificSquare(selectedPiece).getPiece() instanceof Pawn) {
+            if (newPosition.getY() == 0 || newPosition.getY() == 7) {
+                return true;
+            }
+            if (abs(selectedPiece.getX() - newPosition.getX()) == 1 && abs(selectedPiece.getY()-newPosition.getY()) == 1 && !board.getSpecificSquare(newPosition).hasPiece()) {
                 return true;
             }
         }
@@ -165,7 +185,7 @@ public class Controller {
         if (turnCounter % 2 != 1) {
             winner = blackPlayer;
         } else {
-            winner =  whitePlayer;
+            winner = whitePlayer;
         }
         log.addEvent(winner + " won the game!");
         log.writeHistoryToFile();
@@ -247,7 +267,7 @@ public class Controller {
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
 
-    public void playMarkingSound(int x , int y) {
+    public void playMarkingSound(int x, int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
         audioPlayer.playSound(filePath);
     }
@@ -267,17 +287,16 @@ public class Controller {
 
         for (Coordinate coordinate : temporaryPlayersEveryMove) {
             playersEveryMove.add(coordinate);
-            }
-            return playersEveryMove;
         }
+        return playersEveryMove;
+    }
 
 
     public boolean checkForCheck(String color, ArrayList<Coordinate> opponentsMoves) {
         Coordinate kingsPosition = null;
         if (color.equals("White")) {
             kingsPosition = board.getKingPosition("Black");
-        }
-        else {
+        } else {
             kingsPosition = board.getKingPosition("White");
         }
 
@@ -303,8 +322,7 @@ public class Controller {
 
         if (pieceToMove.getColor().equals("White")) {
             color = "Black";
-        }
-        else {
+        } else {
             color = "White";
         }
 
@@ -330,7 +348,7 @@ public class Controller {
         ArrayList<Coordinate> allPlayersPieces = board.getPiecesPositions(color);
         for (Coordinate currentPosition : allPlayersPieces) {
             ArrayList<Coordinate> possibleMoves = board.getValidMoves(currentPosition, opponentsMoves);
-            for(Coordinate move : possibleMoves) {
+            for (Coordinate move : possibleMoves) {
                 if (!isCheck(move, currentPosition)) {
                     return false;
                 }
