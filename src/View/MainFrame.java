@@ -8,18 +8,15 @@ public class MainFrame extends JFrame {
     private Controller controller;
     private MainPanel mainPanel;
     private MenuPanel menuPanel;
-    private MenuPanelNew menuPanelNew;
 
     public MainFrame() {
-        //this.menuPanel = new MenuPanel(this);
         this.setResizable(false);
-        this.menuPanelNew = new MenuPanelNew(this);
+        this.menuPanel = new MenuPanel(this);
         this.mainPanel = new MainPanel(this, "", "", "", 1);
         this.setTitle("DualChess");
         this.setSize(700, 700);
         this.setVisible(true);
-        //this.setContentPane(menuPanel);
-        this.setContentPane(menuPanelNew);
+        this.setContentPane(menuPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
