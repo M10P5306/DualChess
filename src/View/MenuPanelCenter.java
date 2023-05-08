@@ -210,26 +210,29 @@ public class MenuPanelCenter extends JPanel {
         startButton.setSize(170,40);
         startButton.setLocation(190,470);
         startButton.addActionListener( e -> {
-            if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")){
-                JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
-            } else if (gameModeGroup.getSelection() == null) {
-                JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
-            } else if (dimensionGroup.getSelection() == null) {
-                JOptionPane.showMessageDialog(null, "Please select 2D or 3D before continuing!");
-            } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
-                JOptionPane.showMessageDialog(null, "Please enter two different names!");
-            } else {
-                int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start",JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
-                    whitePlayer = nameInputOne.getText();
-                    blackPLayer = nameInputTwo.getText();
-                    checkWhichGameModeIsSelected();
-                    menuPanel.getMainFrame().startGame(whitePlayer, blackPLayer, gameMode, gameModeTime);
-                }
-            }
-
+            checkInput();
         });
         this.add(startButton);
+    }
+
+    public void checkInput() {
+        if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
+        } else if (gameModeGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
+        } else if (dimensionGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please select 2D or 3D before continuing!");
+        } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
+            JOptionPane.showMessageDialog(null, "Please enter two different names!");
+        } else {
+            int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start",JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                whitePlayer = nameInputOne.getText();
+                blackPLayer = nameInputTwo.getText();
+                checkWhichGameModeIsSelected();
+                menuPanel.getMainFrame().startGame(whitePlayer, blackPLayer, gameMode, gameModeTime);
+            }
+        }
     }
 
     public void checkWhichGameModeIsSelected() {
