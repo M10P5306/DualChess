@@ -1,5 +1,7 @@
 package View;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,8 +11,10 @@ public class MainPanel extends JPanel {
     private CenterPanel centerPanel;
     private EastPanel eastPanel;
     private SouthPanel southPanel;
+    private Controller controller;
 
-    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, Controller controller) {
+        this.controller = controller;
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
 
@@ -20,7 +24,7 @@ public class MainPanel extends JPanel {
 
     private void setupPanels(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         centerPanel = new CenterPanel(this);
-        eastPanel = new EastPanel(whitePlayer, blackPlayer, gameMode, gameModeTime);
+        eastPanel = new EastPanel(whitePlayer, blackPlayer, gameMode, gameModeTime, controller);
         southPanel = new SouthPanel(this);
     }
 

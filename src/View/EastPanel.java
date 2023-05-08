@@ -1,5 +1,7 @@
 package View;
 
+import Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,8 +20,10 @@ public class EastPanel extends JPanel {
     private final Color inactive = Color.LIGHT_GRAY;
     private String gameMode;
     private int gameModeTime;
+    private Controller controller;
 
-    public EastPanel(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+    public EastPanel(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, Controller controller) {
+        this.controller = controller;
         this.gameMode = gameMode;
         this.gameModeTime = gameModeTime;
 
@@ -103,6 +107,7 @@ public class EastPanel extends JPanel {
         if (whiteTimeRemaining == 0) {
             whiteTimer.stop();
             whitePlayerTime.setText("Time's up!");
+            controller.timesUp("White");
         } else {
             int minutes = whiteTimeRemaining / 60;
             int seconds = whiteTimeRemaining % 60;
@@ -115,6 +120,7 @@ public class EastPanel extends JPanel {
         if (blackTimeRemaining == 0) {
             blackTimer.stop();
             blackPlayerTime.setText("Time's up!");
+            controller.timesUp("Black");
         } else {
             int minutes = blackTimeRemaining / 60;
             int seconds = blackTimeRemaining % 60;

@@ -103,6 +103,7 @@ public class Controller {
                 if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
                     if (checkForMatt(pieceToMove)) {
                         win();
+                        break;
                     }
                     mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
                     log.addEvent("Check!");
@@ -174,10 +175,7 @@ public class Controller {
         log.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
-        int answer = JOptionPane.showConfirmDialog(null, "the game was a draw! Would you like to play again?");
-        if (answer == 0) {
-            resetGame();
-        }
+        promptPlayAgain("DRAW");
     }
 
     public void win() {
@@ -191,9 +189,22 @@ public class Controller {
         log.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
-        int answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        promptPlayAgain(winner);
+    }
+
+    public void promptPlayAgain(String winner) {
+        int answer;
+        if (winner == "DRAW") {
+            answer = JOptionPane.showConfirmDialog(null, "the Game was a draw! Would you like to play again?");
+        }
+        else {
+            answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        }
         if (answer == 0) {
             resetGame();
+        }
+        if (answer == 1) {
+            returnToMainMenu();
         }
     }
 
@@ -239,7 +250,22 @@ public class Controller {
         return chars[position];
     }
 
-    public void resetBoard() {
+    public void timesUp(String player) {
+        String winner;
+
+        if (player == "White") {
+            winner = blackPlayer;
+        } else {
+            winner = whitePlayer;
+        }
+        log.addEvent(winner + " won the game!");
+        log.writeHistoryToFile();
+        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
+
+        promptPlayAgain(winner);
+    }
+
+    public void forfeit() {
         int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
             String winner = "";
@@ -253,9 +279,8 @@ public class Controller {
             }
             log.addEvent(loser + " forfeited");
             JOptionPane.showMessageDialog(null, winner + " won the game!");
-            resetGame();
             log.writeHistoryToFile();
-
+            returnToMainMenu();
         }
     }
 
@@ -265,6 +290,11 @@ public class Controller {
         updateBoardView();
         mainFrame.getMainPanel().getEastPanel().resetTimers();
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
+    }
+
+    public void returnToMainMenu() {
+        mainFrame.dispose();
+        MainFrame newMainFrame = new MainFrame();
     }
 
     public void playMarkingSound(int x, int y) {
