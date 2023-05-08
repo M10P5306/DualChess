@@ -75,7 +75,7 @@ public abstract class Piece {
     }
 
     public void addShots(Coordinate coordinate) {
-        shots++;
+        possibleShots.add(coordinate);
     }
 
     public int getShots() {

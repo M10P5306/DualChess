@@ -25,15 +25,8 @@ public class King extends Piece {
         addMoves(new Coordinate(2,0));
         addMoves(new Coordinate(-2,0));
 
-        addShots(new Coordinate(-1,-1));
-        addShots(new Coordinate(-1,0));
-        addShots(new Coordinate(-1,1));
-        addShots(new Coordinate(0,1));
-        addShots(new Coordinate(0,-1));
-        addShots(new Coordinate(1,1));
-        addShots(new Coordinate(1,0));
-        addShots(new Coordinate(1,-1));
-        addShots(new Coordinate(2,0));
-        addShots(new Coordinate(-2,0));
+        addShots(new Coordinate(-1,2));
+        addShots(new Coordinate(0,2));
+        addShots(new Coordinate(1,2));
     }
 }

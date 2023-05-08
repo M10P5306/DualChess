@@ -19,4 +19,9 @@ public class Square {
         return false;
     }
 
+    //TODO Box class
+    public boolean hasBox() {
+        return false;
+    }
+
 }
