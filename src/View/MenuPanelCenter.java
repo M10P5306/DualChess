@@ -190,7 +190,7 @@ public class MenuPanelCenter extends JPanel {
         helpIconForMode.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                helpIconForMode.setToolTipText("<html> GAME MODE EXPLANATION: <br> Classic - 20 minute game <br> Rapid - 10 minute game <br> Bullet - 1 min game <br> Extreme - Custom game mode </html>");
+                helpIconForMode.setToolTipText("<html> GAME MODE EXPLANATION: <br> Classic - 20 minute game <br> Rapid - 10 minute game <br> Bullet - 1 minute game <br> Extreme - Custom game mode </html>");
             }
         });
         this.add(helpIconForMode);
