@@ -12,7 +12,6 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         this.setResizable(false);
         this.menuPanel = new MenuPanel(this);
-        this.mainPanel = new MainPanel(this, "", "", "", 1);
         this.setTitle("DualChess");
         this.setSize(700, 700);
         this.setVisible(true);
