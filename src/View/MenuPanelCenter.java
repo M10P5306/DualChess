@@ -115,6 +115,7 @@ public class MenuPanelCenter extends JPanel {
         classicAlternative.setBackground(Color.lightGray);
         classicAlternative.setSize(70,20);
         classicAlternative.setLocation(150, 200);
+        classicAlternative.setSelected(true);
 
         rapidAlternative = new JRadioButton("Rapid");
         rapidAlternative.setBackground(Color.lightGray);
@@ -154,6 +155,7 @@ public class MenuPanelCenter extends JPanel {
         twoDRadioButton.setBackground(Color.lightGray);
         twoDRadioButton.setSize(90,20);
         twoDRadioButton.setLocation(150, 350);
+        twoDRadioButton.setSelected(true);
 
         threeDRadiobutton = new JRadioButton("3D Board");
         threeDRadiobutton.setBackground(Color.lightGray);
