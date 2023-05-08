@@ -32,7 +32,7 @@ public class SouthPanel extends JPanel{
         jScrollPane.setMaximumSize(new Dimension(600,70));
 
         JButton resetButton = new JButton();
-        resetButton.setText("Ge Upp");
+        resetButton.setText("Forfeit");
         resetButton.setSize(100,60);
         resetButton.addActionListener(e ->  {
             mainPanel.getMainFrame().getController().resetBoard();

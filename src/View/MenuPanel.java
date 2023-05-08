@@ -5,41 +5,28 @@ import java.awt.*;
 
 public class MenuPanel extends JPanel {
     private MainFrame mainFrame;
-    private MenuPanelWest westPanel;
-    private MenuPanelCenter centerPanel;
-    private MenuPanelEast eastPanel;
 
     public MenuPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
-
+        
         setupPanels();
         addPanels();
     }
 
-    public void setupPanels() {
-        this.centerPanel = new MenuPanelCenter(this);
-        this.eastPanel = new MenuPanelEast(this);
-        this.westPanel = new MenuPanelWest(this);
+    private void setupPanels() {
     }
 
-    public void addPanels() {
+    private void addPanels() {
         this.add(new MenuPanelNorth(), BorderLayout.NORTH);
-        this.add(centerPanel, BorderLayout.CENTER);
-        this.add(eastPanel, BorderLayout.EAST);
-        this.add(westPanel, BorderLayout.WEST);
+        this.add(new MenuPanelEastWest(), BorderLayout.WEST);
+        this.add(new MenuPanelEastWest(), BorderLayout.EAST);
+        this.add(new MenuPanelSouth(), BorderLayout.SOUTH);
+        this.add(new MenuPanelCenter(this), BorderLayout.CENTER);
     }
 
     public MainFrame getMainFrame() {
         return mainFrame;
-    }
-
-    public MenuPanelCenter getCenterPanel() {
-        return centerPanel;
-    }
-
-    public ButtonGroup getGamemodeGroup() {
-        return eastPanel.getGameModeGroup();
     }
 
 }

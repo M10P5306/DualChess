@@ -1,15 +1,14 @@
 package View;
 
-import Controller.Controller;
-import Controller.Main;
-
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
 public class MenuPanelCenter extends JPanel {
-    private Main main;
     private MenuPanel menuPanel;
     private JTextArea nameInputOne;
     private JTextArea nameInputTwo;
@@ -17,99 +16,229 @@ public class MenuPanelCenter extends JPanel {
     private JLabel nameLabelTwo;
     private String whitePlayer;
     private String blackPLayer;
+    private JRadioButton classicAlternative;
+    private JRadioButton rapidAlternative;
+    private JRadioButton bulletAlternative;
+    private JRadioButton extremeAlternative;
+    private ButtonGroup gameModeGroup;
+    private JRadioButton twoDRadioButton;
+    private JRadioButton threeDRadiobutton;
+    private ButtonGroup dimensionGroup;
     private int gameModeTime;
     private String gameMode;
 
     public MenuPanelCenter(MenuPanel menuPanel) {
         this.menuPanel = menuPanel;
-        this.setBorder(BorderFactory.createTitledBorder("PLAYER SETTINGS"));
+        this.setBackground(Color.lightGray);
         this.setLayout(null);
-        setUp();
-    }
-
-    public void setUp() {
         setUpPlayerSettings();
-        setUpTutorialButton();
+        setUpGameModeSettings();
+        setupBoardSettings();
+        setupStartButton();
+        setUpHelp();
     }
 
     public void setUpPlayerSettings() {
-        JLabel playerSettingsTitle = new JLabel("Enter player name(s) below");
+        JLabel playerSettingsTitle = new JLabel("Enter player names below");
         playerSettingsTitle.setSize(500,50);
-        playerSettingsTitle.setLocation(50,50);
-        playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 14));
+        playerSettingsTitle.setLocation(130,10);
+        playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(playerSettingsTitle);
 
-        JLabel nameLabelOne = new JLabel("Player 1 name: ");
+        JLabel nameLabelOne = new JLabel("Player 1 name (White): ");
         nameLabelOne.setSize(300,20);
-        nameLabelOne.setLocation(50,100);
+        nameLabelOne.setLocation(150,60);
         this.add(nameLabelOne);
 
-        nameLabelTwo = new JLabel("Player 2 name: ");
+        nameLabelTwo = new JLabel("Player 2 name (Black): ");
         nameLabelTwo.setSize(300,20);
-        nameLabelTwo.setLocation(50, 150);
+        nameLabelTwo.setLocation(150, 100);
         this.add(nameLabelTwo);
 
-        nameInputOne = new JTextArea();
+        nameInputOne = new JTextArea("Enter name");
         nameInputOne.setSize(100,20);
-        nameInputOne.setLocation(170,102);
-        this.add(nameInputOne);
+        nameInputOne.setLocation(300,60);
 
-        nameInputTwo = new JTextArea();
+        nameInputTwo = new JTextArea("Enter name");
         nameInputTwo.setSize(100,20);
-        nameInputTwo.setLocation(170,152);
-        this.add(nameInputTwo);
+        nameInputTwo.setLocation(300,100);
 
+        clearText();
+        this.add(nameInputOne);
+        this.add(nameInputTwo);
+    }
+
+    public void clearText() {
+        nameInputOne.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (nameInputOne.getText().equals("Enter name")) {
+                    nameInputOne.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (nameInputOne.getText().equals("")) {
+                    nameInputOne.setText("Enter name");
+                }
+            }
+
+        });
+
+        nameInputTwo.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (nameInputTwo.getText().equals("Enter name")) {
+                    nameInputTwo.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (nameInputTwo.getText().equals("")) {
+                    nameInputTwo.setText("Enter name");
+                }
+            }
+
+        });
+    }
+
+    private void setUpGameModeSettings() {
+        JLabel playerSettingsTitle = new JLabel("Choose game mode below");
+        playerSettingsTitle.setSize(500,50);
+        playerSettingsTitle.setLocation(130,150);
+        playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
+        this.add(playerSettingsTitle);
+
+        classicAlternative = new JRadioButton("Classic");
+        classicAlternative.setBackground(Color.lightGray);
+        classicAlternative.setSize(70,20);
+        classicAlternative.setLocation(150, 200);
+
+        rapidAlternative = new JRadioButton("Rapid");
+        rapidAlternative.setBackground(Color.lightGray);
+        rapidAlternative.setSize(70,20);
+        rapidAlternative.setLocation(150, 220);
+
+        bulletAlternative = new JRadioButton("Bullet");
+        bulletAlternative.setBackground(Color.lightGray);
+        bulletAlternative.setSize(70,20);
+        bulletAlternative.setLocation(150, 240);
+
+        extremeAlternative = new JRadioButton("Extreme");
+        extremeAlternative.setBackground(Color.lightGray);
+        extremeAlternative.setSize(90,20);
+        extremeAlternative.setLocation(150, 260);
+
+        gameModeGroup = new ButtonGroup();
+        gameModeGroup.add(classicAlternative);
+        gameModeGroup.add(rapidAlternative);
+        gameModeGroup.add(bulletAlternative);
+        gameModeGroup.add(extremeAlternative);
+
+        this.add(classicAlternative);
+        this.add(rapidAlternative);
+        this.add(bulletAlternative);
+        this.add(extremeAlternative);
+    }
+
+    public void setupBoardSettings() {
+        JLabel boardSetting = new JLabel("Choose 2D or 3D board below");
+        boardSetting.setSize(500,50);
+        boardSetting.setLocation(115,300);
+        boardSetting.setFont(new Font("Verdana", Font.BOLD, 20));
+        this.add(boardSetting);
+
+        twoDRadioButton = new JRadioButton("2D Board");
+        twoDRadioButton.setBackground(Color.lightGray);
+        twoDRadioButton.setSize(90,20);
+        twoDRadioButton.setLocation(150, 350);
+
+        threeDRadiobutton = new JRadioButton("3D Board");
+        threeDRadiobutton.setBackground(Color.lightGray);
+        threeDRadiobutton.setSize(90,20);
+        threeDRadiobutton.setLocation(150, 370);
+
+        dimensionGroup = new ButtonGroup();
+        dimensionGroup.add(twoDRadioButton);
+        dimensionGroup.add(threeDRadiobutton);
+
+        this.add(twoDRadioButton);
+        this.add(threeDRadiobutton);
+    }
+
+    public void setUpHelp() {
+        ImageIcon helpIcon = new ImageIcon("src/MenuIcons/help_icon.png");
+
+        JLabel helpIconForPlayers = new JLabel(helpIcon);
+        helpIconForPlayers.setSize(24, 24);
+        helpIconForPlayers.setLocation(430, 23);
+        helpIconForPlayers.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                helpIconForPlayers.setToolTipText("<html> Player 1 will play with the white pieces, and therefore make the opening move.<br> Player 2 will play with the black pieces. </html>");
+            }
+        });
+        this.add(helpIconForPlayers);
+
+        JLabel helpIconForMode = new JLabel(helpIcon);
+        helpIconForMode.setSize(24, 24);
+        helpIconForMode.setLocation(430, 165);
+        helpIconForMode.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                helpIconForMode.setToolTipText("<html> GAME MODE EXPLANATION: <br> Classic - 20 minute game <br> Rapid - 10 minute game <br> Bullet - 1 min game <br> Extreme - Custom game mode </html>");
+            }
+        });
+        this.add(helpIconForMode);
+
+        JLabel helpIconForBoard = new JLabel(helpIcon);
+        helpIconForBoard.setSize(24,24);
+        helpIconForBoard.setLocation(455, 315);
+        helpIconForBoard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                helpIconForBoard.setToolTipText("<html> Do you wish to play the game in 3D or 2D? </html>");
+            }
+        });
+        this.add(helpIconForBoard);
+    }
+
+    public void setupStartButton() {
         startButton = new JButton("Start game");
-        startButton.setSize(220,40);
-        startButton.setLocation(50,250);
-        setupStartButtonActionListener();
+        startButton.setSize(170,40);
+        startButton.setLocation(190,470);
+        startButton.addActionListener( e -> {
+            checkInput();
+        });
         this.add(startButton);
     }
 
-    public void setupStartButtonActionListener() {
-        startButton.addActionListener(e -> {
-            this.whitePlayer = nameInputOne.getText();
-            this.blackPLayer = nameInputTwo.getText();
-
-            if (menuPanel.getGamemodeGroup().getSelection() == null) {
-                JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
-            } else if (whitePlayer.equals("") || blackPLayer.equals("")) {
-                JOptionPane.showMessageDialog(null, "Please enter your name(s) before continuing!");
-            } else if (whitePlayer.equals(blackPLayer)) {
-                JOptionPane.showMessageDialog(null, "Please enter two different names!");
-            } else {
+    public void checkInput() {
+        if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
+        } else if (gameModeGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
+        } else if (dimensionGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please select 2D or 3D before continuing!");
+        } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
+            JOptionPane.showMessageDialog(null, "Please enter two different names!");
+        } else {
+            int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start",JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                whitePlayer = nameInputOne.getText();
+                blackPLayer = nameInputTwo.getText();
                 checkWhichGameModeIsSelected();
                 menuPanel.getMainFrame().startGame(whitePlayer, blackPLayer, gameMode, gameModeTime);
             }
-        });
-    }
-
-    public void setUpTutorialButton() {
-        JLabel tutorialLabel = new JLabel("New to chess?");
-        tutorialLabel.setFont(new Font("Verdana", Font.BOLD, 14));
-        tutorialLabel.setSize(200,200);
-        tutorialLabel.setLocation(50, 370);
-
-        JButton tutorialButton = new JButton("Take me to the tutorial!");
-        tutorialButton.setSize(220,40);
-        tutorialButton.setLocation(50, 500);
-
-        tutorialButton.addActionListener(e -> {
-            try {
-                Desktop.getDesktop().browse(new URL("https://www.chess.com/learn-how-to-play-chess").toURI());
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-        this.add(tutorialButton);
-        this.add(tutorialLabel);
+        }
     }
 
     public void checkWhichGameModeIsSelected() {
         String selectedMode = "";
 
-        for (Enumeration<AbstractButton> buttons = menuPanel.getGamemodeGroup().getElements(); buttons.hasMoreElements();) {
+        for (Enumeration<AbstractButton> buttons = gameModeGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
             if (button.isSelected()){
                 selectedMode = button.getText();
@@ -134,10 +263,6 @@ public class MenuPanelCenter extends JPanel {
                 this.gameModeTime = 1800;
             }
         }
-
     }
 
-    public JTextArea getNameInputTwo() {
-        return nameInputTwo;
-    }
 }
