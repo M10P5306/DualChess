@@ -35,7 +35,7 @@ public class SouthPanel extends JPanel {
         resetButton.setText("Forfeit");
         resetButton.setSize(100, 60);
         resetButton.addActionListener(e -> {
-            mainPanel.getMainFrame().getController().resetBoard();
+            mainPanel.getMainFrame().getController().forfeit();
         });
         this.add(jScrollPane, BorderLayout.CENTER);
         this.add(resetButton, BorderLayout.EAST);
