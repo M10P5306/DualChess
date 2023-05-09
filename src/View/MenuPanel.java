@@ -9,12 +9,8 @@ public class MenuPanel extends JPanel {
     public MenuPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.setLayout(new BorderLayout());
-        
-        setupPanels();
-        addPanels();
-    }
 
-    private void setupPanels() {
+        addPanels();
     }
 
     private void addPanels() {

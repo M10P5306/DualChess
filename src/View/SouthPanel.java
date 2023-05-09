@@ -7,7 +7,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
-public class SouthPanel extends JPanel{
+public class SouthPanel extends JPanel {
 
     private MainPanel mainPanel;
     private JTextPane jTextPane;
@@ -20,7 +20,7 @@ public class SouthPanel extends JPanel{
         setUp();
     }
 
-    private void setUp(){
+    private void setUp() {
         jTextPane = new JTextPane();
         jTextPane.setEditable(false);
         JScrollPane jScrollPane = new JScrollPane(jTextPane);
@@ -28,16 +28,16 @@ public class SouthPanel extends JPanel{
         jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         verticalScrollBar = jScrollPane.getVerticalScrollBar();
 
-        jScrollPane.setPreferredSize(new Dimension(600,70));
-        jScrollPane.setMaximumSize(new Dimension(600,70));
+        jScrollPane.setPreferredSize(new Dimension(600, 70));
+        jScrollPane.setMaximumSize(new Dimension(600, 70));
 
         JButton resetButton = new JButton();
         resetButton.setText("Forfeit");
-        resetButton.setSize(100,60);
-        resetButton.addActionListener(e ->  {
+        resetButton.setSize(100, 60);
+        resetButton.addActionListener(e -> {
             mainPanel.getMainFrame().getController().resetBoard();
         });
-        this.add(jScrollPane,BorderLayout.CENTER);
+        this.add(jScrollPane, BorderLayout.CENTER);
         this.add(resetButton, BorderLayout.EAST);
     }
 

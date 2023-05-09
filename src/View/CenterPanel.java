@@ -25,7 +25,6 @@ public class CenterPanel extends JPanel {
                     if (selectedButton != null) {
                         if (buttons[finalX][finalY] != selectedButton) {
                             mainPanel.getMainFrame().getController().movePiece(finalX, finalY);
-
                         }
                         selectedButton = null;
                         restoreDefaultColors();
@@ -33,7 +32,7 @@ public class CenterPanel extends JPanel {
                         if (mainPanel.getMainFrame().getController().boardButtonSelected(finalX, finalY)) {
                             selectedButton = buttons[finalX][finalY];
                             selectedButton.setBackground(Color.ORANGE);
-                            mainPanel.getMainFrame().getController().playMarkingSound(finalX,finalY);
+                            mainPanel.getMainFrame().getController().playMarkingSound(finalX, finalY);
                         }
                     }
                 });
@@ -50,9 +49,13 @@ public class CenterPanel extends JPanel {
         buttons[x][y].setBackground(Color.yellow);
     }
 
-    public void setSpecialMove(int x, int y) { buttons[x][y].setBackground(Color.green);}
+    public void setSpecialMove(int x, int y) {
+        buttons[x][y].setBackground(Color.green);
+    }
 
-    public void setPossibleAttack(int x, int y) {buttons[x][y].setBackground(Color.red);}
+    public void setPossibleAttack(int x, int y) {
+        buttons[x][y].setBackground(Color.red);
+    }
 
     public void restoreDefaultColors() {
         for (int x = 0; x < buttons.length; x++) {
@@ -61,4 +64,5 @@ public class CenterPanel extends JPanel {
             }
         }
     }
+
 }

@@ -12,12 +12,11 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         this.setResizable(false);
         this.menuPanel = new MenuPanel(this);
-        this.mainPanel = new MainPanel(this, "", "", "", 1);
         this.setTitle("DualChess");
         this.setSize(700, 700);
-        this.setVisible(true);
         this.setContentPane(menuPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
 
     public MainFrame(Controller controller, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
@@ -25,9 +24,9 @@ public class MainFrame extends JFrame {
         this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
         this.setTitle("DualChess");
         this.setSize(1000, 1000);
-        this.setVisible(true);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
 
     public void startGame(String whitePLayer, String blackPlayer, String gameMode, int gameModeTime) {

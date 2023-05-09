@@ -40,28 +40,28 @@ public class MenuPanelCenter extends JPanel {
 
     public void setUpPlayerSettings() {
         JLabel playerSettingsTitle = new JLabel("Enter player names below");
-        playerSettingsTitle.setSize(500,50);
-        playerSettingsTitle.setLocation(130,10);
+        playerSettingsTitle.setSize(500, 50);
+        playerSettingsTitle.setLocation(130, 10);
         playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(playerSettingsTitle);
 
         JLabel nameLabelOne = new JLabel("Player 1 name (White): ");
-        nameLabelOne.setSize(300,20);
-        nameLabelOne.setLocation(150,60);
+        nameLabelOne.setSize(300, 20);
+        nameLabelOne.setLocation(150, 60);
         this.add(nameLabelOne);
 
         nameLabelTwo = new JLabel("Player 2 name (Black): ");
-        nameLabelTwo.setSize(300,20);
+        nameLabelTwo.setSize(300, 20);
         nameLabelTwo.setLocation(150, 100);
         this.add(nameLabelTwo);
 
         nameInputOne = new JTextArea("Enter name");
-        nameInputOne.setSize(100,20);
-        nameInputOne.setLocation(300,60);
+        nameInputOne.setSize(100, 20);
+        nameInputOne.setLocation(300, 60);
 
         nameInputTwo = new JTextArea("Enter name");
-        nameInputTwo.setSize(100,20);
-        nameInputTwo.setLocation(300,100);
+        nameInputTwo.setSize(100, 20);
+        nameInputTwo.setLocation(300, 100);
 
         clearText();
         this.add(nameInputOne);
@@ -106,29 +106,29 @@ public class MenuPanelCenter extends JPanel {
 
     private void setUpGameModeSettings() {
         JLabel playerSettingsTitle = new JLabel("Choose game mode below");
-        playerSettingsTitle.setSize(500,50);
-        playerSettingsTitle.setLocation(130,150);
+        playerSettingsTitle.setSize(500, 50);
+        playerSettingsTitle.setLocation(130, 150);
         playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(playerSettingsTitle);
 
         classicAlternative = new JRadioButton("Classic");
         classicAlternative.setBackground(Color.lightGray);
-        classicAlternative.setSize(70,20);
+        classicAlternative.setSize(70, 20);
         classicAlternative.setLocation(150, 200);
 
         rapidAlternative = new JRadioButton("Rapid");
         rapidAlternative.setBackground(Color.lightGray);
-        rapidAlternative.setSize(70,20);
+        rapidAlternative.setSize(70, 20);
         rapidAlternative.setLocation(150, 220);
 
         bulletAlternative = new JRadioButton("Bullet");
         bulletAlternative.setBackground(Color.lightGray);
-        bulletAlternative.setSize(70,20);
+        bulletAlternative.setSize(70, 20);
         bulletAlternative.setLocation(150, 240);
 
         extremeAlternative = new JRadioButton("Extreme");
         extremeAlternative.setBackground(Color.lightGray);
-        extremeAlternative.setSize(90,20);
+        extremeAlternative.setSize(90, 20);
         extremeAlternative.setLocation(150, 260);
 
         gameModeGroup = new ButtonGroup();
@@ -145,19 +145,19 @@ public class MenuPanelCenter extends JPanel {
 
     public void setupBoardSettings() {
         JLabel boardSetting = new JLabel("Choose 2D or 3D board below");
-        boardSetting.setSize(500,50);
-        boardSetting.setLocation(115,300);
+        boardSetting.setSize(500, 50);
+        boardSetting.setLocation(115, 300);
         boardSetting.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(boardSetting);
 
         twoDRadioButton = new JRadioButton("2D Board");
         twoDRadioButton.setBackground(Color.lightGray);
-        twoDRadioButton.setSize(90,20);
+        twoDRadioButton.setSize(90, 20);
         twoDRadioButton.setLocation(150, 350);
 
         threeDRadiobutton = new JRadioButton("3D Board");
         threeDRadiobutton.setBackground(Color.lightGray);
-        threeDRadiobutton.setSize(90,20);
+        threeDRadiobutton.setSize(90, 20);
         threeDRadiobutton.setLocation(150, 370);
 
         dimensionGroup = new ButtonGroup();
@@ -194,7 +194,7 @@ public class MenuPanelCenter extends JPanel {
         this.add(helpIconForMode);
 
         JLabel helpIconForBoard = new JLabel(helpIcon);
-        helpIconForBoard.setSize(24,24);
+        helpIconForBoard.setSize(24, 24);
         helpIconForBoard.setLocation(455, 315);
         helpIconForBoard.addMouseListener(new MouseAdapter() {
             @Override
@@ -207,16 +207,16 @@ public class MenuPanelCenter extends JPanel {
 
     public void setupStartButton() {
         startButton = new JButton("Start game");
-        startButton.setSize(170,40);
-        startButton.setLocation(190,470);
-        startButton.addActionListener( e -> {
+        startButton.setSize(170, 40);
+        startButton.setLocation(190, 470);
+        startButton.addActionListener(e -> {
             checkInput();
         });
         this.add(startButton);
     }
 
     public void checkInput() {
-        if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")){
+        if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
         } else if (gameModeGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
@@ -225,7 +225,7 @@ public class MenuPanelCenter extends JPanel {
         } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
             JOptionPane.showMessageDialog(null, "Please enter two different names!");
         } else {
-            int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start",JOptionPane.YES_NO_OPTION);
+            int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 whitePlayer = nameInputOne.getText();
                 blackPLayer = nameInputTwo.getText();
@@ -238,9 +238,9 @@ public class MenuPanelCenter extends JPanel {
     public void checkWhichGameModeIsSelected() {
         String selectedMode = "";
 
-        for (Enumeration<AbstractButton> buttons = gameModeGroup.getElements(); buttons.hasMoreElements();) {
+        for (Enumeration<AbstractButton> buttons = gameModeGroup.getElements(); buttons.hasMoreElements(); ) {
             AbstractButton button = buttons.nextElement();
-            if (button.isSelected()){
+            if (button.isSelected()) {
                 selectedMode = button.getText();
             }
         }
