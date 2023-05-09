@@ -1,9 +1,9 @@
 package Controller;
 
-import View.MainFrame;
+import View.MenuFrame;
 
 public class Main {
     public static void main(String[] args) {
-        MainFrame mainFrame = new MainFrame();
+        MenuFrame menuFrame = new MenuFrame();
     }
 }

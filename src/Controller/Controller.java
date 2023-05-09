@@ -303,7 +303,7 @@ public class Controller {
 
     public void returnToMainMenu() {
         mainFrame.dispose();
-        MainFrame newMainFrame = new MainFrame();
+        MenuFrame menuFrame = new MenuFrame();
     }
 
     public void playMarkingSound(int x, int y) {

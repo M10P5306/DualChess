@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
-    private MainFrame mainFrame;
+    private MenuFrame menuFrame;
 
-    public MenuPanel(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public MenuPanel(MenuFrame menuFrame) {
+        this.menuFrame = menuFrame;
         this.setLayout(new BorderLayout());
 
         addPanels();
@@ -21,8 +21,8 @@ public class MenuPanel extends JPanel {
         this.add(new MenuPanelCenter(this), BorderLayout.CENTER);
     }
 
-    public MainFrame getMainFrame() {
-        return mainFrame;
+    public MenuFrame getMenuFrame() {
+        return menuFrame;
     }
 
 }
