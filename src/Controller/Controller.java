@@ -39,9 +39,9 @@ public class Controller {
             for (int y = 0; y < board.getSquares()[x].length; y++) {
                 if (board.getSquares()[x][y].getPiece() != null) {
                     ImageIcon icon = board.getSquares()[x][y].getPiece().getIcon();
-                    mainFrame.getMainPanel().getCenterPanel().getButton()[x][y].setIcon(icon);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(icon);
                 } else {
-                    mainFrame.getMainPanel().getCenterPanel().getButton()[x][y].setIcon(null);
+                    mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(null);
                 }
             }
         }

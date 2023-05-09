@@ -42,7 +42,7 @@ public class CenterPanel extends JPanel {
         }
     }
 
-    public BoardButton[][] getButton() {
+    public BoardButton[][] getButtons() {
         return buttons;
     }
 
