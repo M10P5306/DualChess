@@ -19,8 +19,8 @@ public class MenuPanel extends JPanel {
 
     private void addPanels() {
         this.add(new MenuPanelNorth(), BorderLayout.NORTH);
-        this.add(new MenuPanelEastWest(), BorderLayout.WEST);
-        this.add(new MenuPanelEastWest(), BorderLayout.EAST);
+        this.add(new MenuSidePanel(), BorderLayout.WEST);
+        this.add(new MenuSidePanel(), BorderLayout.EAST);
         this.add(new MenuPanelSouth(), BorderLayout.SOUTH);
         this.add(new MenuPanelCenter(this), BorderLayout.CENTER);
     }

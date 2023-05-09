@@ -42,11 +42,11 @@ public class CenterPanel extends JPanel {
         }
     }
 
-    public BoardButton[][] getButtons() {
+    public BoardButton[][] getButton() {
         return buttons;
     }
 
-    public void setValidMoves(int x, int y) {
+    public void setValidMove(int x, int y) {
         buttons[x][y].setBackground(Color.yellow);
     }
 
