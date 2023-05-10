@@ -130,7 +130,9 @@ public class RuleHandler {
                         break;
                     }
                 }
-                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() || opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0)))) {
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() ||
+                        opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0))) ||
+                        opponentsMoves.contains(coordinate)) {
                     break;
                 }
             }
@@ -142,7 +144,9 @@ public class RuleHandler {
                         break;
                     }
                 }
-                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() || opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0)))) {
+                if (board.getSpecificSquare(combineCoordinates(coordinate, new Coordinate(i, 0))).hasPiece() ||
+                        opponentsMoves.contains(combineCoordinates(coordinate, new Coordinate(i, 0))) ||
+                        opponentsMoves.contains(coordinate)) {
                     break;
                 }
             }
