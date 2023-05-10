@@ -20,4 +20,10 @@ public class MenuFrame extends JFrame {
         this.dispose();
         Controller controller = new Controller(whitePLayer, blackPlayer, gameMode, gameModeTime);
     }
+
+    public void startGameWithoutSound(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        boolean noSound = true;
+        this.dispose();
+        Controller controller = new Controller(whitePlayer, blackPlayer, gameMode, gameModeTime, noSound);
+    }
 }

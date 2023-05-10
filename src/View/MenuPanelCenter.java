@@ -14,6 +14,9 @@ public class MenuPanelCenter extends JPanel {
     private JTextArea nameInputTwo;
     private ButtonGroup gameModeGroup;
     private ButtonGroup dimensionGroup;
+    private ButtonGroup soundGroup;
+    private JRadioButton soundEffectsYes;
+    private JRadioButton soundEffectsNo;
     private int gameModeTime;
     private String gameMode;
 
@@ -97,30 +100,30 @@ public class MenuPanelCenter extends JPanel {
     private void setUpGameModeSettings() {
         JLabel playerSettingsTitle = new JLabel("Choose game mode below");
         playerSettingsTitle.setSize(500, 50);
-        playerSettingsTitle.setLocation(130, 150);
+        playerSettingsTitle.setLocation(130, 130);
         playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(playerSettingsTitle);
 
         JRadioButton classicAlternative = new JRadioButton("Classic");
         classicAlternative.setBackground(Color.lightGray);
         classicAlternative.setSize(100, 20);
-        classicAlternative.setLocation(150, 200);
+        classicAlternative.setLocation(150, 180);
         classicAlternative.setSelected(true);
 
         JRadioButton rapidAlternative = new JRadioButton("Rapid");
         rapidAlternative.setBackground(Color.lightGray);
         rapidAlternative.setSize(70, 20);
-        rapidAlternative.setLocation(150, 220);
+        rapidAlternative.setLocation(150, 200);
 
         JRadioButton bulletAlternative = new JRadioButton("Bullet");
         bulletAlternative.setBackground(Color.lightGray);
         bulletAlternative.setSize(70, 20);
-        bulletAlternative.setLocation(150, 240);
+        bulletAlternative.setLocation(150, 220);
 
         JRadioButton extremeAlternative = new JRadioButton("Extreme");
         extremeAlternative.setBackground(Color.lightGray);
         extremeAlternative.setSize(90, 20);
-        extremeAlternative.setLocation(150, 260);
+        extremeAlternative.setLocation(150, 240);
 
         gameModeGroup = new ButtonGroup();
         gameModeGroup.add(classicAlternative);
@@ -137,20 +140,20 @@ public class MenuPanelCenter extends JPanel {
     public void setupBoardSettings() {
         JLabel boardSetting = new JLabel("Choose 2D or 3D board below");
         boardSetting.setSize(500, 50);
-        boardSetting.setLocation(115, 300);
+        boardSetting.setLocation(115, 260);
         boardSetting.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(boardSetting);
 
         JRadioButton twoDRadioButton = new JRadioButton("2D Board");
         twoDRadioButton.setBackground(Color.lightGray);
         twoDRadioButton.setSize(90, 20);
-        twoDRadioButton.setLocation(150, 350);
+        twoDRadioButton.setLocation(150, 310);
         twoDRadioButton.setSelected(true);
 
         JRadioButton threeDRadiobutton = new JRadioButton("3D Board");
         threeDRadiobutton.setBackground(Color.lightGray);
         threeDRadiobutton.setSize(90, 20);
-        threeDRadiobutton.setLocation(150, 370);
+        threeDRadiobutton.setLocation(150, 330);
 
         dimensionGroup = new ButtonGroup();
         dimensionGroup.add(twoDRadioButton);
@@ -176,7 +179,7 @@ public class MenuPanelCenter extends JPanel {
 
         JLabel helpIconForMode = new JLabel(helpIcon);
         helpIconForMode.setSize(24, 24);
-        helpIconForMode.setLocation(430, 165);
+        helpIconForMode.setLocation(430, 144);
         helpIconForMode.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -187,7 +190,7 @@ public class MenuPanelCenter extends JPanel {
 
         JLabel helpIconForBoard = new JLabel(helpIcon);
         helpIconForBoard.setSize(24, 24);
-        helpIconForBoard.setLocation(455, 315);
+        helpIconForBoard.setLocation(455, 275);
         helpIconForBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -198,6 +201,29 @@ public class MenuPanelCenter extends JPanel {
     }
 
     public void setupStartButton() {
+        JLabel soundEffect = new JLabel("Choose sound effects below");
+        soundEffect.setSize(500, 50);
+        soundEffect.setLocation(130, 350);
+        soundEffect.setFont(new Font("Verdana", Font.BOLD, 20));
+        this.add(soundEffect);
+
+        soundEffectsYes = new JRadioButton("With sound effects");
+        soundEffectsYes.setBackground(Color.lightGray);
+        soundEffectsYes.setSize(150, 20);
+        soundEffectsYes.setLocation(150, 390);
+        soundEffectsYes.setSelected(true);
+        this.add(soundEffectsYes);
+
+        soundEffectsNo = new JRadioButton("Without sound effects");
+        soundEffectsNo.setBackground(Color.lightGray);
+        soundEffectsNo.setSize(150, 20);
+        soundEffectsNo.setLocation(150, 410);
+        this.add(soundEffectsNo);
+
+        soundGroup = new ButtonGroup();
+        soundGroup.add(soundEffectsYes);
+        soundGroup.add(soundEffectsNo);
+
         JButton startButton = new JButton("Start game");
         startButton.setSize(170, 40);
         startButton.setLocation(190, 470);
@@ -216,13 +242,20 @@ public class MenuPanelCenter extends JPanel {
             JOptionPane.showMessageDialog(null, "Please select 2D or 3D before continuing!");
         } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
             JOptionPane.showMessageDialog(null, "Please enter two different names!");
+        } else if (soundGroup.getSelection() == null) {
+            JOptionPane.showMessageDialog(null, "Please select if you want sound effects or not");
         } else {
             int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
+            if (reply == JOptionPane.YES_OPTION && soundEffectsYes.isSelected()) {
                 String whitePlayerName = nameInputOne.getText();
                 String blackPLayerName = nameInputTwo.getText();
                 checkWhichGameModeIsSelected();
                 menuPanel.getMenuFrame().startGame(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+            } else if (reply == JOptionPane.YES_OPTION && soundEffectsNo.isSelected()){
+                String whitePlayerName = nameInputOne.getText();
+                String blackPlayerName = nameInputTwo.getText();
+                checkWhichGameModeIsSelected();
+                menuPanel.getMenuFrame().startGameWithoutSound(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
             }
         }
     }
