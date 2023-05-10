@@ -1,0 +1,8 @@
+WhitePawn moved from E,2 to E,4
+BlackPawn moved from E,7 to E,5
+WhiteBishop moved from F,1 to C,4
+BlackPawn moved from A,7 to A,5
+WhiteQueen moved from D,1 to H,5
+BlackPawn moved from A,5 to A,4
+WhiteQueen moved from H,5 to F,7 and took BlackPawn
+migkgv won the game!

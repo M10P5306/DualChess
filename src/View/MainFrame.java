@@ -26,4 +26,21 @@ public class MainFrame extends JFrame {
         return controller;
     }
 
+    public void promptWinner(String winner) {
+        JOptionPane.showMessageDialog(null, winner + " won the game!");
+    }
+    public int forfeitMessage() {
+        return JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
+    }
+    public int winOrDrawMessage(String winner) {
+        int answer = 0;
+
+        if (winner.equals("DRAW")) {
+            answer = JOptionPane.showConfirmDialog(null, "the Game was a draw! Would you like to play again?");
+        }
+        else {
+            answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        }
+        return answer;
+    }
 }

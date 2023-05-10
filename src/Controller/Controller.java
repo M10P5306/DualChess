@@ -123,42 +123,33 @@ public class Controller {
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
-                this.selectedPiecePosition = new Coordinate(x, y);
-                selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
-
-                for (Coordinate coordinate : selectedPieceValidMoves) {
-                    int possibleX = coordinate.getX();
-                    int possibleY = coordinate.getY();
-                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("Black")) {
-                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
-                    } else if (specialMove(coordinate)) {
-                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
-                    } else {
-                        mainFrame.getMainPanel().getCenterPanel().setValidMove(possibleX, possibleY);
-                    }
-                }
+                updateBoardColors(x, y, "Black");
                 return true;
             }
 
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
-                this.selectedPiecePosition = new Coordinate(x, y);
-                selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
-
-                for (Coordinate coordinate : selectedPieceValidMoves) {
-                    int possibleX = coordinate.getX();
-                    int possibleY = coordinate.getY();
-                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("White")) {
-                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
-                    } else if (specialMove(coordinate)) {
-                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
-                    } else {
-                        mainFrame.getMainPanel().getCenterPanel().setValidMove(possibleX, possibleY);
-                    }
-                }
+                updateBoardColors(x, y, "White");
                 return true;
             }
         }
         return false;
+    }
+
+    public void updateBoardColors(int x, int y, String color) {
+        this.selectedPiecePosition = new Coordinate(x, y);
+        selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
+
+        for (Coordinate coordinate : selectedPieceValidMoves) {
+            int possibleX = coordinate.getX();
+            int possibleY = coordinate.getY();
+            if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals(color)) {
+                mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+            } else if (specialMove(coordinate)) {
+                mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
+            } else {
+                mainFrame.getMainPanel().getCenterPanel().setValidMove(possibleX, possibleY);
+            }
+        }
     }
 
     public boolean specialMove(Coordinate newPosition) {
@@ -201,12 +192,8 @@ public class Controller {
     }
 
     public void promptPlayAgain(String winner) {
-        int answer;
-        if (winner.equals("DRAW")) {
-            answer = JOptionPane.showConfirmDialog(null, "the Game was a draw! Would you like to play again?");
-        } else {
-            answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
-        }
+        int answer = mainFrame.winOrDrawMessage(winner);
+
         if (answer == 0) {
             resetGame();
         }
@@ -273,7 +260,7 @@ public class Controller {
     }
 
     public void forfeit() {
-        int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
+        int answer = mainFrame.forfeitMessage();
 
         if (answer == 0) {
             String winner = "";
@@ -287,7 +274,7 @@ public class Controller {
             }
 
             log.addEvent(loser + " forfeited");
-            JOptionPane.showMessageDialog(null, winner + " won the game!");
+            mainFrame.promptWinner(winner);
             log.writeHistoryToFile();
             returnToMainMenu();
         }
