@@ -1,0 +1,49 @@
+WhitePawn moved from E,2 to E,4
+BlackPawn moved from E,7 to E,5
+WhiteQueen moved from D,1 to H,5
+BlackPawn moved from D,7 to D,6
+WhiteQueen moved from H,5 to H,7 and took BlackPawn
+BlackPawn moved from A,7 to A,5
+WhiteQueen moved from H,7 to H,8 and took BlackRook
+BlackPawn moved from A,5 to A,4
+WhiteQueen moved from H,8 to G,8 and took BlackKnight
+BlackPawn moved from A,4 to A,3
+WhiteQueen moved from G,8 to G,7 and took BlackPawn
+BlackRook moved from A,8 to A,6
+WhiteQueen moved from G,7 to E,5 and took BlackPawn
+Check!
+BlackQueen moved from D,8 to E,7
+WhiteBishop moved from F,1 to A,6 and took BlackRook
+BlackPawn moved from C,7 to C,6
+WhitePawn moved from B,2 to A,3 and took BlackPawn
+BlackQueen moved from E,7 to E,6
+WhiteQueen moved from E,5 to E,6 and took BlackQueen
+Check!
+BlackKing moved from E,8 to D,8
+WhiteQueen moved from E,6 to D,6 and took BlackPawn
+Check!
+BlackKing moved from D,8 to E,8
+WhiteQueen moved from D,6 to C,6 and took BlackPawn
+Check!
+BlackKing moved from E,8 to D,8
+WhiteQueen moved from C,6 to C,8 and took BlackBishop
+Check!
+BlackKing moved from D,8 to E,7
+WhiteQueen moved from C,8 to B,8 and took BlackKnight
+BlackKing moved from E,7 to F,6
+WhiteQueen moved from B,8 to F,8 and took BlackBishop
+BlackKing moved from F,6 to G,6
+WhitePawn moved from E,4 to E,5
+BlackPawn moved from F,7 to F,6
+WhitePawn moved from E,5 to F,6 and took BlackPawn
+BlackKing moved from G,6 to H,5
+WhitePawn moved from F,6 to F,7
+BlackPawn moved from B,7 to B,6
+WhiteQueen moved from F,8 to G,8
+BlackPawn moved from B,6 to B,5
+WhitePawn moved from F,7 to F,8
+BlackPawn moved from B,5 to B,4
+WhitePawn moved from A,3 to B,4 and took BlackPawn
+BlackKing moved from H,5 to H,4
+WhiteQueen moved from F,8 to F,3
+the game was a draw!

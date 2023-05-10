@@ -14,7 +14,7 @@ public class Controller {
     private Coordinate selectedPiecePosition;
     private ArrayList<Coordinate> selectedPieceValidMoves;
     private int turnCounter;
-    private Logger log;
+    private Logger logger;
     private String whitePlayer;
     private String blackPlayer;
     private AudioPlayer audioPlayer;
@@ -26,7 +26,7 @@ public class Controller {
         this.board = new Board();
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
-        this.log = new Logger(whitePlayer, blackPlayer);
+        this.logger = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
         this.audioPlayer = new AudioPlayer();
@@ -89,7 +89,7 @@ public class Controller {
                 turnCounter++;
                 mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
                 mainFrame.getMainPanel().getSouthPanel().insertText(message);
-                log.addEvent(message);
+                logger.addEvent(message);
                 board.setLastMovedPiece(pieceToMove);
 
                 if (board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
@@ -110,7 +110,7 @@ public class Controller {
                         break;
                     }
                     mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
-                    log.addEvent("Check!");
+                    logger.addEvent("Check!");
                 }
                 if (checkForMatt(pieceToMove)) {
                     draw();
@@ -170,8 +170,8 @@ public class Controller {
     }
 
     public void draw() {
-        log.addEvent("the game was a draw!");
-        log.writeHistoryToFile();
+        logger.addEvent("the game was a draw!");
+        logger.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
         promptPlayAgain("DRAW");
@@ -184,8 +184,8 @@ public class Controller {
         } else {
             winner = whitePlayer;
         }
-        log.addEvent(winner + " won the game!");
-        log.writeHistoryToFile();
+        logger.addEvent(winner + " won the game!");
+        logger.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
         promptPlayAgain(winner);
@@ -252,8 +252,8 @@ public class Controller {
         } else {
             winner = whitePlayer;
         }
-        log.addEvent(winner + " won the game!");
-        log.writeHistoryToFile();
+        logger.addEvent(winner + " won the game!");
+        logger.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
         promptPlayAgain(winner);
@@ -273,15 +273,16 @@ public class Controller {
                 winner = whitePlayer;
             }
 
-            log.addEvent(loser + " forfeited");
+            logger.addEvent(loser + " forfeited");
             mainFrame.promptWinner(winner);
-            log.writeHistoryToFile();
+            logger.writeHistoryToFile();
             returnToMainMenu();
         }
     }
 
     public void resetGame() {
         board = new Board();
+        logger = new Logger(whitePlayer, blackPlayer);
         turnCounter = 0;
         updateBoardView();
         mainFrame.getMainPanel().getEastPanel().resetTimers();
