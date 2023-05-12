@@ -17,7 +17,7 @@ public abstract class Piece {
         this.name = name;
         this.possibleMoves = new ArrayList<>();
         this.moves = 0;
-        this.soundFilePath = "src/Sounds/handgun.wav";
+        this.soundFilePath= "src/Sounds/handgun.wav";
     }
 
     public String getColor() {
@@ -25,7 +25,7 @@ public abstract class Piece {
     }
 
     public ArrayList<Coordinate> getPossibleMoves() {
-        return possibleMoves;
+      return possibleMoves;
     }
 
     public String colorAndNameToString() {
@@ -52,6 +52,7 @@ public abstract class Piece {
         return icon;
     }
 
+
     public String getSoundFilePath() {
         return soundFilePath;
     }
@@ -59,6 +60,7 @@ public abstract class Piece {
     public void setSoundFilePath(String soundFilePath) {
         this.soundFilePath = soundFilePath;
     }
+
 
 }
 

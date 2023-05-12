@@ -2,19 +2,21 @@ package Controller;
 
 import Model.*;
 import View.*;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 import static java.lang.Math.abs;
 
 public class Controller {
 
     private MainFrame mainFrame;
     private Board board;
-    private Coordinate selectedPiecePosition;
+    private Coordinate selectedPiece;
     private ArrayList<Coordinate> selectedPieceValidMoves;
     private int turnCounter;
-    private Logger logger;
+    private Logger log;
     private String whitePlayer;
     private String blackPlayer;
     private AudioPlayer audioPlayer;
@@ -26,23 +28,10 @@ public class Controller {
         this.board = new Board();
         this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
-        this.logger = new Logger(whitePlayer, blackPlayer);
+        this.log = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
         this.audioPlayer = new AudioPlayer();
-
-        updateBoardView();
-    }
-
-    public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, boolean noSound) {
-        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
-        this.board = new Board();
-        this.whitePlayer = whitePlayer;
-        this.blackPlayer = blackPlayer;
-        this.logger = new Logger(whitePlayer, blackPlayer);
-        this.selectedPieceValidMoves = new ArrayList<>();
-        this.turnCounter = 0;
-        this.audioPlayer = null;
 
         updateBoardView();
     }
@@ -55,6 +44,7 @@ public class Controller {
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(icon);
                 } else {
                     mainFrame.getMainPanel().getCenterPanel().getButtons()[x][y].setIcon(null);
+
                 }
             }
         }
@@ -62,72 +52,60 @@ public class Controller {
 
     public void movePiece(int newPositionX, int newPositionY) {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
-        Piece pieceToMove = board.getSpecificSquare(selectedPiecePosition).getPiece();
+        Piece pieceToMove = board.getSpecificSquare(selectedPiece).getPiece();
 
-        if (isCheck(newPosition, selectedPiecePosition)) {
-            mainFrame.getMainPanel().getSouthPanel().insertText("Illegal move.");
+        if (isCheck(newPosition, selectedPiece)) {
             return;
         }
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
-                String event = board.getSpecificSquare(selectedPiecePosition).getPiece().colorAndNameToString() + " moved from " +
-                        intToLetter(selectedPiecePosition.getX()) + "," + (selectedPiecePosition.getY() + 1) + " to " + intToLetter(newPositionX) + "," + (newPositionY + 1);
+                String event = board.getSpecificSquare(selectedPiece).getPiece().colorAndNameToString() + " moved from " +
+                        intToLetter(selectedPiece.getX()) + "," + (selectedPiece.getY() + 1) + " to " + intToLetter(newPositionX) + "," + (newPositionY + 1);
                 StringBuilder toPrint = new StringBuilder(event);
 
                 if (board.getSpecificSquare(newPosition).hasPiece()) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPosition).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
-                    if (audioPlayer != null) {
-                        audioPlayer.playSound("src/Sounds/death.wav");
-                    }
+                    audioPlayer.playSound("src/Sounds/death.wav");
+
                 }
-
-                board.getSpecificSquare(selectedPiecePosition).setPiece(null);
-
+                board.getSpecificSquare(selectedPiece).setPiece(null);
                 if ((pieceToMove instanceof Pawn) &&
-                        !(selectedPiecePosition.getX() == newPositionX) &&
+                        !(selectedPiece.getX() == newPositionX) &&
                         !board.getSpecificSquare(newPosition).hasPiece()) {
                     String takenPiece = " and took " + enPassant(pieceToMove, newPosition);
                     toPrint.append(takenPiece);
                 }
-
                 board.getSpecificSquare(newPosition).setPiece(pieceToMove);
-
-                if (pieceToMove instanceof King && abs(selectedPiecePosition.getX() - newPositionX) == 2) {
-                    rockad(newPositionX - selectedPiecePosition.getX());
+                if (pieceToMove instanceof King && abs(selectedPiece.getX() - newPositionX) == 2) {
+                    rockad(newPositionX - selectedPiece.getX());
                 }
-
                 pieceToMove.addMoves();
                 updateBoardView();
                 String message = toPrint.toString();
                 turnCounter++;
                 mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
                 mainFrame.getMainPanel().getSouthPanel().insertText(message);
-                logger.addEvent(message);
+                log.addEvent(message);
                 board.setLastMovedPiece(pieceToMove);
-
                 if (board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
                         board.getSpecificSquare(newPosition).getPiece() instanceof WhitePawn) {
                     if (newPositionY == 0 || newPositionY == 7) {
                         String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
                         board.getSpecificSquare(newPosition).setPiece(new Queen(color));
-                        if (audioPlayer != null) {
-                            audioPlayer.playSound("src/Sounds/yeah-boy.wav");
-                        }
+                        audioPlayer.playSound("src/Sounds/yeah-boy.wav");
                         updateBoardView();
                     }
                 }
-
                 opponentsMoves = updateOpponentsMoves(pieceToMove.getColor());
 
                 if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
                     if (checkForMatt(pieceToMove)) {
                         win();
-                        break;
                     }
                     mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
-                    logger.addEvent("Check!");
+                    log.addEvent("Check!");
                 }
                 if (checkForMatt(pieceToMove)) {
                     draw();
@@ -140,46 +118,51 @@ public class Controller {
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
-                updateBoardColors(x, y, "Black");
+                this.selectedPiece = new Coordinate(x, y);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece, opponentsMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("Black")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    } else if (specialMove(coordinate)) {
+                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
+                }
                 return true;
             }
-
             if (turnCounter % 2 == 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("Black")) {
-                updateBoardColors(x, y, "White");
+                this.selectedPiece = new Coordinate(x, y);
+                selectedPieceValidMoves = board.getValidMoves(selectedPiece, opponentsMoves);
+                for (Coordinate coordinate : selectedPieceValidMoves) {
+                    int possibleX = coordinate.getX();
+                    int possibleY = coordinate.getY();
+                    if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals("White")) {
+                        mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
+                    }
+                    else if (specialMove(coordinate)) {
+                        mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
+                    } else {
+                        mainFrame.getMainPanel().getCenterPanel().setValidMoves(possibleX, possibleY);
+                    }
+                }
                 return true;
             }
         }
         return false;
     }
 
-    public void updateBoardColors(int x, int y, String color) {
-        this.selectedPiecePosition = new Coordinate(x, y);
-        selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
-
-        for (Coordinate coordinate : selectedPieceValidMoves) {
-            int possibleX = coordinate.getX();
-            int possibleY = coordinate.getY();
-            if (board.getSpecificSquare(possibleX, possibleY).getPiece() != null && board.getSpecificSquare(possibleX, possibleY).getPiece().getColor().equals(color)) {
-                mainFrame.getMainPanel().getCenterPanel().setPossibleAttack(possibleX, possibleY);
-            } else if (specialMove(coordinate)) {
-                mainFrame.getMainPanel().getCenterPanel().setSpecialMove(possibleX, possibleY);
-            } else {
-                mainFrame.getMainPanel().getCenterPanel().setValidMove(possibleX, possibleY);
-            }
-        }
-    }
-
     public boolean specialMove(Coordinate newPosition) {
-        if (board.getSpecificSquare(selectedPiecePosition).getPiece() instanceof King && abs(selectedPiecePosition.getX() - newPosition.getX()) == 2) {
+        if (board.getSpecificSquare(selectedPiece).getPiece() instanceof King && abs(selectedPiece.getX() - newPosition.getX()) == 2) {
             return true;
         }
-        if (board.getSpecificSquare(selectedPiecePosition).getPiece() instanceof Pawn) {
+        if (board.getSpecificSquare(selectedPiece).getPiece() instanceof Pawn) {
             if (newPosition.getY() == 0 || newPosition.getY() == 7) {
                 return true;
             }
-            if (abs(selectedPiecePosition.getX() - newPosition.getX()) == 1 &&
-                    abs(selectedPiecePosition.getY() - newPosition.getY()) == 1 &&
-                    !board.getSpecificSquare(newPosition).hasPiece()) {
+            if (abs(selectedPiece.getX() - newPosition.getX()) == 1 && abs(selectedPiece.getY()-newPosition.getY()) == 1 && !board.getSpecificSquare(newPosition).hasPiece()) {
                 return true;
             }
         }
@@ -187,11 +170,14 @@ public class Controller {
     }
 
     public void draw() {
-        logger.addEvent("the game was a draw!");
-        logger.writeHistoryToFile();
+        log.addEvent("the game was a draw!");
+        log.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
-        promptPlayAgain("DRAW");
+        int answer = JOptionPane.showConfirmDialog(null, "the game was a draw! Would you like to play again?");
+        if (answer == 0) {
+            resetGame();
+        }
     }
 
     public void win() {
@@ -201,21 +187,13 @@ public class Controller {
         } else {
             winner = whitePlayer;
         }
-        logger.addEvent(winner + " won the game!");
-        logger.writeHistoryToFile();
+        log.addEvent(winner + " won the game!");
+        log.writeHistoryToFile();
         mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
-        promptPlayAgain(winner);
-    }
-
-    public void promptPlayAgain(String winner) {
-        int answer = mainFrame.winOrDrawMessage(winner);
-
+        int answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
         if (answer == 0) {
             resetGame();
-        }
-        if (answer == 1) {
-            returnToMainMenu();
         }
     }
 
@@ -223,15 +201,13 @@ public class Controller {
         String message = "";
 
         if (pieceToMove.getColor().equals("White")) {
-            message = board.getSpecificSquare(newPosition.getX(), newPosition.getY() - 1).getPiece().colorAndNameToString();
-            board.getSpecificSquare(newPosition.getX(), newPosition.getY() - 1).setPiece(null);
+            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() - 1)).getPiece().colorAndNameToString();
+            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() - 1)).setPiece(null);
         } else {
-            message = board.getSpecificSquare(newPosition.getX(), newPosition.getY() + 1).getPiece().colorAndNameToString();
-            board.getSpecificSquare(newPosition.getX(), newPosition.getY() + 1).setPiece(null);
+            message = board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).getPiece().colorAndNameToString();
+            board.getSpecificSquare(new Coordinate(newPosition.getX(), newPosition.getY() + 1)).setPiece(null);
         }
-        if (audioPlayer != null) {
-            audioPlayer.playSound("src/Sounds/Genius.wav");
-        }
+        audioPlayer.playSound("src/Sounds/Genius.wav");
         return message;
     }
 
@@ -240,24 +216,22 @@ public class Controller {
         Piece rookToMove;
 
         if (direction == 2) {
-            rookPosition = new Coordinate(selectedPiecePosition.getX() + 3, selectedPiecePosition.getY());
+            rookPosition = new Coordinate(selectedPiece.getX() + 3, selectedPiece.getY());
             rookToMove = board.getSpecificSquare(rookPosition).getPiece();
-            Coordinate newRookPosition = new Coordinate(selectedPiecePosition.getX() + 1, selectedPiecePosition.getY());
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX() + 1, selectedPiece.getY());
             board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
             board.getSpecificSquare(rookPosition).setPiece(null);
             rookToMove.addMoves();
         }
         if (direction == -2) {
-            rookPosition = new Coordinate(selectedPiecePosition.getX() - 4, selectedPiecePosition.getY());
+            rookPosition = new Coordinate(selectedPiece.getX() - 4, selectedPiece.getY());
             rookToMove = board.getSpecificSquare(rookPosition).getPiece();
-            Coordinate newRookPosition = new Coordinate(selectedPiecePosition.getX() - 1, selectedPiecePosition.getY());
+            Coordinate newRookPosition = new Coordinate(selectedPiece.getX() - 1, selectedPiece.getY());
             board.getSpecificSquare(newRookPosition).setPiece(rookToMove);
             board.getSpecificSquare(rookPosition).setPiece(null);
             rookToMove.addMoves();
         }
-        if (audioPlayer != null) {
-            audioPlayer.playSound("src/Sounds/wow-113128.wav");
-        }
+        audioPlayer.playSound("src/Sounds/wow-113128.wav");
     }
 
     public char intToLetter(int position) {
@@ -265,24 +239,8 @@ public class Controller {
         return chars[position];
     }
 
-    public void timesUp(String player) {
-        String winner;
-
-        if (player.equals("White")) {
-            winner = blackPlayer;
-        } else {
-            winner = whitePlayer;
-        }
-        logger.addEvent(winner + " won the game!");
-        logger.writeHistoryToFile();
-        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
-
-        promptPlayAgain(winner);
-    }
-
-    public void forfeit() {
-        int answer = mainFrame.forfeitMessage();
-
+    public void resetBoard() {
+        int answer = JOptionPane.showConfirmDialog(null, "Do you want to forfeit?");
         if (answer == 0) {
             String winner = "";
             String loser = "";
@@ -293,33 +251,25 @@ public class Controller {
                 loser = blackPlayer;
                 winner = whitePlayer;
             }
+            log.addEvent(loser + " forfeited");
+            JOptionPane.showMessageDialog(null, winner + " won the game!");
+            resetGame();
+            log.writeHistoryToFile();
 
-            logger.addEvent(loser + " forfeited");
-            mainFrame.promptWinner(winner);
-            logger.writeHistoryToFile();
-            returnToMainMenu();
         }
     }
 
     public void resetGame() {
         board = new Board();
-        logger = new Logger(whitePlayer, blackPlayer);
         turnCounter = 0;
         updateBoardView();
         mainFrame.getMainPanel().getEastPanel().resetTimers();
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
 
-    public void returnToMainMenu() {
-        mainFrame.dispose();
-        MenuFrame menuFrame = new MenuFrame();
-    }
-
     public void playMarkingSound(int x, int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
-        if (audioPlayer != null) {
-            audioPlayer.playSound(filePath);
-        }
+        audioPlayer.playSound(filePath);
     }
 
     public ArrayList<Coordinate> updateOpponentsMoves(String color) {
@@ -344,7 +294,6 @@ public class Controller {
 
     public boolean checkForCheck(String color, ArrayList<Coordinate> opponentsMoves) {
         Coordinate kingsPosition = null;
-
         if (color.equals("White")) {
             kingsPosition = board.getKingPosition("Black");
         } else {
@@ -378,12 +327,14 @@ public class Controller {
         }
 
         boolean isGoodMove = checkForCheck(color, updateOpponentsMoves(color));
+
         board.getSpecificSquare(newPosition).setPiece(null);
         board.getSpecificSquare(currentPiece).setPiece(pieceToMove);
 
         if (takenPiece != null) {
             board.getSpecificSquare(newPosition).setPiece(takenPiece);
         }
+
         return isGoodMove;
     }
 
@@ -403,7 +354,7 @@ public class Controller {
                 }
             }
         }
+
         return true;
     }
-
 }

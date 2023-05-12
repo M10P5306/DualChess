@@ -1,5 +1,8 @@
 package Model;
 
+import Controller.Controller;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Board {
@@ -17,15 +20,15 @@ public class Board {
     }
 
     private void setupSquares() {
-        for (int y = squares.length - 1; y >= 0; y--) {
-            for (int x = 0; x < squares[y].length; x++) {
+        for (int y = squares.length-1; y>=0; y--) {
+            for (int x = 0; x<squares[y].length; x++) {
                 squares[x][y] = new Square();
             }
         }
     }
 
     private void setupPieces() {
-        for (int x = 0; x < squares.length; x++) {
+        for (int x = 0; x<squares.length; x++) {
             squares[x][1].setPiece(new WhitePawn());
             squares[x][6].setPiece(new BlackPawn());
         }
@@ -63,15 +66,19 @@ public class Board {
 
     public ArrayList<Coordinate> getValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         Piece selectedPiece = getSpecificSquare(coordinate).getPiece();
+        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves;
 
         if (selectedPiece instanceof SpecialPiece) {
             validMoves = ruleHandler.specialPieceValidMoves(coordinate);
-        } else if (selectedPiece instanceof Pawn) {
+        }
+        else if (selectedPiece instanceof Pawn) {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
-        } else if (selectedPiece instanceof King) {
+        }
+        else if (selectedPiece instanceof King) {
             validMoves = ruleHandler.kingValidMoves(coordinate, opponentsMoves);
-        } else {
+        }
+        else {
             validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
@@ -80,7 +87,6 @@ public class Board {
     public Piece getLastMovedPiece() {
         return lastMovedPiece;
     }
-
     public void setLastMovedPiece(Piece lastMovedPiece) {
         this.lastMovedPiece = lastMovedPiece;
     }
@@ -99,7 +105,7 @@ public class Board {
     }
 
     public Coordinate getKingPosition(String color) {
-        Coordinate kingsCoordinate = new Coordinate(0, 0);
+        Coordinate kingsCoordinate = new Coordinate(0,0);
 
         for (int x = 0; x < squares.length; x++) {
             for (int y = 0; y < squares[x].length; y++) {
@@ -109,6 +115,7 @@ public class Board {
                 }
             }
         }
+
         return kingsCoordinate;
     }
 
