@@ -1,0 +1,52 @@
+WhiteKnight moved from G,1 to H,3
+BlackPawn moved from E,7 to E,5
+WhitePawn moved from F,2 to F,4
+BlackQueen moved from D,8 to E,7
+WhitePawn moved from F,4 to E,5 and took BlackPawn
+BlackQueen moved from E,7 to G,5
+WhiteKnight moved from H,3 to G,5 and took BlackQueen
+BlackKing moved from E,8 to E,7
+WhitePawn moved from E,5 to E,6
+BlackKing moved from E,7 to D,6
+WhitePawn moved from E,6 to E,7
+BlackKing moved from D,6 to D,5
+WhitePawn moved from E,2 to E,3
+BlackKing moved from D,5 to C,5
+WhiteBishop moved from F,1 to D,3
+BlackPawn moved from G,7 to G,6
+WhiteKnight moved from G,5 to F,7 and took BlackPawn
+BlackPawn moved from G,6 to G,5
+WhiteKnight moved from F,7 to H,8 and took BlackRook
+BlackPawn moved from G,5 to G,4
+WhitePawn moved from E,7 to E,8
+BlackBishop moved from F,8 to E,7
+WhiteQueen moved from E,8 to E,7 and took BlackBishop
+Check!
+BlackKing moved from C,5 to B,6
+WhiteKing moved from E,1 to G,1
+BlackPawn moved from D,7 to D,6
+WhiteQueen moved from E,7 to H,7 and took BlackPawn
+BlackKnight moved from G,8 to H,6
+WhiteQueen moved from H,7 to H,6 and took BlackKnight
+BlackPawn moved from G,4 to G,3
+WhitePawn moved from H,2 to G,3 and took BlackPawn
+BlackPawn moved from C,7 to C,5
+WhiteRook moved from F,1 to F,7
+BlackBishop moved from C,8 to D,7
+WhiteRook moved from F,7 to D,7 and took BlackBishop
+BlackPawn moved from C,5 to C,4
+WhiteBishop moved from D,3 to C,4 and took BlackPawn
+BlackKnight moved from B,8 to C,6
+WhiteRook moved from D,7 to D,6 and took BlackPawn
+BlackPawn moved from A,7 to A,5
+WhiteRook moved from D,6 to C,6 and took BlackKnight
+Check!
+BlackKing moved from B,6 to A,7
+WhiteQueen moved from D,1 to F,3
+BlackPawn moved from B,7 to B,5
+WhiteBishop moved from C,4 to B,5 and took BlackPawn
+BlackRook moved from A,8 to H,8 and took WhiteKnight
+WhiteQueen moved from H,6 to H,8 and took BlackRook
+BlackKing moved from A,7 to B,7
+WhiteQueen moved from F,3 to F,7
+lkm  won the game!

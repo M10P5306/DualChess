@@ -16,7 +16,7 @@ public class Logger {
         this.matchHistory = new ArrayList<>();
         SimpleDateFormat formatter = new SimpleDateFormat("yy-MM-dd HHmm");
         Date date = new Date();
-        this.fileName = "files/" + whitePlayer + " " + blackPlayer + " " + formatter.format(date) + ".txt.";
+        this.fileName = "files/" +  whitePlayer + " " + blackPlayer + " " + formatter.format(date) +".txt.";
     }
 
     public void addEvent(String event) {
@@ -28,12 +28,12 @@ public class Logger {
             FileWriter fileWriter = new FileWriter(fileName);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-            for (String event : matchHistory) {
-                bufferedWriter.write(event + "\n");
+            for(String event : matchHistory) {
+                bufferedWriter.write(event+"\n");
             }
             bufferedWriter.flush();
             bufferedWriter.close();
-        } catch (IOException e) {
         }
+        catch (IOException e) {}
     }
 }
