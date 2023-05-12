@@ -46,7 +46,7 @@ public class CenterPanel extends JPanel {
         return buttons;
     }
 
-    public void setValidMoves(int x, int y) {
+    public void setValidMove(int x, int y) {
         buttons[x][y].setBackground(Color.yellow);
     }
 
