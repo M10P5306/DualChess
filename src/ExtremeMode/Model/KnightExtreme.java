@@ -4,9 +4,9 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class Knight extends Piece {
+public class KnightExtreme extends PieceExtreme {
     private int charge;
-    public Knight(String color) {
+    public KnightExtreme(String color) {
         super(color, "Knight", 10);
         super.setSoundFilePath("src/Sounds/horse.wav");
         charge = 0;

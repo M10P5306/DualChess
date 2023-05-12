@@ -250,7 +250,11 @@ public class MenuPanelCenter extends JPanel {
                 String whitePlayerName = nameInputOne.getText();
                 String blackPLayerName = nameInputTwo.getText();
                 checkWhichGameModeIsSelected();
-                menuPanel.getMenuFrame().startGame(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+                if (this.gameMode.equals("60:00") && this.gameModeTime == 3600) {
+                    menuPanel.getMenuFrame().startExtremeMode(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+                } else {
+                    menuPanel.getMenuFrame().startGame(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+                }
             } else if (reply == JOptionPane.YES_OPTION && soundEffectsNo.isSelected()){
                 String whitePlayerName = nameInputOne.getText();
                 String blackPlayerName = nameInputTwo.getText();
@@ -284,8 +288,8 @@ public class MenuPanelCenter extends JPanel {
                 this.gameModeTime = 60;
             }
             case "Extreme" -> {
-                this.gameMode = "30:00";
-                this.gameModeTime = 1800;
+                this.gameMode = "60:00";
+                this.gameModeTime = 3600;
             }
         }
     }

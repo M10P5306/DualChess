@@ -4,8 +4,8 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class Rook extends Piece {
-    public Rook(String color) {
+public class RookExtreme extends PieceExtreme {
+    public RookExtreme(String color) {
         super(color, "Rook", 15);
         super.setSoundFilePath("src/Sounds/stone-push-Rook.wav");
         if (super.getColor().equals("White")) {

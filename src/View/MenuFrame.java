@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import ExtremeMode.Controller.ExtremeController;
 
 import javax.swing.*;
 
@@ -25,5 +26,10 @@ public class MenuFrame extends JFrame {
         boolean noSound = true;
         this.dispose();
         Controller controller = new Controller(whitePlayer, blackPlayer, gameMode, gameModeTime, noSound);
+    }
+
+    public void startExtremeMode(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        this.dispose();
+        ExtremeController controller = new ExtremeController(whitePlayer, blackPlayer, gameMode, gameModeTime);
     }
 }

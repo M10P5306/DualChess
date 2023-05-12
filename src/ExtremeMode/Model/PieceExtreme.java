@@ -5,7 +5,7 @@ import Model.Coordinate;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public abstract class Piece {
+public abstract class PieceExtreme {
     private ArrayList<Coordinate> possibleMoves;
     private ArrayList<Coordinate> possibleShots;
     private String color;
@@ -16,7 +16,7 @@ public abstract class Piece {
     private String soundFilePath;
     private int points;
 
-    public Piece(String color, String name, int points) {
+    public PieceExtreme(String color, String name, int points) {
         this.color = color;
         this.name = name;
         this.possibleMoves = new ArrayList<>();

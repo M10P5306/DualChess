@@ -4,8 +4,8 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class BlackPawn extends Piece {
-    public BlackPawn() {
+public class BlackPawnExtreme extends PieceExtreme {
+    public BlackPawnExtreme() {
         super("Black", "Pawn", 2);
         super.setIcon(new ImageIcon("src/Icons/BlackPawn.png"));
         super.setSoundFilePath("src/Sounds/Pawn.wav");

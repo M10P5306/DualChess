@@ -4,8 +4,8 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class Queen extends Piece {
-    public Queen(String color) {
+public class QueenExtreme extends PieceExtreme {
+    public QueenExtreme(String color) {
         super(color, "Queen", 20);
         super.setSoundFilePath("src/Sounds/tada-fanfare-Queen.wav");
         if (super.getColor().equals("White")) {

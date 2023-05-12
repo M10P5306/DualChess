@@ -4,8 +4,8 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class King extends Piece {
-    public King(String color, String name, int points) {
+public class KingExtreme extends PieceExtreme {
+    public KingExtreme(String color) {
         super(color, "King", 50);
         //super.setSoundFilePath();
         if (super.getColor().equals("White")) {

@@ -1,5 +1,7 @@
 package Model;
 
+import ExtremeMode.Model.PieceExtreme;
+
 public class Square {
 
     private Piece piece;
@@ -16,11 +18,6 @@ public class Square {
         if (piece != null) {
             return true;
         }
-        return false;
-    }
-
-    //TODO Box class
-    public boolean hasBox() {
         return false;
     }
 

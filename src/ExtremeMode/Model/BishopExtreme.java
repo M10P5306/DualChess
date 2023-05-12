@@ -4,8 +4,8 @@ import Model.Coordinate;
 
 import javax.swing.*;
 
-public class Bishop extends Piece {
-    public Bishop(String color) {
+public class BishopExtreme extends PieceExtreme {
+    public BishopExtreme(String color) {
         super(color, "Bishop", 10);
         super.setSoundFilePath("src/Sounds/sword-hit-bishop.wav");
         if (super.getColor().equals("White")) {

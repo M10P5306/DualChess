@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import ExtremeMode.Controller.ExtremeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,8 @@ public class EastPanel extends JPanel {
     private Timer blackTimer;
     private JLabel whiteLabel;
     private JLabel blackLabel;
+    private JLabel whiteHealth;
+    private JLabel blackHealth;
     private JLabel whiteIconPicture;
     private JLabel blackIconPicture;
     private final Color active = Color.ORANGE;
@@ -21,6 +24,9 @@ public class EastPanel extends JPanel {
     private String gameMode;
     private int gameModeTime;
     private Controller controller;
+    private ExtremeController extremeController;
+    private int whitePlayerHealth;
+    private int blackPlayerHealth;
 
     public EastPanel(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, Controller controller) {
         this.controller = controller;
@@ -34,6 +40,101 @@ public class EastPanel extends JPanel {
         setUpBlackPlayer(blackPlayer);
         setUpWhitePlayer(whitePlayer);
         whiteTimer.start();
+    }
+
+    /**
+     * This constructor is used in the extreme mode.
+     * @param whitePlayer
+     * @param blackPlayer
+     * @param whitePlayerHealth
+     * @param blackPlayerHealth
+     * @param gameMode
+     * @param gameModeTime
+     * @param extremeController
+     */
+    public EastPanel(String whitePlayer, String blackPlayer, int whitePlayerHealth, int blackPlayerHealth, String gameMode, int gameModeTime, ExtremeController extremeController) {
+        this.extremeController = extremeController;
+        this.gameMode = gameMode;
+        this.gameModeTime = gameModeTime;
+
+        this.setLayout(new GridLayout(6, 1));
+        this.setPreferredSize(new Dimension(150, 900));
+        this.setMaximumSize(new Dimension(150, 900));
+
+        setUpBlackPlayerExtreme(blackPlayer, blackPlayerHealth);
+        setUpWhitePlayerExtreme(whitePlayer, whitePlayerHealth);
+        whiteTimer.start();
+    }
+
+    /**
+     * Sets up white player for extreme mode.
+     * @param whitePlayer
+     * @param whitePlayerHealth
+     */
+    private void setUpWhitePlayerExtreme(String whitePlayer, int whitePlayerHealth) {
+        whitePlayerTime = new JLabel(gameMode, SwingConstants.CENTER);
+        whitePlayerTime.setFont(new Font("Arial", Font.PLAIN, 24));
+        whitePlayerTime.setBackground(active);
+        whitePlayerTime.setOpaque(true);
+        whiteTimeRemaining = gameModeTime;
+        this.add(whitePlayerTime);
+
+        whiteLabel = new JLabel(whitePlayer, SwingConstants.CENTER);
+        whiteLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        whiteLabel.setBackground(active);
+        whiteLabel.setOpaque(true);
+        this.add(whiteLabel);
+
+        this.whitePlayerHealth = whitePlayerHealth;
+        updateWhiteHealth(whitePlayerHealth);
+
+        ImageIcon icon = new ImageIcon("src/PlayerIcons/WhitePlayerIcon.png");
+        Image image = icon.getImage().getScaledInstance(53, 114, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        whiteIconPicture = new JLabel(icon);
+        whiteIconPicture.setSize(53, 114);
+        whiteIconPicture.setBackground(active);
+        whiteIconPicture.setOpaque(true);
+        this.add(whiteIconPicture);
+        whiteTimer = new Timer(1000, e -> {
+            changeWhitePlayerTime();
+        });
+    }
+
+    /**
+     * Sets up black player for extreme mode.
+     * @param blackPlayer
+     * @param blackPlayerHealth
+     */
+    private void setUpBlackPlayerExtreme(String blackPlayer, int blackPlayerHealth) {
+        ImageIcon icon = new ImageIcon("src/PlayerIcons/BlackPlayerIcon.png");
+        Image image = icon.getImage().getScaledInstance(52, 114, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        blackIconPicture = new JLabel(icon);
+        blackIconPicture.setSize(53, 114);
+        blackIconPicture.setBackground(inactive);
+        blackIconPicture.setOpaque(true);
+        this.add(blackIconPicture);
+
+        blackLabel = new JLabel(blackPlayer, SwingConstants.CENTER);
+        blackLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        blackLabel.setBackground(inactive);
+        blackLabel.setOpaque(true);
+        this.add(blackLabel);
+
+        this.blackPlayerHealth = blackPlayerHealth;
+        updateBlackHealth(blackPlayerHealth);
+
+        blackPlayerTime = new JLabel(gameMode, SwingConstants.CENTER);
+        blackPlayerTime.setFont(new Font("Arial", Font.PLAIN, 24));
+        blackPlayerTime.setBackground(inactive);
+        blackPlayerTime.setOpaque(true);
+        blackTimeRemaining = gameModeTime;
+        this.add(blackPlayerTime);
+
+        blackTimer = new Timer(1000, e -> {
+            changeBlackPlayerTime();
+        });
     }
 
     private void setUpWhitePlayer(String whitePlayer) {
@@ -157,6 +258,32 @@ public class EastPanel extends JPanel {
             blackPlayerTime.setBackground(active);
             blackIconPicture.setBackground(active);
         }
+    }
+
+    public void decreaseWhitePlayerHealth(int points) {
+        whitePlayerHealth = whitePlayerHealth-points;
+        updateWhiteHealth(whitePlayerHealth);
+    }
+
+    public void decreaseBlackPlayerHealth(int points) {
+        blackPlayerHealth = blackPlayerHealth-points;
+        updateBlackHealth(blackPlayerHealth);
+    }
+
+    private void updateWhiteHealth(int updatedWhiteHealth) {
+        whiteHealth = new JLabel(String.valueOf(updatedWhiteHealth), SwingConstants.CENTER);
+        whiteHealth.setFont(new Font("Arial", Font.BOLD, 24));
+        whiteHealth.setBackground(active);
+        whiteHealth.setOpaque(true);
+        this.add(whiteHealth);
+    }
+
+    private void updateBlackHealth(int updatedBlackHealth) {
+        blackHealth = new JLabel(String.valueOf(updatedBlackHealth), SwingConstants.CENTER);
+        blackHealth.setFont(new Font("Arial", Font.BOLD, 24));
+        blackHealth.setBackground(inactive);
+        blackHealth.setOpaque(true);
+        this.add(blackHealth);
     }
 }
 

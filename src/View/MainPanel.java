@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Controller;
+import ExtremeMode.Controller.ExtremeController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class MainPanel extends JPanel {
     private EastPanel eastPanel;
     private SouthPanel southPanel;
     private Controller controller;
+    private ExtremeController extremeController;
 
     public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, Controller controller) {
         this.controller = controller;
@@ -20,6 +22,21 @@ public class MainPanel extends JPanel {
 
         setupPanels(whitePlayer, blackPlayer, gameMode, gameModeTime);
         addPanels();
+    }
+
+    public MainPanel(MainFrame mainFrame, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, ExtremeController extremeController) {
+        this.extremeController = extremeController;
+        this.mainFrame = mainFrame;
+        this.setLayout(new BorderLayout());
+
+        setupExtremeModePanels(whitePlayer, blackPlayer, 100, 100, gameMode, gameModeTime, extremeController);
+        addPanels();
+    }
+
+    public void setupExtremeModePanels(String whitePlayer, String blackPlayer, int whitePlayerHealth, int blackPlayerHealth, String gameMode, int gameModeTime, ExtremeController extremeController) {
+        centerPanel = new CenterPanel(this);
+        eastPanel = new EastPanel(whitePlayer, blackPlayer, whitePlayerHealth, blackPlayerHealth, gameMode, gameModeTime, extremeController);
+        southPanel = new SouthPanel(this);
     }
 
     private void setupPanels(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
