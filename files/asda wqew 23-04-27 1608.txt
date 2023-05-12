@@ -1,4 +1,0 @@
-WhitePawn moved from H,2 to H,4
-BlackPawn moved from F,7 to F,5
-WhitePawn moved from F,2 to F,4
-wqew forfeited

@@ -1,7 +1,0 @@
-WhitePawn moved from D,2 to D,4
-BlackPawn moved from E,7 to E,5
-WhiteQueen moved from D,1 to D,3
-BlackPawn moved from E,5 to D,4 and took WhitePawn
-WhitePawn moved from F,2 to F,3
-BlackPawn moved from C,7 to C,6
-123 forfeited
