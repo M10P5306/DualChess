@@ -1,10 +1,13 @@
 package View;
 
 import Controller.Controller;
+import ExtremeMode.Controller.ExtremeController;
+
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
 
+    private ExtremeController extremeController;
     private Controller controller;
     private MainPanel mainPanel;
     private MenuPanel menuPanel;
@@ -21,6 +24,16 @@ public class MainFrame extends JFrame {
 
     public MainFrame(Controller controller, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.controller = controller;
+        this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
+        this.setTitle("DualChess");
+        this.setSize(1000, 1000);
+        this.setVisible(true);
+        this.setContentPane(mainPanel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public MainFrame(ExtremeController controller, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        this.extremeController = controller;
         this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
         this.setTitle("DualChess");
         this.setSize(1000, 1000);

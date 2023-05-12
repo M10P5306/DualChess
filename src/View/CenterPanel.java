@@ -50,6 +50,11 @@ public class CenterPanel extends JPanel {
         buttons[x][y].setBackground(Color.yellow);
     }
 
+    //Kanske ta bort
+    public void setAvailableShots(int x, int y) {
+        buttons[x][y].setBackground(Color.cyan);
+    }
+
     public void setSpecialMove(int x, int y) { buttons[x][y].setBackground(Color.green);}
 
     public void setPossibleAttack(int x, int y) {buttons[x][y].setBackground(Color.red);}
