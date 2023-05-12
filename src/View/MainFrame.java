@@ -7,31 +7,15 @@ public class MainFrame extends JFrame {
 
     private Controller controller;
     private MainPanel mainPanel;
-    private MenuPanel menuPanel;
-
-    public MainFrame() {
-        this.setResizable(false);
-        this.menuPanel = new MenuPanel(this);
-        this.setTitle("DualChess");
-        this.setSize(700, 700);
-        this.setVisible(true);
-        this.setContentPane(menuPanel);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
 
     public MainFrame(Controller controller, String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.controller = controller;
-        this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
+        this.mainPanel = new MainPanel(this, whitePlayer, blackPlayer, gameMode, gameModeTime, controller);
         this.setTitle("DualChess");
         this.setSize(1000, 1000);
-        this.setVisible(true);
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void startGame(String whitePLayer, String blackPlayer, String gameMode, int gameModeTime) {
-        this.dispose();
-        controller = new Controller(whitePLayer, blackPlayer, gameMode, gameModeTime);
+        this.setVisible(true);
     }
 
     public MainPanel getMainPanel() {
@@ -59,5 +43,4 @@ public class MainFrame extends JFrame {
         }
         return answer;
     }
-
 }
