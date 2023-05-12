@@ -6,16 +6,15 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 public class AudioPlayer {
-    private Clip clip;
-    private AudioInputStream audioInputStream;
-
     public void playSound(String filePath) {
+        Clip clip = null;
+
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
-            clip =AudioSystem.getClip();
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
 
-        } catch (Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         clip.start();
