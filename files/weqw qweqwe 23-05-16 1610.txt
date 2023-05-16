@@ -1,0 +1,7 @@
+WhitePawn moved from F,2 to F,3
+BlackPawn moved from F,7 to F,5
+WhitePawn moved from G,2 to G,4
+BlackKnight moved from G,8 to F,6
+WhitePawn moved from C,2 to C,3
+BlackPawn moved from D,7 to D,6
+weqw forfeited
