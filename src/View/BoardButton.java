@@ -5,6 +5,7 @@ import java.awt.*;
 
 /**
  * The BoardButton class represents a customized button used in the board of the chess game.
+ * each button represents a square on the board.
  * @author Adel Mohammed Abo Khamis.
  * @author Hugo Andersson.
  * @author Edin Jahic.
