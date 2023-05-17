@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
@@ -23,7 +21,6 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(root, 1200, 800);
 
-
         stage.setScene(scene);
         scene.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.F){ helloController.keyPressed();}
@@ -39,10 +36,5 @@ public class HelloApplication extends Application {
 
     public void close(){
         stage.close();
-    }
-
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

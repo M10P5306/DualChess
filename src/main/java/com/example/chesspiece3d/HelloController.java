@@ -1,20 +1,17 @@
 package com.example.chesspiece3d;
 
 import Model.*;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.transform.Rotate;
-import javafx.util.Duration;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,19 +60,14 @@ public class HelloController implements Initializable {
                                 }
                                 selectedButton.setGraphic(null);
                                 buttons[finalX][finalY].setGraphic(selectedPiece);
-
                             }
                         }
                             selectedButton = null;
                             restoreDefaultColors();
-
-
                     } else {
                         if (controllerFor3D.boardButtonSelected(finalX, finalY)) {
                             selectedButton = buttons[finalX][finalY];
                             selectedButton.setStyle("-fx-background-color: #FFA500;");
-                            //handleEvent((Group) selectedButton.getGraphic());
-
                         }
                     }
                 });
@@ -107,7 +99,6 @@ public class HelloController implements Initializable {
 
         gridPane.translateXProperty().set(400); //400
         gridPane.translateYProperty().set(150); //200
-        //gridPane.translateZProperty().set(100);
         Rotate rotateY = new Rotate(12, Rotate.Y_AXIS); //10
         gridPane.getTransforms().add(rotateY);
         Rotate rotateX = new Rotate(-45, Rotate.X_AXIS); //55
@@ -123,12 +114,6 @@ public class HelloController implements Initializable {
     }
 
 
-    public void handleButton(Button button) {
-        if (selectedPiece != null) {
-            button.setGraphic(selectedPiece);
-        }
-    }
-
     public void keyPressed() {
         if (flip) {
             Rotate rotateX = new Rotate(10, Rotate.X_AXIS); //10
@@ -140,18 +125,12 @@ public class HelloController implements Initializable {
             for (int i = 0; i < buttons.length; i++) {
                 for (int j = 0; j < buttons[i].length; j++) {
                     Group piece = (Group) buttons[i][j].getGraphic();
-                    if (piece instanceof WhiteQueen3D || piece instanceof BlackQueen3D) {
-                        Rotate rotatePieceY = new Rotate(-35, Rotate.Y_AXIS);
-                        Rotate rotatePieceX = new Rotate(-75, Rotate.X_AXIS);
-                        piece.getTransforms().addAll(rotatePieceY, rotatePieceX);
-                        piece.translateYProperty().set(0);
-                    } else if (piece != null) {
+                    if (piece != null) {
                         piece.translateXProperty().set(-5); //5
                         piece.translateYProperty().set(18); //18
                     }
                 }
             }
-
             flip = false;
         } else {
             gridPane.getTransforms().clear();
@@ -166,20 +145,12 @@ public class HelloController implements Initializable {
             for (int i = 0; i < buttons.length; i++) {
                 for (int j = 0; j < buttons[i].length; j++) {
                     Group piece = (Group) buttons[i][j].getGraphic();
-                    if (piece instanceof WhiteQueen3D) {
-                        piece.getTransforms().clear();
-                        ((WhiteQueen3D) piece).restorePosition();
+                    if (piece != null){
+                        piece.translateXProperty().set(-2); //5
+                        piece.translateYProperty().set(10);
                     }
-                    if (piece instanceof BlackQueen3D) {
-                        piece.getTransforms().clear();
-                        ((BlackQueen3D) piece).restorePosition();
-                    }
-                    /*if (piece instanceof BlackPawn3D) {
-                        ((BlackPawn3D) piece).restorePosition();
-                    }*/
                 }
             }
-
             flip = true;
         }
     }
@@ -213,33 +184,6 @@ public class HelloController implements Initializable {
             }
             displayBlackPlayerView = true;
         }
-    }
-
-
-    public void handleEvent(Group group) {
-        //group.setTranslateZ(-100);
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), group);
-        rotateTransition.setAxis(Rotate.Z_AXIS);
-        rotateTransition.setFromAngle(0);
-        rotateTransition.setToAngle(-360);
-        rotateTransition.setCycleCount(1);
-        rotateTransition.setAutoReverse(false);
-
-
-        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(1), group);
-        //translateTransition.setFromX(0);
-        //translateTransition.setFromY(0);
-        translateTransition.setToZ(-100);
-        //translateTransition.setToY(200);
-        translateTransition.setCycleCount(1);
-        translateTransition.setAutoReverse(false);
-        translateTransition.play();
-        translateTransition.setOnFinished(event -> {
-            rotateTransition.play(); //
-        });
-
-        //
-        translateTransition.play();
     }
 
 
@@ -442,20 +386,25 @@ public class HelloController implements Initializable {
         buttons[newX][newY].setGraphic(rookToMove);
     }
 
-    public int winOrDrawMessage(String winner) {
-        int answer = 0;
+    public void winOrDrawMessage(String winner) {
+        String result;
 
         if (winner.equals("DRAW")) {
-            answer = JOptionPane.showConfirmDialog(null, "the Game was a draw! Would you like to play again?");
+            result = "The game was a draw!";
         }
         else {
-            answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+            result = winner + " won the game!";
         }
-        return answer;
-    }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(result);
+        alert.getButtonTypes().setAll(ButtonType.OK);
+        alert.setOnCloseRequest(event -> {
+            helloApplication.close();
+        });
 
-    public void close(){
-        helloApplication.close();
+        alert.showAndWait();
     }
 
     public void sendHelloApplication(HelloApplication helloApplication){

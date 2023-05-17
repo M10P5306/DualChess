@@ -1,13 +1,8 @@
 package com.example.chesspiece3d;
 
 import Model.*;
-import View.MenuFrame;
-
-import javax.swing.text.Element;
-import javax.swing.text.html.ImageView;
 import java.util.ArrayList;
 import java.util.HashSet;
-
 import static java.lang.Math.abs;
 
 public class ControllerFor3D {
@@ -15,10 +10,6 @@ public class ControllerFor3D {
     private Coordinate selectedPiecePosition;
     private ArrayList<Coordinate> selectedPieceValidMoves;
     private int turnCounter;
-    //private Logger logger;
-    private String whitePlayer;
-    private String blackPlayer;
-    //private AudioPlayer audioPlayer;
     private ArrayList<Coordinate> opponentsMoves;
     private HelloController helloController;
 
@@ -26,33 +17,8 @@ public class ControllerFor3D {
     public ControllerFor3D(HelloController helloController, Board board) {
         this.helloController = helloController;
         this.board = board;
-        //this.whitePlayer = whitePlayer;
-        //this.blackPlayer = blackPlayer;
-        //this.logger = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
-        //this.audioPlayer = new AudioPlayer();
-
-        //updateBoardView();
-    }
-
-    /*
-    public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, boolean noSound) {
-        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
-        this.board = new Board();
-        this.whitePlayer = whitePlayer;
-        this.blackPlayer = blackPlayer;
-        this.logger = new Logger(whitePlayer, blackPlayer);
-        this.selectedPieceValidMoves = new ArrayList<>();
-        this.turnCounter = 0;
-        this.audioPlayer = null;
-
-        updateBoardView();
-    }*/
-
-    public void updateBoardView() {
-        helloController.updateBoardView();
-        helloController.restoreDefaultColors();
     }
 
     public boolean movePiece(int newPositionX, int newPositionY) {
@@ -61,8 +27,7 @@ public class ControllerFor3D {
 
 
         if (isCheck(newPosition, selectedPiecePosition)) {
-            System.out.println("Illegal move."); //UPPDATERA
-            return false; //ändrat
+            return false;
         }
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
@@ -74,9 +39,6 @@ public class ControllerFor3D {
                 if (board.getSpecificSquare(newPosition).hasPiece()) {
                     String takenPiece = " and took " + board.getSpecificSquare(newPosition).getPiece().colorAndNameToString();
                     toPrint.append(takenPiece);
-                    /*if (audioPlayer != null) {
-                        audioPlayer.playSound("src/Sounds/death.wav");
-                    }*/
                 }
 
                 board.getSpecificSquare(selectedPiecePosition).setPiece(null);
@@ -95,12 +57,9 @@ public class ControllerFor3D {
                 }
 
                 pieceToMove.addMoves();
-                //updateBoardView();
                 String message = toPrint.toString();
                 turnCounter++;
                 helloController.setPlayersTurn(turnCounter);
-                System.out.println(message); //UPPDATERA
-                //logger.addEvent(message);
                 board.setLastMovedPiece(pieceToMove);
 
                 if (board.getSpecificSquare(newPosition).getPiece() instanceof BlackPawn ||
@@ -109,10 +68,6 @@ public class ControllerFor3D {
                         String color = board.getSpecificSquare(newPositionX, newPositionY).getPiece().getColor();
                         board.getSpecificSquare(newPosition).setPiece(new Queen(color));
                         helloController.promoted(newPosition, color);
-                        /*if (audioPlayer != null) {
-                            audioPlayer.playSound("src/Sounds/yeah-boy.wav");
-                        }*/
-                       // updateBoardView();
                     }
                 }
 
@@ -123,8 +78,6 @@ public class ControllerFor3D {
                         win();
                         break;
                     }
-                    System.out.println("Check!"); //UPPDATERA
-                    //logger.addEvent("Check!");
                 }
                 if (checkForMatt(pieceToMove)) {
                     draw();
@@ -184,37 +137,22 @@ public class ControllerFor3D {
     }
 
     public void draw() {
-        //logger.addEvent("the game was a draw!");
-        //logger.writeHistoryToFile();
-        //mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
-
-        promptPlayAgain("DRAW");
+        theGameIsOver("DRAW");
     }
 
 
     public void win() {
-        String winner = "";
+        String winner;
         if (turnCounter % 2 != 1) {
-            winner = blackPlayer;
+            winner = "Black Player";
         } else {
-            winner = whitePlayer;
+            winner = "White Player";
         }
-        //logger.addEvent(winner + " won the game!");
-        //logger.writeHistoryToFile();
-        //mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
-
-        promptPlayAgain(winner);
+        theGameIsOver(winner);
     }
 
-    public void promptPlayAgain(String winner) {
-        int answer = helloController.winOrDrawMessage(winner);
-
-        if (answer == 0) {
-            resetGame();
-        }
-        if (answer == 1) {
-            returnToMainMenu();
-        }
+    public void theGameIsOver(String winner) {
+        helloController.winOrDrawMessage(winner);
     }
 
     public String enPassant(Piece pieceToMove, Coordinate newPosition) {
@@ -229,9 +167,6 @@ public class ControllerFor3D {
             board.getSpecificSquare(newPosition.getX(), newPosition.getY() + 1).setPiece(null);
             helloController.enPassant(newPosition.getX(), newPosition.getY() + 1);
         }
-        /*if (audioPlayer != null) {
-            audioPlayer.playSound("src/Sounds/Genius.wav");
-        }*/
         return message;
     }
 
@@ -257,72 +192,12 @@ public class ControllerFor3D {
             rookToMove.addMoves();
             helloController.rockad(newRookPosition, rookPosition);
         }
-        /*if (audioPlayer != null) {
-            audioPlayer.playSound("src/Sounds/wow-113128.wav");
-        }*/
     }
 
     public char intToLetter(int position) {
         char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         return chars[position];
     }
-
-    /*public void timesUp(String player) {
-        String winner;
-
-        if (player.equals("White")) {
-            winner = blackPlayer;
-        } else {
-            winner = whitePlayer;
-        }
-        logger.addEvent(winner + " won the game!");
-        logger.writeHistoryToFile();
-        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
-
-        promptPlayAgain(winner);
-    }*/
-
-    /*public void forfeit() {
-        int answer = mainFrame.forfeitMessage();
-
-        if (answer == 0) {
-            String winner = "";
-            String loser = "";
-            if (turnCounter % 2 != 1) {
-                loser = whitePlayer;
-                winner = blackPlayer;
-            } else {
-                loser = blackPlayer;
-                winner = whitePlayer;
-            }
-
-            logger.addEvent(loser + " forfeited");
-            mainFrame.promptWinner(winner);
-            logger.writeHistoryToFile();
-            returnToMainMenu();
-        }
-    }*/
-
-    public void resetGame() {
-        board = new Board();
-        //logger = new Logger(whitePlayer, blackPlayer);
-        turnCounter = 0;
-        updateBoardView();
-        //mainFrame.getMainPanel().getEastPanel().resetTimers();
-        //mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
-    }
-
-    public void returnToMainMenu() {
-        helloController.close();
-        MenuFrame menuFrame = new MenuFrame();
-    }
-
-   /* public void playMarkingSound(int x, int y) {
-        String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
-        if (audioPlayer != null) {
-            audioPlayer.playSound(filePath);
-        }
-    }*/
 
     public ArrayList<Coordinate> updateOpponentsMoves(String color) {
 
