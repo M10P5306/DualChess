@@ -10,13 +10,15 @@ import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
     private HelloController helloController;
-
+    private Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = loader.load();
         helloController = loader.getController();
+        helloController.sendHelloApplication(this);
         stage.setTitle("DualChess");
 
         Scene scene = new Scene(root, 1200, 800);
@@ -33,6 +35,10 @@ public class HelloApplication extends Application {
 
     public void start(){
         launch();
+    }
+
+    public void close(){
+        stage.close();
     }
 
 

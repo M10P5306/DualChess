@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,7 +32,7 @@ public class HelloController implements Initializable {
     private Board board = new Board();
     private Button selectedButton;
     private ControllerFor3D controllerFor3D;
-
+    private HelloApplication helloApplication;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (int y = buttons.length - 1; y >= 0; y--) {
@@ -50,22 +51,24 @@ public class HelloController implements Initializable {
                     if (selectedButton != null) {
                         Coordinate coordinate = new Coordinate(finalX, finalY);
                         if (buttons[finalX][finalY] != selectedButton && controllerFor3D.getPossibleMoves().contains(coordinate)) {
-                            controllerFor3D.movePiece(finalX, finalY);
-                            if (buttons[finalX][finalY].getGraphic() != null) {
-                                buttons[finalX][finalY].setGraphic(null);
-                            }
-                            if (promoted) {
-                                selectedPiece = (Group) promotedPawn;
-                                promoted = false;
-                            } else {
-                                selectedPiece = (Group) selectedButton.getGraphic();
-                            }
-                            selectedButton.setGraphic(null);
-                            buttons[finalX][finalY].setGraphic(selectedPiece);
+                            if (controllerFor3D.movePiece(finalX, finalY)) {
+                                if (buttons[finalX][finalY].getGraphic() != null) {
+                                    buttons[finalX][finalY].setGraphic(null);
+                                }
+                                if (promoted) {
+                                    selectedPiece = (Group) promotedPawn;
+                                    promoted = false;
+                                } else {
+                                    selectedPiece = (Group) selectedButton.getGraphic();
+                                }
+                                selectedButton.setGraphic(null);
+                                buttons[finalX][finalY].setGraphic(selectedPiece);
 
+                            }
                         }
-                        selectedButton = null;
-                        restoreDefaultColors();
+                            selectedButton = null;
+                            restoreDefaultColors();
+
 
                     } else {
                         if (controllerFor3D.boardButtonSelected(finalX, finalY)) {
@@ -437,5 +440,25 @@ public class HelloController implements Initializable {
         int newX = newRookPosition.getX();
         int newY = newRookPosition.getY();
         buttons[newX][newY].setGraphic(rookToMove);
+    }
+
+    public int winOrDrawMessage(String winner) {
+        int answer = 0;
+
+        if (winner.equals("DRAW")) {
+            answer = JOptionPane.showConfirmDialog(null, "the Game was a draw! Would you like to play again?");
+        }
+        else {
+            answer = JOptionPane.showConfirmDialog(null, winner + " won the game! Would you like to play again?");
+        }
+        return answer;
+    }
+
+    public void close(){
+        helloApplication.close();
+    }
+
+    public void sendHelloApplication(HelloApplication helloApplication){
+        this.helloApplication = helloApplication;
     }
 }

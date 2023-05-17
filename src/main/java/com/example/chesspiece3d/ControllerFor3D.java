@@ -1,6 +1,7 @@
 package com.example.chesspiece3d;
 
 import Model.*;
+import View.MenuFrame;
 
 import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
@@ -51,17 +52,18 @@ public class ControllerFor3D {
 
     public void updateBoardView() {
         helloController.updateBoardView();
+        helloController.restoreDefaultColors();
     }
 
-    public void movePiece(int newPositionX, int newPositionY) {
+    public boolean movePiece(int newPositionX, int newPositionY) {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
         Piece pieceToMove = board.getSpecificSquare(selectedPiecePosition).getPiece();
 
-        /*
+
         if (isCheck(newPosition, selectedPiecePosition)) {
-            mainFrame.getMainPanel().getSouthPanel().insertText("Illegal move.");
-            return;
-        }*/
+            System.out.println("Illegal move."); //UPPDATERA
+            return false; //ändrat
+        }
 
         for (Coordinate coordinate : selectedPieceValidMoves) {
             if (coordinate.equals(newPosition)) {
@@ -97,7 +99,7 @@ public class ControllerFor3D {
                 String message = toPrint.toString();
                 turnCounter++;
                 helloController.setPlayersTurn(turnCounter);
-                //mainFrame.getMainPanel().getSouthPanel().insertText(message);
+                System.out.println(message); //UPPDATERA
                 //logger.addEvent(message);
                 board.setLastMovedPiece(pieceToMove);
 
@@ -118,17 +120,17 @@ public class ControllerFor3D {
 
                 if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
                     if (checkForMatt(pieceToMove)) {
-                        //win();
+                        win();
                         break;
                     }
-                    //mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
+                    System.out.println("Check!"); //UPPDATERA
                     //logger.addEvent("Check!");
                 }
                 if (checkForMatt(pieceToMove)) {
-                    //draw();
+                    draw();
                 }
             }
-        }
+        } return true;
     }
 
 
@@ -181,15 +183,15 @@ public class ControllerFor3D {
         return false;
     }
 
-    /*public void draw() {
-        logger.addEvent("the game was a draw!");
-        logger.writeHistoryToFile();
-        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
+    public void draw() {
+        //logger.addEvent("the game was a draw!");
+        //logger.writeHistoryToFile();
+        //mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
         promptPlayAgain("DRAW");
-    }*/
+    }
 
-    /*
+
     public void win() {
         String winner = "";
         if (turnCounter % 2 != 1) {
@@ -197,15 +199,15 @@ public class ControllerFor3D {
         } else {
             winner = whitePlayer;
         }
-        logger.addEvent(winner + " won the game!");
-        logger.writeHistoryToFile();
-        mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
+        //logger.addEvent(winner + " won the game!");
+        //logger.writeHistoryToFile();
+        //mainFrame.getMainPanel().getCenterPanel().restoreDefaultColors();
 
         promptPlayAgain(winner);
-    }*/
+    }
 
-    /*public void promptPlayAgain(String winner) {
-        int answer = mainFrame.winOrDrawMessage(winner);
+    public void promptPlayAgain(String winner) {
+        int answer = helloController.winOrDrawMessage(winner);
 
         if (answer == 0) {
             resetGame();
@@ -213,7 +215,7 @@ public class ControllerFor3D {
         if (answer == 1) {
             returnToMainMenu();
         }
-    }*/
+    }
 
     public String enPassant(Piece pieceToMove, Coordinate newPosition) {
         String message = "";
@@ -301,19 +303,19 @@ public class ControllerFor3D {
         }
     }*/
 
-   /* public void resetGame() {
+    public void resetGame() {
         board = new Board();
-        logger = new Logger(whitePlayer, blackPlayer);
+        //logger = new Logger(whitePlayer, blackPlayer);
         turnCounter = 0;
         updateBoardView();
-        mainFrame.getMainPanel().getEastPanel().resetTimers();
-        mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
-    }*/
+        //mainFrame.getMainPanel().getEastPanel().resetTimers();
+        //mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
+    }
 
-    /*public void returnToMainMenu() {
-        mainFrame.dispose();
+    public void returnToMainMenu() {
+        helloController.close();
         MenuFrame menuFrame = new MenuFrame();
-    }*/
+    }
 
    /* public void playMarkingSound(int x, int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
