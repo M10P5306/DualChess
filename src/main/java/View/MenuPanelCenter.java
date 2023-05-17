@@ -262,13 +262,13 @@ public class MenuPanelCenter extends JPanel {
     }
 
     public void checkInput() {
-        if (nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")) {
+        if ((nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")) && !threeDRadiobutton.isSelected()) {
             JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
         } else if (gameModeGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(null, "Please select game mode before continuing!");
         } else if (dimensionGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(null, "Please select 2D or 3D before continuing!");
-        } else if (nameInputOne.getText().equals(nameInputTwo.getText())) {
+        } else if (nameInputOne.getText().equals(nameInputTwo.getText()) && !threeDRadiobutton.isSelected()) {
             JOptionPane.showMessageDialog(null, "Please enter two different names!");
         } else if (soundGroup.getSelection() == null) {
             JOptionPane.showMessageDialog(null, "Please select if you want sound effects or not");
