@@ -21,19 +21,6 @@ public class Controller {
     private ArrayList<Coordinate> opponentsMoves;
 
 
-    public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
-        this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
-        this.board = new Board();
-        this.whitePlayer = whitePlayer;
-        this.blackPlayer = blackPlayer;
-        this.logger = new Logger(whitePlayer, blackPlayer);
-        this.selectedPieceValidMoves = new ArrayList<>();
-        this.turnCounter = 0;
-        this.audioPlayer = new AudioPlayer();
-
-        updateBoardView();
-    }
-
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, boolean noSound) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
         this.board = new Board();
@@ -42,7 +29,11 @@ public class Controller {
         this.logger = new Logger(whitePlayer, blackPlayer);
         this.selectedPieceValidMoves = new ArrayList<>();
         this.turnCounter = 0;
-        this.audioPlayer = null;
+        if (noSound) {
+            this.audioPlayer = null;
+        } else {
+            this.audioPlayer = new AudioPlayer();
+        }
 
         updateBoardView();
     }

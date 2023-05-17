@@ -18,8 +18,9 @@ public class MenuFrame extends JFrame {
     }
 
     public void startGame(String whitePLayer, String blackPlayer, String gameMode, int gameModeTime) {
+        boolean noSound = false;
         this.dispose();
-        Controller controller = new Controller(whitePLayer, blackPlayer, gameMode, gameModeTime);
+        Controller controller = new Controller(whitePLayer, blackPlayer, gameMode, gameModeTime, noSound);
     }
 
     public void startGameWithoutSound(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {

@@ -10,8 +10,8 @@ public class MenuPanelNorth extends JPanel {
         JLabel dualChess = new JLabel("DualChess");
         dualChess.setFont(new Font("Verdana", Font.BOLD, 40));
 
-        ImageIcon img1 = new ImageIcon("src/Icons/BlackKing.png");
-        ImageIcon img2 = new ImageIcon("src/Icons/WhiteQueen.png");
+        ImageIcon img1 = new ImageIcon("src/main/java/Icons/BlackKing.png");
+        ImageIcon img2 = new ImageIcon("src/main/java/Icons/WhiteQueen.png");
         JLabel icon1 = new JLabel(img1);
         JLabel icon2 = new JLabel(img2);
 

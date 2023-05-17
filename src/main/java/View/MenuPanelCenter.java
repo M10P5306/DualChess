@@ -21,6 +21,10 @@ public class MenuPanelCenter extends JPanel {
     private String gameMode;
     private JRadioButton threeDRadiobutton;
     private JRadioButton twoDRadioButton;
+    private JRadioButton classicAlternative;
+    private JRadioButton rapidAlternative;
+    private JRadioButton bulletAlternative;
+    private JRadioButton extremeAlternative;
 
     public MenuPanelCenter(MenuPanel menuPanel) {
         this.menuPanel = menuPanel;
@@ -106,23 +110,23 @@ public class MenuPanelCenter extends JPanel {
         playerSettingsTitle.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(playerSettingsTitle);
 
-        JRadioButton classicAlternative = new JRadioButton("Classic");
+        classicAlternative = new JRadioButton("Classic");
         classicAlternative.setBackground(Color.lightGray);
         classicAlternative.setSize(100, 20);
         classicAlternative.setLocation(150, 180);
         classicAlternative.setSelected(true);
 
-        JRadioButton rapidAlternative = new JRadioButton("Rapid");
+        rapidAlternative = new JRadioButton("Rapid");
         rapidAlternative.setBackground(Color.lightGray);
         rapidAlternative.setSize(70, 20);
         rapidAlternative.setLocation(150, 200);
 
-        JRadioButton bulletAlternative = new JRadioButton("Bullet");
+        bulletAlternative = new JRadioButton("Bullet");
         bulletAlternative.setBackground(Color.lightGray);
         bulletAlternative.setSize(70, 20);
         bulletAlternative.setLocation(150, 220);
 
-        JRadioButton extremeAlternative = new JRadioButton("Extreme");
+        extremeAlternative = new JRadioButton("Extreme");
         extremeAlternative.setBackground(Color.lightGray);
         extremeAlternative.setSize(90, 20);
         extremeAlternative.setLocation(150, 240);
@@ -151,11 +155,32 @@ public class MenuPanelCenter extends JPanel {
         twoDRadioButton.setSize(90, 20);
         twoDRadioButton.setLocation(150, 310);
         twoDRadioButton.setSelected(true);
+        twoDRadioButton.addActionListener( e -> {
+            nameInputOne.setEnabled(true);
+            nameInputTwo.setEnabled(true);
+            classicAlternative.setEnabled(true);
+            rapidAlternative.setEnabled(true);
+            bulletAlternative.setEnabled(true);
+            extremeAlternative.setEnabled(true);
+            soundEffectsNo.setEnabled(true);
+            soundEffectsYes.setEnabled(true);
+        });
 
         threeDRadiobutton = new JRadioButton("3D Board");
         threeDRadiobutton.setBackground(Color.lightGray);
         threeDRadiobutton.setSize(90, 20);
         threeDRadiobutton.setLocation(150, 330);
+        threeDRadiobutton.addActionListener( e -> {
+            nameInputOne.setEnabled(false);
+            nameInputTwo.setEnabled(false);
+            classicAlternative.setEnabled(false);
+            rapidAlternative.setEnabled(false);
+            bulletAlternative.setEnabled(false);
+            extremeAlternative.setEnabled(false);
+            soundEffectsNo.setEnabled(false);
+            soundEffectsYes.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Player names, game modes and sound effects are not implemented in the\n3D board and will be disabled, choose 2D in order to enable them again!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+        });
 
         dimensionGroup = new ButtonGroup();
         dimensionGroup.add(twoDRadioButton);
@@ -166,7 +191,7 @@ public class MenuPanelCenter extends JPanel {
     }
 
     public void setUpHelp() {
-        ImageIcon helpIcon = new ImageIcon("src/MenuIcons/help_icon.png");
+        ImageIcon helpIcon = new ImageIcon("src/main/java/MenuIcons/help_icon.png");
 
         JLabel helpIconForPlayers = new JLabel(helpIcon);
         helpIconForPlayers.setSize(24, 24);
@@ -196,7 +221,8 @@ public class MenuPanelCenter extends JPanel {
         helpIconForBoard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                helpIconForBoard.setToolTipText("<html> Do you wish to play the game in 3D or 2D? </html>");
+                helpIconForBoard.setToolTipText("<html> Do you wish to play the game in 3D or 2D? <br> The 3D board" +
+                        " does not support player names, game modes or sound effects! </html>");
             }
         });
         this.add(helpIconForBoard);
@@ -209,16 +235,16 @@ public class MenuPanelCenter extends JPanel {
         soundEffect.setFont(new Font("Verdana", Font.BOLD, 20));
         this.add(soundEffect);
 
-        soundEffectsYes = new JRadioButton("With sound effects");
+        soundEffectsYes = new JRadioButton("Enable sound effects");
         soundEffectsYes.setBackground(Color.lightGray);
         soundEffectsYes.setSize(150, 20);
         soundEffectsYes.setLocation(150, 390);
         soundEffectsYes.setSelected(true);
         this.add(soundEffectsYes);
 
-        soundEffectsNo = new JRadioButton("Without sound effects");
+        soundEffectsNo = new JRadioButton("Disable sound effects");
         soundEffectsNo.setBackground(Color.lightGray);
-        soundEffectsNo.setSize(150, 20);
+        soundEffectsNo.setSize(200, 20);
         soundEffectsNo.setLocation(150, 410);
         this.add(soundEffectsNo);
 
