@@ -2,12 +2,28 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Representation of the GUI's board containing the same amount of squares as the GUIs buttons, a RuleHandler checking the validity of moves and also keeps track
+ * of the last moves piece for the specialMove en-passant.
+ * @Author Mikael Nilsson.
+ */
 public class Board {
-
+    /**
+     * Array of Squares containing Pieces.
+     */
     private Square[][] squares;
+    /**
+     * Class for checking the validity of moves.
+     */
     private RuleHandler ruleHandler;
+    /**
+     * Used by the RuleHandler when verifying the move en-passant.
+     */
     private Piece lastMovedPiece;
 
+    /**
+     * Constructor that instantiates the array of Squares and the RuleHandler before calling methods for setting up the board.
+     */
     public Board() {
         this.squares = new Square[8][8];
         this.ruleHandler = new RuleHandler(this);
@@ -16,6 +32,9 @@ public class Board {
         setupPieces();
     }
 
+    /**
+     * Instantiates each square on the Square array starting from the lower left corner of the board going right before moving up on row at the time.
+     */
     private void setupSquares() {
         for (int y = squares.length-1; y>=0; y--) {
             for (int x = 0; x<squares[y].length; x++) {
@@ -24,6 +43,9 @@ public class Board {
         }
     }
 
+    /**
+     * Places all pieces in the starting position of chess.
+     */
     private void setupPieces() {
         for (int x = 0; x<squares.length; x++) {
             squares[x][1].setPiece(new WhitePawn());
@@ -49,21 +71,41 @@ public class Board {
         squares[7][7].setPiece(new Rook("Black"));
     }
 
+    /**
+     *
+     * @return the array of Squares containing the game's pieces.
+     */
     public Square[][] getSquares() {
         return squares;
     }
 
+    /**
+     *
+     * @param x position
+     * @param y position
+     * @return Specific Square corresponding to the x and y coordinate.
+     */
     public Square getSpecificSquare(int x, int y) {
         return squares[x][y];
     }
 
+    /**
+     *
+     * @param coordinate combined x and y position.
+     * @return specific Square corresponding to the x and y coordinate.
+     */
     public Square getSpecificSquare(Coordinate coordinate) {
         return squares[coordinate.getX()][coordinate.getY()];
     }
 
+    /**
+     *
+     * @param coordinate of the specific square containing the selected piece responding to the GUIs board.
+     * @param opponentsMoves array of moves that the opponent can make with all of his/her pieces.
+     * @return array of all possible moves for the piece to make.
+     */
     public ArrayList<Coordinate> getValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         Piece selectedPiece = getSpecificSquare(coordinate).getPiece();
-        ArrayList<Coordinate> possibleMoves = getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves;
 
         if (selectedPiece instanceof SpecialPiece) {
@@ -81,13 +123,27 @@ public class Board {
         return validMoves;
     }
 
+    /**
+     *
+     * @return the piece that made the last move.
+     */
     public Piece getLastMovedPiece() {
         return lastMovedPiece;
     }
+
+    /**
+     *
+     * @param lastMovedPiece replaces the variable when a piece is moved.
+     */
     public void setLastMovedPiece(Piece lastMovedPiece) {
         this.lastMovedPiece = lastMovedPiece;
     }
 
+    /**
+     *
+     * @param color used to return a specific players pieces.
+     * @return the position of all pieces belonging to a player.
+     */
     public ArrayList<Coordinate> getPiecesPositions(String color) {
         ArrayList<Coordinate> piecePositions = new ArrayList<>();
 
@@ -101,6 +157,11 @@ public class Board {
         return piecePositions;
     }
 
+    /**
+     *
+     * @param color used to return a specific players King.
+     * @return the position of the requested King.
+     */
     public Coordinate getKingPosition(String color) {
         Coordinate kingsCoordinate = new Coordinate(0,0);
 

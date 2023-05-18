@@ -2,8 +2,15 @@ package Model;
 
 import javax.swing.*;
 
+/**
+ * Representation of the Bishop piece.
+ *  @Author Mikael Nilsson, Hugo Andersson, Eding Jahic and Adel Mohammed Abo Khamis.
+ */
 public class King extends Piece{
-
+    /**
+     * Constructor setting name, color, image and sound to the super-constructor and the adds all moves associated with a King.
+     * @param color determines ownership of the piece.
+     */
     public King(String color) {
         super(color, "King");
         super.setSoundFilePath("src/main/java/Sounds/hello_king.wav");

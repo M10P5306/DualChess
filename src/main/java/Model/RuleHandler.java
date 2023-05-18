@@ -2,14 +2,29 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * Class making the calculation if a move is valid for a specific piece.
+ * @Author Mikael Nilsson.
+ */
 public class RuleHandler {
-
+    /**
+     * Instance of the board associated with this specific RuleHandler.
+     */
     private Board board;
 
+    /**
+     *
+     * @param board instance of the board associated with this specific RuleHandler.
+     */
     public RuleHandler(Board board) {
         this.board = board;
     }
 
+    /**
+     * Method calculating valid moves for all the far moving subclasses of Piece.
+     * @param coordinate the x and y Coordinate of the square holding the selected Piece.
+     * @return array of coordinates containing ever valid move for the selected Piece.
+     */
     public ArrayList<Coordinate> specialPieceValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -36,6 +51,11 @@ public class RuleHandler {
         return validMoves;
     }
 
+    /**
+     * Method calculating valid moves for Pawns including the special move en-passant.
+     * @param coordinate the x and y Coordinate of the square holding the selected Piece.
+     * @return array of coordinates containing ever valid move for the selected Piece.
+     */
     public ArrayList<Coordinate> pawnValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -87,6 +107,11 @@ public class RuleHandler {
         return validMoves;
     }
 
+    /**
+     * Method calculating valid moves for Knights.
+     * @param coordinate the x and y Coordinate of the square holding the selected Piece.
+     * @return array of coordinates containing ever valid move for the selected Piece.
+     */
     public ArrayList<Coordinate> knightValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -107,7 +132,11 @@ public class RuleHandler {
         return validMoves;
     }
 
-
+    /**
+     * Method calculating valid moves for Kings including the special move Castling.
+     * @param coordinate the x and y Coordinate of the square holding the selected Piece.
+     * @return array of coordinates containing ever valid move for the selected Piece.
+     */
     public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -157,6 +186,12 @@ public class RuleHandler {
         return validMoves;
     }
 
+    /**
+     * Method used by all methods above then determining of the move is within the board's limit.
+     * @param currentPosition position of the selected Piece.
+     * @param nextMove the next position in the pieces array of possible moves.
+     * @return true if the next move combined with the pieces position is within hte confines of the board.
+     */
     public boolean withInRange(Coordinate currentPosition, Coordinate nextMove) {
         int x = currentPosition.getX()+nextMove.getX();
         int y = currentPosition.getY()+nextMove.getY();
@@ -167,12 +202,24 @@ public class RuleHandler {
         return false;
     }
 
+    /**
+     * Sums up two Coordinates into one.
+     * @param coordinateOne containing a x and y position.
+     * @param coordinateTwo containing a x and y position.
+     * @return a new coordinate with the sum of x and y from the two Coordinates respectively.
+     */
     public Coordinate combineCoordinates(Coordinate coordinateOne, Coordinate coordinateTwo) {
         int x = coordinateOne.getX() + coordinateTwo.getX();
         int y = coordinateOne.getY() + coordinateTwo.getY();
         return new Coordinate(x, y);
     }
 
+    /**
+     * Checks if two Squares hold Pieces of the same color.
+     * @param squareOne first Square to compare.
+     * @param squareTwo second Square to compare.
+     * @return true if the Square both hold pieces of the same color.
+     */
     public boolean sameColor(Square squareOne, Square squareTwo) {
         if (squareOne.getPiece().getColor().equals(squareTwo.getPiece().getColor())) {
             return true;

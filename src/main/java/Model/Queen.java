@@ -2,8 +2,17 @@ package Model;
 
 import javax.swing.*;
 
+/**
+ * Representation of the Queen piece.
+ *  @Author Mikael Nilsson, Hugo Andersson, Eding Jahic and Adel Mohammed Abo Khamis.
+ */
+
 public class Queen extends Piece implements SpecialPiece{
 
+    /**
+     * Constructor setting name, color, image and sound to the super-constructor and the adds all moves associated with a Queen.
+     * @param color determines ownership of the piece.
+     */
     public Queen(String color) {
         super(color, "Queen");
         super.setSoundFilePath("src/main/java/Sounds/tada-fanfare-Queen.wav");

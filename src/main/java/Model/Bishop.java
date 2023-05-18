@@ -2,8 +2,15 @@ package Model;
 
 import javax.swing.*;
 
+/**
+ * Representation of the Bishop piece.
+ *  @Author Mikael Nilsson, Hugo Andersson, Eding Jahic and Adel Mohammed Abo Khamis.
+ */
 public class Bishop extends Piece implements SpecialPiece{
-
+    /**
+     * Constructor setting name, color, image and sound to the super-constructor and the adds all moves associated with a Bishop.
+     * @param color determines ownership of the piece.
+     */
     public Bishop(String color) {
         super(color, "Bishop");
         super.setSoundFilePath("src/main/java/Sounds/sword-hit-bishop.wav");

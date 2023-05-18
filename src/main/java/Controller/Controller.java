@@ -7,20 +7,60 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import static java.lang.Math.abs;
 
+/**
+ * Controller linking the View and Model parts of the program.
+ * @Author Mikael Nilsson.
+ */
 public class Controller {
-
+    /**
+     * Frame containing the GUI and a few messaging methods.
+     */
     private MainFrame mainFrame;
+    /**
+     * Board containing the logic and information of the board-state of the game.
+     */
     private Board board;
+    /**
+     * Position of the currently selected button in the GUI.
+     */
     private Coordinate selectedPiecePosition;
+    /**
+     * the moves available to the selected Piece that will be displayed in the GUI when marking a button with an image of a Piece on it.
+     */
     private ArrayList<Coordinate> selectedPieceValidMoves;
+    /**
+     * Used to keeping track of which player's turn it is.
+     */
     private int turnCounter;
+    /**
+     * Keeps a record of every event in the match and saves it for future reference.
+     */
     private Logger logger;
+    /**
+     * Name of the player with the white pieces.
+     */
     private String whitePlayer;
+    /**
+     * Name of the player with the black pieces.
+     */
     private String blackPlayer;
+    /**
+     * Used for playing different sounds according to specific game events.
+     */
     private AudioPlayer audioPlayer;
+    /**
+     * Array of moves available to the opponent which is used for checking if a move would result in check or checkmate.
+     */
     private ArrayList<Coordinate> opponentsMoves;
 
-
+    /**
+     * @Author Edin Jahic.
+     * @param whitePlayer
+     * @param blackPlayer
+     * @param gameMode
+     * @param gameModeTime
+     * @param noSound
+     */
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, boolean noSound) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
         this.board = new Board();
@@ -38,6 +78,9 @@ public class Controller {
         updateBoardView();
     }
 
+    /**
+     * Loops through the array of Squares within Board and if there's a Piece the Pieces imageIcon will be displayed on the corresponding button on the GUI.
+     */
     public void updateBoardView() {
         for (int x = 0; x < board.getSquares().length; x++) {
             for (int y = 0; y < board.getSquares()[x].length; y++) {
@@ -51,6 +94,13 @@ public class Controller {
         }
     }
 
+    /**
+     * This method checks if a requested move will result in check, if not it will move the Piece from its current Square to another and possibly replacing another
+     * Piece already present there. The even will be logged accordingly and if the move is a special move a specific sound will be played. Lastly checks if the move
+     * resulted in a game-ending board-state and if so saves all the games event to file or else the GUI will be updated with the new board-state.
+     * @param newPositionX the x position of the requested move.
+     * @param newPositionY the y position of the requested move.
+     */
     public void movePiece(int newPositionX, int newPositionY) {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
         Piece pieceToMove = board.getSpecificSquare(selectedPiecePosition).getPiece();
@@ -86,7 +136,7 @@ public class Controller {
                 board.getSpecificSquare(newPosition).setPiece(pieceToMove);
 
                 if (pieceToMove instanceof King && abs(selectedPiecePosition.getX() - newPositionX) == 2) {
-                    rockad(newPositionX - selectedPiecePosition.getX());
+                    castling(newPositionX - selectedPiecePosition.getX());
                 }
 
                 pieceToMove.addMoves();
@@ -113,21 +163,26 @@ public class Controller {
                 opponentsMoves = updateOpponentsMoves(pieceToMove.getColor());
 
                 if (checkForCheck(pieceToMove.getColor(), updateOpponentsMoves(pieceToMove.getColor()))) {
-                    if (checkForMatt(pieceToMove)) {
+                    if (checkForMate(pieceToMove)) {
                         win();
                         break;
                     }
                     mainFrame.getMainPanel().getSouthPanel().insertText("Check!");
                     logger.addEvent("Check!");
                 }
-                if (checkForMatt(pieceToMove)) {
+                if (checkForMate(pieceToMove)) {
                     draw();
                 }
             }
         }
     }
 
-
+    /**
+     * Method checking if the button clicked in the GUI is valid depending on what players turn it is and if the buttons corresponding Square has a Piece.
+     * @param x position of the button.
+     * @param y position of the button.
+     * @return true if the clicked button is valid in the above-mentioned conditions.
+     */
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
@@ -143,6 +198,13 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Method used when clicking on a valid button in the GUI which will change the color of the buttons in the GUI depending on information given by
+     * the RuleHandler in Board.
+     * @param x position of the button.
+     * @param y position of the button.
+     * @param color Used for setting the correct color depending on the selected Pieces color.
+     */
     public void updateBoardColors(int x, int y, String color) {
         this.selectedPiecePosition = new Coordinate(x, y);
         selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
@@ -160,6 +222,11 @@ public class Controller {
         }
     }
 
+    /**
+     * If the move results in any of the special moves en-passant, castling or promotion the return will be true resulting in the coloring of the GUI button being green.
+     * @param newPosition the Square being checked for special moves condition.
+     * @return true if conditions match those mentioned above.
+     */
     public boolean specialMove(Coordinate newPosition) {
         if (board.getSpecificSquare(selectedPiecePosition).getPiece() instanceof King && abs(selectedPiecePosition.getX() - newPosition.getX()) == 2) {
             return true;
@@ -177,6 +244,9 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Method for ending the game if it was a draw.
+     */
     public void draw() {
         logger.addEvent("the game was a draw!");
         logger.writeHistoryToFile();
@@ -185,6 +255,9 @@ public class Controller {
         promptPlayAgain("DRAW");
     }
 
+    /**
+     * Method for ending the game if it was a win.
+     */
     public void win() {
         String winner = "";
         if (turnCounter % 2 != 1) {
@@ -199,6 +272,10 @@ public class Controller {
         promptPlayAgain(winner);
     }
 
+    /**
+     * Sends a message to the MainFrame for communication with the players.
+     * @param winner the name of the player who won the game.
+     */
     public void promptPlayAgain(String winner) {
         int answer = mainFrame.winOrDrawMessage(winner);
 
@@ -210,6 +287,12 @@ public class Controller {
         }
     }
 
+    /**
+     * Method that returns an string of the event and plays the sound associated with the special move en-passant.
+     * @param pieceToMove the piece making the move.
+     * @param newPosition the Coordinate that the piece will occupy once the move is made.
+     * @return String containing information about the event.
+     */
     public String enPassant(Piece pieceToMove, Coordinate newPosition) {
         String message = "";
 
@@ -226,7 +309,11 @@ public class Controller {
         return message;
     }
 
-    public void rockad(int direction) {
+    /**
+     * Method for making the special move castling where two pieces is moved at the same time, also plays a sound associated with this move.
+     * @param direction determines if the move is being made to the left or right of the king.
+     */
+    public void castling(int direction) {
         Coordinate rookPosition;
         Piece rookToMove;
 
@@ -251,11 +338,20 @@ public class Controller {
         }
     }
 
+    /**
+     * When communication the event with the player the x Coordinate will be displayed as a char instead of a number.
+     * @param position x value of the Coordinate.
+     * @return a char corresponding to the ints value.
+     */
     public char intToLetter(int position) {
         char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         return chars[position];
     }
 
+    /**
+     * if the times reaches zero this method will be triggered, ending the game, logging the match history, displaying the winner and offer the players a new game.
+     * @param player
+     */
     public void timesUp(String player) {
         String winner;
 
@@ -271,6 +367,9 @@ public class Controller {
         promptPlayAgain(winner);
     }
 
+    /**
+     * Method used when a player clicks the forfiet button in the GUI. Will end the game, logg the match history, display the winner and offer the players to play again.
+     */
     public void forfeit() {
         int answer = mainFrame.forfeitMessage();
 
@@ -292,6 +391,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Restores the game to it's starting game-state after a game-ending event.
+     */
     public void resetGame() {
         board = new Board();
         logger = new Logger(whitePlayer, blackPlayer);
@@ -301,11 +403,19 @@ public class Controller {
         mainFrame.getMainPanel().getSouthPanel().getJTextPane().setText("");
     }
 
+    /**
+     * Restarts the game and returns the players to the main menu.
+     */
     public void returnToMainMenu() {
         mainFrame.dispose();
         MenuFrame menuFrame = new MenuFrame();
     }
 
+    /**
+     * @Author Edin Jahic and Adel Mohammed Abo Khamis.
+     * @param x
+     * @param y
+     */
     public void playMarkingSound(int x, int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();
         if (audioPlayer != null) {
@@ -313,6 +423,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Creates an array of all possible moves available a player bases on their remaining Pieces
+     * @param color of the player ending their turn.
+     * @return array of Coordinates containing the opponents moves.
+     */
     public ArrayList<Coordinate> updateOpponentsMoves(String color) {
 
         ArrayList<Coordinate> piecePositions = board.getPiecesPositions(color);
@@ -332,7 +447,12 @@ public class Controller {
         return playersEveryMove;
     }
 
-
+    /**
+     * Compares the position of the king to the array of opponents moves.
+     * @param color the color of the player who made the last move.
+     * @param opponentsMoves an array of all possible moves for every piece of the current player.
+     * @return true if the opponents king is in check after a move has been made.
+     */
     public boolean checkForCheck(String color, ArrayList<Coordinate> opponentsMoves) {
         Coordinate kingsPosition = null;
 
@@ -350,6 +470,12 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Checks if a requested move will result in check and therefor will be invalid.
+     * @param newPosition the position where the piece will end up if the move is valid.
+     * @param currentPiece the current position of the Piece.
+     * @return true if the move does not result in check.
+     */
     public boolean isCheck(Coordinate newPosition, Coordinate currentPiece) {
         Piece takenPiece = null;
         Piece pieceToMove = board.getSpecificSquare(currentPiece).getPiece();
@@ -378,7 +504,12 @@ public class Controller {
         return isGoodMove;
     }
 
-    public boolean checkForMatt(Piece piece) {
+    /**
+     * Method checking if the board-state is checkMate.
+     * @param piece the last piece moved.
+     * @return true if the latest move created the board-state checkMate.
+     */
+    public boolean checkForMate(Piece piece) {
 
         String color = "White";
         if (piece.getColor().equals("White")) {
