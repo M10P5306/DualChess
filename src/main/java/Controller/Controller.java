@@ -54,12 +54,16 @@ public class Controller {
     private ArrayList<Coordinate> opponentsMoves;
 
     /**
-     * @Author Edin Jahic.
-     * @param whitePlayer
-     * @param blackPlayer
-     * @param gameMode
-     * @param gameModeTime
-     * @param noSound
+     * This is the constructor in the controller class. It's called by the MenuFrame in order
+     * to start the MainFrame and switch to it. The constructor also assigns values to the
+     * instance variables.
+     *
+     * @author Edin Jahic.
+     * @param whitePlayer  contains the name of the white player, which has been inputted by one of the players.
+     * @param blackPlayer  contains the name of the black player, which has been inputted by one of the players.
+     * @param gameMode     contains the name of the game mode chosen by the players.
+     * @param gameModeTime contains the time (in seconds) for the chosen game mode.
+     * @param noSound      a boolean which turn on/off the sound effects in the game based on the players' choice.
      */
     public Controller(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime, boolean noSound) {
         this.mainFrame = new MainFrame(this, whitePlayer, blackPlayer, gameMode, gameModeTime);
@@ -412,9 +416,12 @@ public class Controller {
     }
 
     /**
-     * @Author Edin Jahic and Adel Mohammed Abo Khamis.
-     * @param x
-     * @param y
+     * This method is called when you press on a square which contains a Piece. It then plays the
+     * sound stored in the specific piece class.
+     *
+     * @author Edin Jahic and Adel Mohammed Abo Khamis.
+     * @param x contains the x coordinate of the square. Used to get a specific square on the board.
+     * @param y contains the y coordinate of the square. Used to get a specific square on the board.
      */
     public void playMarkingSound(int x, int y) {
         String filePath = board.getSpecificSquare(x, y).getPiece().getSoundFilePath();

@@ -8,24 +8,82 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 
+/**
+ * This class is used in the MenuPanel in order to create the panel which is to be added to the
+ * Borderlayout.CENTER in the MenuPanel.
+ * @author Edin Jahic.
+ */
 public class MenuPanelCenter extends JPanel {
+    /**
+     * the menupanel, mainly used in this class for getting the menuFrame.
+     */
     private MenuPanel menuPanel;
+    /**
+     * A JTextArea where player 1 should input his/her name.
+     */
     private JTextArea nameInputOne;
+    /**
+     * A JTextArea where player 2 should input his/her name.
+     */
     private JTextArea nameInputTwo;
+    /**
+     * A ButtonGroup containing all the game mode radiobuttons.
+     */
     private ButtonGroup gameModeGroup;
+    /**
+     * A ButtonGroup containing the 2D/3D radiobuttons.
+     */
     private ButtonGroup dimensionGroup;
+    /**
+     * A ButtonGroup containing the sound effect radiobuttons.
+     */
     private ButtonGroup soundGroup;
+    /**
+     * A radiobutton that can be selected by the players in order to turn sound effects on.
+     */
     private JRadioButton soundEffectsYes;
+    /**
+     * A radiobutton that can be selected by the players in order to turn sound effects off.
+     */
     private JRadioButton soundEffectsNo;
+    /**
+     * Contains the chosen game mode time in seconds.
+     */
     private int gameModeTime;
+    /**
+     * Contains the chosen game mode name.
+     */
     private String gameMode;
+    /**
+     * A radiobutton that can be selected by the players if they want to play 3D chess.
+     */
     private JRadioButton threeDRadiobutton;
+    /**
+     * A radiobutton that can be selected by the players if they want to play 2D chess.
+     */
     private JRadioButton twoDRadioButton;
+    /**
+     * A radiobutton that can be selected by the players if they want to play classical chess (game mode).
+     */
     private JRadioButton classicAlternative;
+    /**
+     * A radiobutton that can be selected by the players if they want to play rapid chess (game mode).
+     */
     private JRadioButton rapidAlternative;
+    /**
+     * A radiobutton that can be selected by the players if they want to play bullet chess (game mode).
+     */
     private JRadioButton bulletAlternative;
+    /**
+     * A radiobutton that can be selected by the players if they want to play the extreme game mode.
+     */
     private JRadioButton extremeAlternative;
 
+    /**
+     * This is the constructor in the MenuPanelCenter class. It gives values to the instance variables,
+     * sets the background and layout and then calls various methods which sets up the panel.
+     * @param menuPanel a MenuPanel variable as parameter. Gives value to the menuPanel instance variable.
+     */
     public MenuPanelCenter(MenuPanel menuPanel) {
         this.menuPanel = menuPanel;
         this.setBackground(Color.lightGray);
@@ -37,6 +95,10 @@ public class MenuPanelCenter extends JPanel {
         setUpHelp();
     }
 
+    /**
+     * This method sets up all the necessary components in order for the players to be able to
+     * input their name.
+     */
     public void setUpPlayerSettings() {
         JLabel playerSettingsTitle = new JLabel("Enter player names below");
         playerSettingsTitle.setSize(500, 50);
@@ -67,6 +129,11 @@ public class MenuPanelCenter extends JPanel {
         this.add(nameInputTwo);
     }
 
+    /**
+     * This method is called in the setupPlayerSettings()-method. It adds a functionality to the JTextAreas which is
+     * that it clears the default text in the JTextAreas when the player clicks on them, and the text returns
+     * if the player clicks on some other component.
+     */
     public void clearText() {
         nameInputOne.addFocusListener(new FocusListener() {
             @Override
@@ -103,6 +170,10 @@ public class MenuPanelCenter extends JPanel {
         });
     }
 
+    /**
+     * This method sets up all the necessary components in order for the players to be able to
+     * choose game mode.
+     */
     private void setUpGameModeSettings() {
         JLabel playerSettingsTitle = new JLabel("Choose game mode below");
         playerSettingsTitle.setSize(500, 50);
@@ -143,6 +214,10 @@ public class MenuPanelCenter extends JPanel {
         this.add(extremeAlternative);
     }
 
+    /**
+     * This method sets up all the necessary components in order for the players to be able to
+     * choose if they want to play on the 2D or 3D board.
+     */
     public void setupBoardSettings() {
         JLabel boardSetting = new JLabel("Choose 2D or 3D board below");
         boardSetting.setSize(500, 50);
@@ -190,6 +265,10 @@ public class MenuPanelCenter extends JPanel {
         this.add(threeDRadiobutton);
     }
 
+    /**
+     * This method sets up all the help icons and their functionality (when you hover over them
+     * an info box is shown).
+     */
     public void setUpHelp() {
         ImageIcon helpIcon = new ImageIcon("src/main/java/MenuIcons/help_icon.png");
 
@@ -228,6 +307,10 @@ public class MenuPanelCenter extends JPanel {
         this.add(helpIconForBoard);
     }
 
+    /**
+     * This method sets up the start button and the necessary components in order for the players to
+     * be able to choose if they want sound effects or not.
+     */
     public void setupStartButton() {
         JLabel soundEffect = new JLabel("Choose sound effects below");
         soundEffect.setSize(500, 50);
@@ -261,6 +344,10 @@ public class MenuPanelCenter extends JPanel {
         this.add(startButton);
     }
 
+    /**
+     * This method is used in the setupStartButton() method and gathers all inputs from the players
+     * and also shows error messages if the players have missed an input.
+     */
     public void checkInput() {
         if ((nameInputOne.getText().equals("Enter name") || nameInputOne.getText().equals("") || nameInputTwo.getText().equals("Enter name") || nameInputTwo.getText().equals("")) && !threeDRadiobutton.isSelected()) {
             JOptionPane.showMessageDialog(null, "Please enter both player names before continuing!");
@@ -290,6 +377,10 @@ public class MenuPanelCenter extends JPanel {
         }
     }
 
+    /**
+     * This method is used in the checkInput() method in order to check which game mode the players
+     * have selected.
+     */
     public void checkWhichGameModeIsSelected() {
         String selectedMode = "";
 
