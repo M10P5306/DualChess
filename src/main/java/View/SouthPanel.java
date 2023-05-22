@@ -7,12 +7,32 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
+/**
+ * This class represents the textarea used for communication and the reset button in the GUI.
+ * @author Hugo Andersson
+ */
+
 public class SouthPanel extends JPanel {
 
+    /**
+     * This class belongs to a MainPanel, which instance is saved as a variable to enable communication.
+     */
     private MainPanel mainPanel;
+
+    /**
+     * The JTextPane which displays information to users regarding moves and attacks.
+     */
     private JTextPane jTextPane;
+
+    /**
+     * This enables scrolling the information displayed.
+     */
     private JScrollBar verticalScrollBar;
 
+    /**
+     * The constructor receives the MainPanel this class will communicate through.
+     * @param mainPanel the class which holds the instance of this class
+     */
     public SouthPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.setLayout(new BorderLayout());
@@ -20,6 +40,10 @@ public class SouthPanel extends JPanel {
         setUp();
     }
 
+    /**
+     * This method sets up the properties of the textpane, scrollpane and reset button and adds them to the panel.
+     * If a user presses the reset button a method in the controller class is called.
+     */
     private void setUp() {
         jTextPane = new JTextPane();
         jTextPane.setEditable(false);
@@ -41,6 +65,10 @@ public class SouthPanel extends JPanel {
         this.add(resetButton, BorderLayout.EAST);
     }
 
+    /**
+     * This method is used by controller to display information about moves and attacks.
+     * @param text the information that controller sends.
+     */
     public void insertText(String text) {
         StyledDocument styleDocument = jTextPane.getStyledDocument();
         Style style = styleDocument.addStyle("Style", null);
@@ -55,6 +83,10 @@ public class SouthPanel extends JPanel {
         }
     }
 
+    /**
+     * This method is used by controller when a game is reset.
+     * @return the textpane so controller can reset it.
+     */
     public JTextPane getJTextPane() {
         return jTextPane;
     }

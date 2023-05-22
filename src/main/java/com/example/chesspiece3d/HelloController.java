@@ -15,21 +15,80 @@ import javafx.scene.transform.Rotate;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller connected to the stage used in javafx, which makes up the 3D GUI in this application.
+ * @author Hugo Andersson
+ */
 public class HelloController implements Initializable {
+
+    /**
+     * This is a grid pane loaded from an fxml-file, which holds all buttons.
+     */
     @FXML
     private GridPane gridPane;
+
+    /**
+     * The anchor pane to which the grid pane is put on, and which makes up the scene.
+     */
     @FXML
     private AnchorPane anchorPane;
+
+    /**
+     * This boolean is used to determine how the board should be displayed when user presses a key to change perspective.
+     */
     private boolean flip = true;
+
+    /**
+     * This group is used to set what piece the user has selected.
+     */
     private Group selectedPiece = null;
+
+    /**
+     * The array of buttons which makes up the board that the users see.
+     */
     private Button[][] buttons = new Button[8][8];
+
+    /**
+     * The boolean which determines how the pieces should be placed on the board.
+     */
     private boolean displayBlackPlayerView = true;
+
+    /**
+     * This boolean is used to keep track of when a user has made the special move promotion.
+     */
     private boolean promoted = false;
+
+    /**
+     * This instance is used to set a new queen on the board when a user has made the special move promotion.
+     */
     private Queen3D promotedPawn;
+
+    /**
+     * The board from model which contains all the pieces and their possible moves.
+     */
     private Board board = new Board();
+
+    /**
+     * This button is used to keep track of which button the user has selected.
+     */
     private Button selectedButton;
+
+    /**
+     * This controller enables for communication between model and this class, the controller for the GUI.
+     */
     private ControllerFor3D controllerFor3D;
+
+    /**
+     * The class which loads the fxml file and contains the stage.
+     */
     private HelloApplication helloApplication;
+
+    /**
+     * This method sets the stage for the 3D GUI by instantiating all relevant GUI components. The grid pane is moved and
+     * rotated to create a nicer view of the board.
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resource bundle containing locale-specific objects, or null if the resource bundle is not known.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (int y = buttons.length - 1; y >= 0; y--) {
@@ -113,6 +172,10 @@ public class HelloController implements Initializable {
 
     }
 
+    /**
+     * If the user wants to change the perspective of the 3D board, this method is called which moves and rotates the
+     * grid pane between two different modes. The placement of the pieces is also adjusted.
+     */
 
     public void keyPressed() {
         if (flip) {
@@ -155,6 +218,10 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * If the user wants to change if the black players pieces should be displayed closest to the the user this method
+     * is used. The user can turn it back and alter between these two modes.
+     */
     public void changeToBlackPlayerView() {
         if (displayBlackPlayerView) {
 
@@ -187,6 +254,11 @@ public class HelloController implements Initializable {
     }
 
 
+    /**
+     * This method is used to set the pieces on the board when starting a game. The method checks if a piece is placed
+     * in a given position in board. The information is then passed on to the method updateBoard which sets 3D-pieces
+     * on the buttons.
+     */
     public void updateBoardView() {
         for (int x = 0; x < board.getSquares().length; x++) {
             for (int y = 0; y < board.getSquares()[x].length; y++) {
@@ -200,87 +272,94 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * This method receives information about whether or not to place a piece on a button. If a piece is added, it is also
+     * set that if a user clicks on the piece, its parents (button) it notified.
+     * @param info the information about piece and color that should be set.
+     * @param x part of the coordination of where the piece should be placed.
+     * @param y part of the coordination of where the piece should be placed.
+     */
     public void updateBoard(String info, int x, int y) {
         switch (info) {
             case ("BlackKnight"):
-                BlackKnight3D blackKnight3D = new BlackKnight3D(this);
+                BlackKnight3D blackKnight3D = new BlackKnight3D();
                 buttons[x][y].setGraphic(blackKnight3D);
                 blackKnight3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("BlackBishop"):
-                BlackBishop3D blackBishop3D = new BlackBishop3D(this);
+                BlackBishop3D blackBishop3D = new BlackBishop3D();
                 buttons[x][y].setGraphic(blackBishop3D);
                 blackBishop3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("BlackKing"):
-                BlackKing3D blackKing3D = new BlackKing3D(this);
+                BlackKing3D blackKing3D = new BlackKing3D();
                 buttons[x][y].setGraphic(blackKing3D);
                 blackKing3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("BlackPawn"):
-                BlackPawn3D blackPawn3D = new BlackPawn3D(this);
+                BlackPawn3D blackPawn3D = new BlackPawn3D();
                 buttons[x][y].setGraphic(blackPawn3D);
                 blackPawn3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("BlackQueen"):
-                BlackQueen3D blackQueen3D = new BlackQueen3D(this);
+                BlackQueen3D blackQueen3D = new BlackQueen3D();
                 buttons[x][y].setGraphic(blackQueen3D);
                 blackQueen3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("BlackRook"):
-                BlackRook3D blackRook3D = new BlackRook3D(this);
+                BlackRook3D blackRook3D = new BlackRook3D();
                 buttons[x][y].setGraphic(blackRook3D);
                 blackRook3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhiteKnight"):
-                WhiteKnight3D whiteKnight3D = new WhiteKnight3D(this);
+                WhiteKnight3D whiteKnight3D = new WhiteKnight3D();
                 buttons[x][y].setGraphic(whiteKnight3D);
                 whiteKnight3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhiteBishop"):
-                WhiteBishop3D whiteBishop3D = new WhiteBishop3D(this);
+                WhiteBishop3D whiteBishop3D = new WhiteBishop3D();
                 buttons[x][y].setGraphic(whiteBishop3D);
                 whiteBishop3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhiteKing"):
-                WhiteKing3D whiteKing3D = new WhiteKing3D(this);
+                WhiteKing3D whiteKing3D = new WhiteKing3D();
                 buttons[x][y].setGraphic(whiteKing3D);
                 whiteKing3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhitePawn"):
-                WhitePawn3D whitePawn3D = new WhitePawn3D(this);
+                WhitePawn3D whitePawn3D = new WhitePawn3D();
                 buttons[x][y].setGraphic(whitePawn3D);
                 whitePawn3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhiteQueen"):
-                WhiteQueen3D whiteQueen3D = new WhiteQueen3D(this);
+                WhiteQueen3D whiteQueen3D = new WhiteQueen3D();
                 buttons[x][y].setGraphic(whiteQueen3D);
                 whiteQueen3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
                 });
                 break;
             case ("WhiteRook"):
-                WhiteRook3D whiteRook3D = new WhiteRook3D(this);
+                WhiteRook3D whiteRook3D = new WhiteRook3D();
                 buttons[x][y].setGraphic(whiteRook3D);
                 whiteRook3D.setOnMouseClicked(event -> {
                     buttons[x][y].getStyleClass().add("pressed");
@@ -292,6 +371,9 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * After a round the colors of the buttons are reset to either black or white.
+     */
     public void restoreDefaultColors() {
         for (int y = buttons.length - 1; y >= 0; y--) {
             for (int x = 0; x < buttons[y].length; x++) {
@@ -306,6 +388,10 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * This method sets the boolean in the pieces of if their mouseEntered or mouseExited methods should do something or not.
+     * @param playersTurn the value which determines whose turn it is.
+     */
     public void setPlayersTurn(int playersTurn) {
         if (playersTurn % 2 != 1) {
             for (int y = buttons.length - 1; y >= 0; y--) {
@@ -334,12 +420,23 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * This method changes the color of the positions where a user could place the piece which they have selected.
+     * @param x part of the coordination for which button to change color of.
+     * @param y part of the coordination for which button to change color of.
+     */
     public void setValidMoves(int x, int y) {
         buttons[x][y].setStyle("-fx-background-color: yellow;");
         buttons[x][y].setOnMouseEntered(event -> buttons[x][y].setStyle("-fx-background-color: grey;"));
         buttons[x][y].setOnMouseExited(event -> buttons[x][y].setStyle("-fx-background-color: yellow;"));
     }
 
+    /**
+     * This method changes the color of the positions where a user could make a special move for a piece
+     * which they have selected.
+     * @param x part of the coordination for which button to change color of.
+     * @param y part of the coordination for which button to change color of.
+     */
     public void setSpecialMove(int x, int y) {
         buttons[x][y].setStyle("-fx-background-color: green;");
         buttons[x][y].setOnMouseEntered(event -> buttons[x][y].setStyle("-fx-background-color: grey;"));
@@ -347,27 +444,43 @@ public class HelloController implements Initializable {
 
     }
 
+    /**
+     * This method changes the color of the positions where a user could attack with a piece which they have selected.
+     * @param x part of the coordination for which button to change color of.
+     * @param y part of the coordination for which button to change color of.
+     */
     public void setPossibleAttack(int x, int y) {
         buttons[x][y].setStyle("-fx-background-color: red;");
         buttons[x][y].setOnMouseEntered(event -> buttons[x][y].setStyle("-fx-background-color: grey;"));
         buttons[x][y].setOnMouseExited(event -> buttons[x][y].setStyle("-fx-background-color: red;"));
     }
 
+    /**
+     * If a user does the special move en Passant this method makes sure that the piece that was attacked is removed
+     * from the board.
+     * @param x part of the coordination for which button to remove a piece from.
+     * @param y part of the coordination for which button to remove a piece from.
+     */
     public void enPassant(int x, int y) {
         buttons[x][y].setGraphic(null);
     }
 
+    /**
+     * If a user does the special move promotion, this method makes sure that the pawn is promoted to a queen.
+     * @param position the position to place the new queen on.
+     * @param color the color of the queen.
+     */
     public void promoted(Coordinate position, String color) {
         int x = position.getX();
         int y = position.getY();
         if(color.equals("White")){
-            WhiteQueen3D queen = new WhiteQueen3D(this);
+            WhiteQueen3D queen = new WhiteQueen3D();
             promotedPawn = queen;
             queen.setOnMouseClicked(event -> {
                 buttons[x][y].getStyleClass().add("pressed");
             });
         } else {
-            BlackQueen3D queen = new BlackQueen3D(this);
+            BlackQueen3D queen = new BlackQueen3D();
             promotedPawn = queen;
             queen.setOnMouseClicked(event -> {
                 buttons[x][y].getStyleClass().add("pressed");
@@ -376,6 +489,12 @@ public class HelloController implements Initializable {
         promoted = true;
     }
 
+    /**
+     * If a user makes the special move rocked, this method is called which makes sure that the rook is placed on
+     * correct button.
+     * @param newRookPosition the position where the rook should be placed after the move.
+     * @param rookPosition the position of where the rook was before the move.
+     */
     public void rockad(Coordinate newRookPosition, Coordinate rookPosition) {
         int x = rookPosition.getX();
         int y = rookPosition.getY();
@@ -386,6 +505,10 @@ public class HelloController implements Initializable {
         buttons[newX][newY].setGraphic(rookToMove);
     }
 
+    /**
+     * This method is used to display who won or if the game was a draw.
+     * @param winner name of the winner or information about game ending with a draw.
+     */
     public void winOrDrawMessage(String winner) {
         String result;
 
@@ -407,6 +530,10 @@ public class HelloController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * A method to receive the instance of helloApplication which loaded the fxml file and instantiated this class.
+     * @param helloApplication the instance of helloApplication which loaded the fxml file and instantiated this class
+     */
     public void sendHelloApplication(HelloApplication helloApplication){
         this.helloApplication = helloApplication;
     }

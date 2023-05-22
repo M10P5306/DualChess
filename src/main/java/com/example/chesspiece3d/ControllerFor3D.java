@@ -5,15 +5,48 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import static java.lang.Math.abs;
 
+/**
+ * This class is another version of controller, which has been adjusted for the 3D GUI of this application.
+ * @author Hugo Andersson and Mikael Nilsson.
+ */
 public class ControllerFor3D {
+
+    /**
+     * Board containing the logic and information of the board-state of the game.
+     */
     private Board board;
+
+    /**
+     * Position of the currently selected button in the GUI.
+     */
     private Coordinate selectedPiecePosition;
+
+    /**
+     * the moves available to the selected Piece that will be displayed in the GUI when marking a button with an image of a Piece on it.
+     */
     private ArrayList<Coordinate> selectedPieceValidMoves;
+
+    /**
+     * Used to keeping track of which player's turn it is.
+     */
     private int turnCounter;
+
+    /**
+     * Array of moves available to the opponent which is used for checking if a move would result in check or checkmate.
+     */
     private ArrayList<Coordinate> opponentsMoves;
+
+    /**
+     * The instance of the controller connected to the GUI.
+     */
     private HelloController helloController;
 
 
+    /**
+     * The constructor which sets up the variables.
+     * @param helloController The instance of the controller connected to the GUI.
+     * @param board Board containing the logic and information of the board-state of the game.
+     */
     public ControllerFor3D(HelloController helloController, Board board) {
         this.helloController = helloController;
         this.board = board;
@@ -21,6 +54,12 @@ public class ControllerFor3D {
         this.turnCounter = 0;
     }
 
+    /**
+     * This method checks if a requested move will result in check, if not it will move the Piece from its current Square to another and possibly replacing another
+     * Piece already present there. The boolean returned lets helloController know if the movement was allowed. Lastly checks if the move resulted in a game-ending board-state.
+     * @param newPositionX the x position of the requested move.
+     * @param newPositionY the y position of the requested move.
+     */
     public boolean movePiece(int newPositionX, int newPositionY) {
         Coordinate newPosition = new Coordinate(newPositionX, newPositionY);
         Piece pieceToMove = board.getSpecificSquare(selectedPiecePosition).getPiece();
@@ -87,6 +126,12 @@ public class ControllerFor3D {
     }
 
 
+    /**
+     * Method checking if the button clicked in the GUI is valid depending on what players turn it is and if the buttons corresponding Square has a Piece.
+     * @param x position of the button.
+     * @param y position of the button.
+     * @return true if the clicked button is valid in the above-mentioned conditions.
+     */
     public boolean boardButtonSelected(int x, int y) {
         if (board.getSpecificSquare(x, y).getPiece() != null) {
             if (turnCounter % 2 != 1 && board.getSpecificSquare(x, y).getPiece().getColor().equals("White")) {
@@ -102,6 +147,13 @@ public class ControllerFor3D {
         return false;
     }
 
+    /**
+     * Method used when clicking on a valid button in the GUI which will change the color of the buttons in the GUI depending on information given by
+     * the RuleHandler in Board.
+     * @param x position of the button.
+     * @param y position of the button.
+     * @param color Used for setting the correct color depending on the selected Pieces color.
+     */
     public void updateBoardColors(int x, int y, String color) {
         this.selectedPiecePosition = new Coordinate(x, y);
         selectedPieceValidMoves = board.getValidMoves(selectedPiecePosition, opponentsMoves);
@@ -119,6 +171,11 @@ public class ControllerFor3D {
         }
     }
 
+    /**
+     * If the move results in any of the special moves en-passant, castling or promotion the return will be true resulting in the coloring of the GUI button being green.
+     * @param newPosition the Square being checked for special moves condition.
+     * @return true if conditions match those mentioned above.
+     */
     public boolean specialMove(Coordinate newPosition) {
         if (board.getSpecificSquare(selectedPiecePosition).getPiece() instanceof King && abs(selectedPiecePosition.getX() - newPosition.getX()) == 2) {
             return true;
@@ -136,11 +193,17 @@ public class ControllerFor3D {
         return false;
     }
 
+    /**
+     * Method for ending the game if it was a draw.
+     */
     public void draw() {
         theGameIsOver("DRAW");
     }
 
 
+    /**
+     * Method for ending the game if it was a win.
+     */
     public void win() {
         String winner;
         if (turnCounter % 2 != 1) {
@@ -151,10 +214,20 @@ public class ControllerFor3D {
         theGameIsOver(winner);
     }
 
+    /**
+     * A method to display the winner or if the game was a draw.
+     * @param winner the name of the winner or information about the game ending in a draw.
+     */
     public void theGameIsOver(String winner) {
         helloController.winOrDrawMessage(winner);
     }
 
+    /**
+     * Method that returns a string of the event.
+     * @param pieceToMove the piece making the move.
+     * @param newPosition the Coordinate that the piece will occupy once the move is made.
+     * @return String containing information about the event.
+     */
     public String enPassant(Piece pieceToMove, Coordinate newPosition) {
         String message = "";
 
@@ -170,6 +243,10 @@ public class ControllerFor3D {
         return message;
     }
 
+    /**
+     * Method for making the special move castling where two pieces is moved at the same time.
+     * @param direction determines if the move is being made to the left or right of the king.
+     */
     public void rockad(int direction) {
         Coordinate rookPosition;
         Piece rookToMove;
@@ -194,11 +271,21 @@ public class ControllerFor3D {
         }
     }
 
+    /**
+     * When communication the event with the player the x Coordinate will be displayed as a char instead of a number.
+     * @param position x value of the Coordinate.
+     * @return a char corresponding to the ints value.
+     */
     public char intToLetter(int position) {
         char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         return chars[position];
     }
 
+    /**
+     * Creates an array of all possible moves available a player bases on their remaining Pieces
+     * @param color of the player ending their turn.
+     * @return array of Coordinates containing the opponents moves.
+     */
     public ArrayList<Coordinate> updateOpponentsMoves(String color) {
 
         ArrayList<Coordinate> piecePositions = board.getPiecesPositions(color);
@@ -219,6 +306,12 @@ public class ControllerFor3D {
     }
 
 
+    /**
+     * Compares the position of the king to the array of opponents moves.
+     * @param color the color of the player who made the last move.
+     * @param opponentsMoves an array of all possible moves for every piece of the current player.
+     * @return true if the opponents king is in check after a move has been made.
+     */
     public boolean checkForCheck(String color, ArrayList<Coordinate> opponentsMoves) {
         Coordinate kingsPosition = null;
 
@@ -236,6 +329,12 @@ public class ControllerFor3D {
         return false;
     }
 
+    /**
+     * Checks if a requested move will result in check and therefor will be invalid.
+     * @param newPosition the position where the piece will end up if the move is valid.
+     * @param currentPiece the current position of the Piece.
+     * @return true if the move does not result in check.
+     */
     public boolean isCheck(Coordinate newPosition, Coordinate currentPiece) {
         Piece takenPiece = null;
         Piece pieceToMove = board.getSpecificSquare(currentPiece).getPiece();
@@ -264,6 +363,11 @@ public class ControllerFor3D {
         return isGoodMove;
     }
 
+    /**
+     * Method checking if the board-state is checkMate.
+     * @param piece the last piece moved.
+     * @return true if the latest move created the board-state checkMate.
+     */
     public boolean checkForMatt(Piece piece) {
 
         String color = "White";
@@ -282,6 +386,11 @@ public class ControllerFor3D {
         }
         return true;
     }
+
+    /**
+     * Method to return all possible moves of a selected piece for GUI to know if a movement was allowed or not.
+     * @return all possible moves of a certain piece.
+     */
     public ArrayList<Coordinate> getPossibleMoves(){
         return selectedPieceValidMoves;
     }
