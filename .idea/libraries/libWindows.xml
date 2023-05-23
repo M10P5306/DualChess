@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libWindows">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/libWindows" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/libWindows" recursive="false" />
+  </library>
+</component>
