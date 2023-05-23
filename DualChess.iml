@@ -11,5 +11,15 @@
     <orderEntry type="library" name="javafx-swt" level="project" />
     <orderEntry type="library" name="jimObjModelImporterJFX" level="project" />
     <orderEntry type="library" name="libWindows" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/openjfx-20.0.1_windows-x64_bin-sdk/javafx-sdk-20.0.1/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/Downloads/openjfx-20.0.1_windows-x64_bin-sdk/javafx-sdk-20.0.1/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
