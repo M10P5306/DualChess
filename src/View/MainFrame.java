@@ -38,6 +38,9 @@ public class MainFrame extends JFrame {
     public Controller getController(){
         return controller;
     }
+    public ExtremeController getExtremeController(){
+        return extremeController;
+    }
 
     public void promptWinner(String winner) {
         JOptionPane.showMessageDialog(null, winner + " won the game!");

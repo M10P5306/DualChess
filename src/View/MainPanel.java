@@ -34,13 +34,13 @@ public class MainPanel extends JPanel {
     }
 
     public void setupExtremeModePanels(String whitePlayer, String blackPlayer, int whitePlayerHealth, int blackPlayerHealth, String gameMode, int gameModeTime, ExtremeController extremeController) {
-        centerPanel = new CenterPanel(this);
+        centerPanel = new CenterPanel(this,true);
         eastPanel = new EastPanel(whitePlayer, blackPlayer, whitePlayerHealth, blackPlayerHealth, gameMode, gameModeTime, extremeController);
         southPanel = new SouthPanel(this);
     }
 
     private void setupPanels(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
-        centerPanel = new CenterPanel(this);
+        centerPanel = new CenterPanel(this,false);
         eastPanel = new EastPanel(whitePlayer, blackPlayer, gameMode, gameModeTime, controller);
         southPanel = new SouthPanel(this);
     }

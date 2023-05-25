@@ -1,20 +1,28 @@
 package ExtremeMode.Model;
 
 import ExtremeMode.Controller.ExtremeController;
+import Model.Coordinate;
 import Model.Knight;
+import Model.Piece;
 import Model.Square;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ExtremeBoard {
     private SquareExtreme[][] squares;
-    //private RuleHandler ruleHandler;
+    private ExtremeRuleHandler ruleHandler;
     private PieceExtreme lastMovedPiece;
+
+    private List<Box> boxes = new ArrayList<Box>();
 
     public ExtremeBoard() {
         this.squares = new SquareExtreme[8][8];
-        //initiera egen rulehandler
-
+        this.ruleHandler = new ExtremeRuleHandler(this);
         setupSquares();
         setupPieces();
+        setupBoxes();
     }
 
     private void setupSquares() {
@@ -50,8 +58,47 @@ public class ExtremeBoard {
         squares[7][7].setPiece(new RookExtreme("Black"));
     }
 
+    private void setupBoxes(){
+        Random random = new Random();
+        for (int i = 0; i < 4 ; i++) {
+            int x = random.nextInt(8);
+            int y = random.nextInt(3,6);
+            Box box = new Box();
+            squares[x][y].setBox(box);
+            boxes.add(box);
+        }
+    }
+    public ArrayList<Coordinate> getValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
+        PieceExtreme selectedPiece = getSpecificSquare(coordinate).getPiece();
+        ArrayList<Coordinate> validMoves;
+
+        if (selectedPiece instanceof WhitePawnExtreme) {
+            validMoves = ruleHandler.pawnValidMoves(coordinate);
+        } else if (selectedPiece instanceof BlackPawnExtreme) {
+            validMoves = ruleHandler.pawnValidMoves(coordinate);
+        }else if (selectedPiece instanceof KingExtreme) {
+            validMoves = ruleHandler.kingValidMoves(coordinate, opponentsMoves);
+        } else {
+            validMoves = ruleHandler.knightValidMoves(coordinate);
+        }
+        return validMoves;
+    }
+
     public SquareExtreme[][] getSquares() {
         return squares;
+    }
+
+    public SquareExtreme getSpecificSquare(int x, int y) {
+        return squares[x][y];
+    }
+    public SquareExtreme getSpecificSquare(Coordinate coordinate) {
+        return squares[coordinate.getX()][coordinate.getY()];
+    }
+    public PieceExtreme getLastMovedPiece() {
+        return lastMovedPiece;
+    }
+    public void setLastMovedPiece(PieceExtreme lastMovedPiece) {
+        this.lastMovedPiece = lastMovedPiece;
     }
 
 }
