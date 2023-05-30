@@ -138,5 +138,5 @@ public class ExtremeController {
  *
  */
 // TODO: 2023-05-25 check valid moves fixa.
-// TODO: 2023-05-25 implementera shots. 
+// TODO: 2023-05-25 implementera shots.
 
