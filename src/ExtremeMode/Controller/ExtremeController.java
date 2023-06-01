@@ -207,6 +207,7 @@ public class ExtremeController {
 
                 board.getSpecificSquare(newPosition).setPiece(null);
                 board.getSpecificSquare(newPosition).setBomb(null);
+                updateBoardView();
 
                 if (mainFrame.getMainPanel().getEastPanel().getWhitePlayerHealth() <= 0) {
                     JOptionPane.showMessageDialog(null, "Black won!");
@@ -215,7 +216,6 @@ public class ExtremeController {
                     JOptionPane.showMessageDialog(null, "White won!");
                 }
 
-                updateBoardView();
                 String message = toPrint.toString();
                 turnCounter++;
                 mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);

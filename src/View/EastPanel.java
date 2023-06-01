@@ -77,7 +77,6 @@ public class EastPanel extends JPanel {
         whitePlayerTime.setBackground(active);
         whitePlayerTime.setOpaque(true);
         whiteTimeRemaining = gameModeTime;
-        this.add(whitePlayerTime);
 
         whiteLabel = new JLabel(whitePlayer, SwingConstants.CENTER);
         whiteLabel.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -138,7 +137,6 @@ public class EastPanel extends JPanel {
         blackPlayerTime.setBackground(inactive);
         blackPlayerTime.setOpaque(true);
         blackTimeRemaining = gameModeTime;
-        this.add(blackPlayerTime);
 
         blackTimer = new Timer(1000, e -> {
             changeBlackPlayerTime();
@@ -257,6 +255,11 @@ public class EastPanel extends JPanel {
             whiteLabel.setBackground(active);
             whitePlayerTime.setBackground(active);
             whiteIconPicture.setBackground(active);
+
+            if (extremeController != null) {
+                blackHealth.setBackground(inactive);
+                whiteHealth.setBackground(active);
+            }
         } else {
             whiteLabel.setBackground(inactive);
             whitePlayerTime.setBackground(inactive);
@@ -265,6 +268,11 @@ public class EastPanel extends JPanel {
             blackLabel.setBackground(active);
             blackPlayerTime.setBackground(active);
             blackIconPicture.setBackground(active);
+
+            if (extremeController != null) {
+                blackHealth.setBackground(active);
+                whiteHealth.setBackground(inactive);
+            }
         }
     }
 
@@ -286,22 +294,6 @@ public class EastPanel extends JPanel {
     public void decreaseBlackPlayerHealth(int points) {
         blackPlayerHealth = blackPlayerHealth-points;
         blackHealth.setText(String.valueOf(blackPlayerHealth));
-    }
-
-    private void updateWhiteHealth(int updatedWhiteHealth) {
-        whiteHealth = new JLabel(String.valueOf(updatedWhiteHealth), SwingConstants.CENTER);
-        whiteHealth.setFont(new Font("Arial", Font.BOLD, 24));
-        whiteHealth.setBackground(active);
-        whiteHealth.setOpaque(true);
-        this.add(whiteHealth);
-    }
-
-    private void updateBlackHealth(int updatedBlackHealth) {
-        blackHealth = new JLabel(String.valueOf(updatedBlackHealth), SwingConstants.CENTER);
-        blackHealth.setFont(new Font("Arial", Font.BOLD, 24));
-        blackHealth.setBackground(inactive);
-        blackHealth.setOpaque(true);
-        this.add(blackHealth);
     }
 
     public int getWhitePlayerHealth() {
