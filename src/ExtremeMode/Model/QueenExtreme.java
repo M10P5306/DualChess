@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class QueenExtreme extends PieceExtreme implements SpecialPiece {
     public QueenExtreme(String color) {
-        super(color, "Queen", 20);
+        super(color, "Queen", 30);
         super.setSoundFilePath("src/Sounds/tada-fanfare-Queen.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteQueen.png"));

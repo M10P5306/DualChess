@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class KnightExtreme extends PieceExtreme {
     public KnightExtreme(String color) {
-        super(color, "Knight", 10);
+        super(color, "Knight", 15);
         super.setSoundFilePath("src/Sounds/horse.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteKnight.png"));

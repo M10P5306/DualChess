@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class BishopExtreme extends PieceExtreme implements SpecialPiece {
     public BishopExtreme(String color) {
-        super(color, "Bishop", 10);
+        super(color, "Bishop", 15);
         super.setSoundFilePath("src/Sounds/sword-hit-bishop.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteBishop.png"));

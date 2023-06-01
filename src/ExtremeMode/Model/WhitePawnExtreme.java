@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class WhitePawnExtreme extends PieceExtreme {
     public WhitePawnExtreme() {
-        super("White", "Pawn", 2);
+        super("White", "Pawn", 5);
         super.setIcon(new ImageIcon("src/Icons/WhitePawn.png"));
         super.setSoundFilePath("src/Sounds/Pawn.wav");
         addMoves(new Coordinate(0,1));

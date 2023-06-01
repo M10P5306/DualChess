@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class RookExtreme extends PieceExtreme {
     public RookExtreme(String color) {
-        super(color, "Rook", 15);
+        super(color, "Rook", 20);
         super.setSoundFilePath("src/Sounds/stone-push-Rook.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteRook.png"));
