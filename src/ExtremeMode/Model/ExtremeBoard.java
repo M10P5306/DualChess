@@ -1,10 +1,7 @@
 package ExtremeMode.Model;
 
 import ExtremeMode.Controller.ExtremeController;
-import Model.Coordinate;
-import Model.Knight;
-import Model.Piece;
-import Model.Square;
+import Model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +53,9 @@ public class ExtremeBoard {
         squares[5][7].setPiece(new BishopExtreme("Black"));
         squares[6][7].setPiece(new KnightExtreme("Black"));
         squares[7][7].setPiece(new RookExtreme("Black"));
+
     }
+
 
     private void setupBoxes(){
         Random random = new Random();
@@ -65,23 +64,80 @@ public class ExtremeBoard {
             int y = random.nextInt(3,6);
             Box box = new Box();
             squares[x][y].setBox(box);
-            boxes.add(box);
         }
     }
+
+    private int x;
+    private int y;
+
+    public void spawnBomb(Bomb bomb) {
+        Random random = new Random();
+        x = random.nextInt(8);
+        y = random.nextInt(3,6);
+
+        if (!squares[x][y].hasPiece() && !squares[x][y].hasBox()) {
+            squares[x][y].setBomb(bomb);
+        } else {
+            spawnBomb(bomb);
+        }
+
+    }
+
+    public void explode() {
+        squares[x][y].setBomb(null);
+        squares[x][y].setBox(null);
+        squares[x][y].setPiece(null);
+        squares[x][y+1].setPiece(null);
+        squares[x][y-1].setPiece(null);
+
+        if (x+1 < 8) {
+            squares[x+1][y+1].setPiece(null);
+            squares[x+1][y].setPiece(null);
+            squares[x+1][y-1].setPiece(null);
+            squares[x+1][y+1].setBox(null);
+            squares[x+1][y].setBox(null);
+            squares[x+1][y-1].setBox(null);
+        }
+
+        if (x-1 >= 0) {
+            squares[x-1][y+1].setPiece(null);
+            squares[x-1][y].setPiece(null);
+            squares[x-1][y-1].setPiece(null);
+            squares[x-1][y+1].setBox(null);
+            squares[x-1][y].setBox(null);
+            squares[x-1][y-1].setBox(null);
+        }
+
+    }
+
     public ArrayList<Coordinate> getValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         PieceExtreme selectedPiece = getSpecificSquare(coordinate).getPiece();
-        ArrayList<Coordinate> validMoves;
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
 
-        if (selectedPiece instanceof WhitePawnExtreme) {
+        if (selectedPiece instanceof WhitePawnExtreme || selectedPiece instanceof BlackPawnExtreme) {
             validMoves = ruleHandler.pawnValidMoves(coordinate);
-        } else if (selectedPiece instanceof BlackPawnExtreme) {
-            validMoves = ruleHandler.pawnValidMoves(coordinate);
-        }else if (selectedPiece instanceof KingExtreme) {
+        } else if (selectedPiece instanceof KingExtreme) {
             validMoves = ruleHandler.kingValidMoves(coordinate, opponentsMoves);
+        } else if (selectedPiece instanceof SpecialPiece) {
+            validMoves = ruleHandler.specialPieceValidMoves(coordinate);
+        } else if (selectedPiece instanceof RookExtreme) {
+            validMoves = ruleHandler.rookValidMoves(coordinate);
         } else {
             validMoves = ruleHandler.knightValidMoves(coordinate);
         }
         return validMoves;
+    }
+
+    public ArrayList<Coordinate> getValidShots(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
+        PieceExtreme selectedPiece = getSpecificSquare(coordinate).getPiece();
+        ArrayList<Coordinate> validShots = new ArrayList<>();
+
+        if (selectedPiece instanceof KingExtreme) {
+            validShots = ruleHandler.kingValidShots(coordinate, opponentsMoves);
+        } else if (selectedPiece instanceof SpecialPiece) {
+            validShots = ruleHandler.specialPieceValidShots(coordinate);
+        }
+        return validShots;
     }
 
     public SquareExtreme[][] getSquares() {
@@ -99,6 +155,25 @@ public class ExtremeBoard {
     }
     public void setLastMovedPiece(PieceExtreme lastMovedPiece) {
         this.lastMovedPiece = lastMovedPiece;
+    }
+
+    public void addPieceToBoard(KnightExtreme knightExtreme) {
+        Random random = new Random();
+        int x = random.nextInt(8);
+        int y = 0;
+
+        if (knightExtreme.getColor().equals("White")) {
+             y = random.nextInt(0,3);
+        } else {
+             y = random.nextInt(4,7);
+        }
+
+        if (!squares[x][y].hasPiece() && !squares[x][y].hasBomb()) {
+            squares[x][y].setPiece(knightExtreme);
+        } else {
+            addPieceToBoard(knightExtreme);
+        }
+
     }
 
 }

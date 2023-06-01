@@ -30,6 +30,11 @@ public class MenuFrame extends JFrame {
 
     public void startExtremeMode(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
         this.dispose();
-        ExtremeController controller = new ExtremeController(whitePlayer, blackPlayer, gameMode, gameModeTime);
+        ExtremeController controller = new ExtremeController(whitePlayer, blackPlayer, gameMode, gameModeTime, false);
+    }
+
+    public void startExtremeModeWithoutSound(String whitePlayer, String blackPlayer, String gameMode, int gameModeTime) {
+        this.dispose();
+        ExtremeController controller = new ExtremeController(whitePlayer, blackPlayer, gameMode, gameModeTime, true);
     }
 }

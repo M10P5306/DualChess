@@ -11,7 +11,7 @@ public class WhitePawnExtreme extends PieceExtreme {
         super.setSoundFilePath("src/Sounds/Pawn.wav");
         addMoves(new Coordinate(0,1));
         addMoves(new Coordinate(0,2));
-        addShots(new Coordinate(-1,1));
-        addShots(new Coordinate(1,1));
+        addMoves(new Coordinate(-1,1));
+        addMoves(new Coordinate(1,1));
     }
 }

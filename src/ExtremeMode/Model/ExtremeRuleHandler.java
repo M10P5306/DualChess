@@ -11,6 +11,99 @@ public class ExtremeRuleHandler {
     public ExtremeRuleHandler (ExtremeBoard extremeBoard){
         this.board= extremeBoard;
     }
+
+
+    public ArrayList<Coordinate> specialPieceValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (int i = 0; i < possibleMoves.size(); i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+                    if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                    }
+
+                    if (i % 3 != 0) {
+                        i = i + (2 - (i % 3));
+                    } else {
+                        i = i + 2;
+                    }
+
+                } else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+        return validMoves;
+    }
+
+    public ArrayList<Coordinate> rookValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
+        ArrayList<Coordinate> validMoves = new ArrayList<>();
+
+        for (int i = 0; i < possibleMoves.size(); i++) {
+            if (withInRange(coordinate, possibleMoves.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)).hasPiece()) {
+                    if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleMoves.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
+                        validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                    }
+
+                    if (i % 7 != 0) {
+                        i = i + (6 - (i % 7));
+                    } else {
+                        i = i + 6;
+                    }
+
+                } else {
+                    validMoves.add(combineCoordinates(coordinate, possibleMoves.get(i)));
+                }
+            }
+        }
+        return validMoves;
+    }
+
+
+    public ArrayList<Coordinate> specialPieceValidShots(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleShots = board.getSpecificSquare(coordinate).getPiece().getPossibleShots();
+        ArrayList<Coordinate> validShots = new ArrayList<>();
+
+        for (int i = 0; i < possibleShots.size(); i++) {
+            if (withInRange(coordinate, possibleShots.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)).hasPiece()) {
+                    if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
+                        validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                    }
+                } else {
+                    validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                }
+            }
+        }
+        return validShots;
+    }
+
+    public ArrayList<Coordinate> queenValidMoves(Coordinate coordinate) {
+        ArrayList<Coordinate> possibleShots = board.getSpecificSquare(coordinate).getPiece().getPossibleShots();
+        ArrayList<Coordinate> validShots = new ArrayList<>();
+
+        for (int i = 0; i < possibleShots.size(); i++) {
+            if (withInRange(coordinate, possibleShots.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)).hasPiece()) {
+                    if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
+                        validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                    }
+                } else {
+                    validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                }
+            }
+        }
+        return validShots;
+    }
+
+
+
+
+
     public ArrayList<Coordinate> pawnValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -61,6 +154,7 @@ public class ExtremeRuleHandler {
         }
         return validMoves;
     }
+
     public ArrayList<Coordinate> kingValidMoves(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();
@@ -79,6 +173,25 @@ public class ExtremeRuleHandler {
         }
         return validMoves;
     }
+
+    public ArrayList<Coordinate> kingValidShots(Coordinate coordinate, ArrayList<Coordinate> opponentsMoves) {
+        ArrayList<Coordinate> possibleShots = board.getSpecificSquare(coordinate).getPiece().getPossibleShots();
+        ArrayList<Coordinate> validShots = new ArrayList<>();
+
+        for (int i = 0; i < possibleShots.size(); i++) {
+            if (withInRange(coordinate, possibleShots.get(i))) {
+                if (board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)).hasPiece()) {
+                    if (!sameColor(board.getSpecificSquare(combineCoordinates(possibleShots.get(i), coordinate)), board.getSpecificSquare(coordinate))) {
+                        validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                    }
+                } else {
+                    validShots.add(combineCoordinates(coordinate, possibleShots.get(i)));
+                }
+            }
+        }
+        return validShots;
+    }
+
     public ArrayList<Coordinate> knightValidMoves(Coordinate coordinate) {
         ArrayList<Coordinate> possibleMoves = board.getSpecificSquare(coordinate).getPiece().getPossibleMoves();
         ArrayList<Coordinate> validMoves = new ArrayList<>();

@@ -1,6 +1,7 @@
 package ExtremeMode.Model;
 
 import Model.Coordinate;
+import Model.SpecialPiece;
 
 import javax.swing.*;
 

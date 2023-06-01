@@ -7,7 +7,7 @@ import javax.swing.*;
 public class KingExtreme extends PieceExtreme {
     public KingExtreme(String color) {
         super(color, "King", 50);
-        //super.setSoundFilePath();
+        super.setSoundFilePath("src/Sounds/hello_king.wav");
         if (super.getColor().equals("White")) {
             super.setIcon(new ImageIcon("src/Icons/WhiteKing.png"));
         }
@@ -28,5 +28,8 @@ public class KingExtreme extends PieceExtreme {
         addShots(new Coordinate(-1,2));
         addShots(new Coordinate(0,2));
         addShots(new Coordinate(1,2));
+        addShots(new Coordinate(-1,-2));
+        addShots(new Coordinate(0,-2));
+        addShots(new Coordinate(1,-2));
     }
 }

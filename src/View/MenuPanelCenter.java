@@ -248,18 +248,22 @@ public class MenuPanelCenter extends JPanel {
             int reply = JOptionPane.showConfirmDialog(null, "You will not be able to edit the choices later. \nDo you wish to start the game?", "Confirm start", JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION && soundEffectsYes.isSelected()) {
                 String whitePlayerName = nameInputOne.getText();
-                String blackPLayerName = nameInputTwo.getText();
+                String blackPlayerName = nameInputTwo.getText();
                 checkWhichGameModeIsSelected();
                 if (this.gameMode.equals("60:00") && this.gameModeTime == 3600) {
-                    menuPanel.getMenuFrame().startExtremeMode(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+                    menuPanel.getMenuFrame().startExtremeMode(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
                 } else {
-                    menuPanel.getMenuFrame().startGame(whitePlayerName, blackPLayerName, gameMode, gameModeTime);
+                    menuPanel.getMenuFrame().startGame(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
                 }
             } else if (reply == JOptionPane.YES_OPTION && soundEffectsNo.isSelected()){
                 String whitePlayerName = nameInputOne.getText();
                 String blackPlayerName = nameInputTwo.getText();
                 checkWhichGameModeIsSelected();
-                menuPanel.getMenuFrame().startGameWithoutSound(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
+                if (this.gameMode.equals("60:00") && this.gameModeTime == 3600) {
+                    menuPanel.getMenuFrame().startExtremeModeWithoutSound(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
+                } else {
+                    menuPanel.getMenuFrame().startGame(whitePlayerName, blackPlayerName, gameMode, gameModeTime);
+                }
             }
         }
     }

@@ -56,7 +56,7 @@ public class CenterPanel extends JPanel {
                     if (selectedButton != null) {
                         if (buttons[finalX][finalY] != selectedButton) {
                             mainPanel.getMainFrame().getExtremeController().movePiece(finalX, finalY);
-
+                            mainPanel.getMainFrame().getExtremeController().shootPiece(finalX, finalY); //kanske fel
                         }
                         selectedButton = null;
                         restoreDefaultColors();
@@ -84,6 +84,10 @@ public class CenterPanel extends JPanel {
     public void setSpecialMove(int x, int y) { buttons[x][y].setBackground(Color.green);}
 
     public void setPossibleAttack(int x, int y) {buttons[x][y].setBackground(Color.red);}
+
+    public void setPossibleShot(int x, int y) {
+        buttons[x][y].setBackground(Color.CYAN);
+    }
 
     public void restoreDefaultColors() {
         for (int x = 0; x < buttons.length; x++) {

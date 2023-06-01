@@ -86,7 +86,11 @@ public class EastPanel extends JPanel {
         this.add(whiteLabel);
 
         this.whitePlayerHealth = whitePlayerHealth;
-        updateWhiteHealth(whitePlayerHealth);
+        whiteHealth = new JLabel(String.valueOf(whitePlayerHealth), SwingConstants.CENTER);
+        whiteHealth.setFont(new Font("Arial", Font.BOLD, 24));
+        whiteHealth.setBackground(active);
+        whiteHealth.setOpaque(true);
+        this.add(whiteHealth);
 
         ImageIcon icon = new ImageIcon("src/PlayerIcons/WhitePlayerIcon.png");
         Image image = icon.getImage().getScaledInstance(53, 114, java.awt.Image.SCALE_SMOOTH);
@@ -123,7 +127,11 @@ public class EastPanel extends JPanel {
         this.add(blackLabel);
 
         this.blackPlayerHealth = blackPlayerHealth;
-        updateBlackHealth(blackPlayerHealth);
+        blackHealth = new JLabel(String.valueOf(blackPlayerHealth), SwingConstants.CENTER);
+        blackHealth.setFont(new Font("Arial", Font.BOLD, 24));
+        blackHealth.setBackground(inactive);
+        blackHealth.setOpaque(true);
+        this.add(blackHealth);
 
         blackPlayerTime = new JLabel(gameMode, SwingConstants.CENTER);
         blackPlayerTime.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -260,14 +268,24 @@ public class EastPanel extends JPanel {
         }
     }
 
+    public void increaseWhitePlayerHealth(int points) {
+        whitePlayerHealth = whitePlayerHealth+points;
+        whiteHealth.setText(String.valueOf(whitePlayerHealth));
+    }
+
     public void decreaseWhitePlayerHealth(int points) {
         whitePlayerHealth = whitePlayerHealth-points;
-        updateWhiteHealth(whitePlayerHealth);
+        whiteHealth.setText(String.valueOf(whitePlayerHealth));
+    }
+
+    public void increaseBlackPlayerHealth(int points) {
+        blackPlayerHealth = blackPlayerHealth+points;
+        blackHealth.setText(String.valueOf(blackPlayerHealth));
     }
 
     public void decreaseBlackPlayerHealth(int points) {
         blackPlayerHealth = blackPlayerHealth-points;
-        updateBlackHealth(blackPlayerHealth);
+        blackHealth.setText(String.valueOf(blackPlayerHealth));
     }
 
     private void updateWhiteHealth(int updatedWhiteHealth) {
@@ -284,6 +302,14 @@ public class EastPanel extends JPanel {
         blackHealth.setBackground(inactive);
         blackHealth.setOpaque(true);
         this.add(blackHealth);
+    }
+
+    public int getWhitePlayerHealth() {
+        return whitePlayerHealth;
+    }
+
+    public int getBlackPlayerHealth() {
+        return blackPlayerHealth;
     }
 }
 
