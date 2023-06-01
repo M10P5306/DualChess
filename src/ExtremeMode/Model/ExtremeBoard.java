@@ -12,8 +12,6 @@ public class ExtremeBoard {
     private ExtremeRuleHandler ruleHandler;
     private PieceExtreme lastMovedPiece;
 
-    private List<Box> boxes = new ArrayList<Box>();
-
     public ExtremeBoard() {
         this.squares = new SquareExtreme[8][8];
         this.ruleHandler = new ExtremeRuleHandler(this);
@@ -67,13 +65,10 @@ public class ExtremeBoard {
         }
     }
 
-    private int x;
-    private int y;
-
     public void spawnBomb(Bomb bomb) {
         Random random = new Random();
-        x = random.nextInt(8);
-        y = random.nextInt(3,6);
+        int x = random.nextInt(8);
+        int y = random.nextInt(3,6);
 
         if (!squares[x][y].hasPiece() && !squares[x][y].hasBox()) {
             squares[x][y].setBomb(bomb);
@@ -83,7 +78,7 @@ public class ExtremeBoard {
 
     }
 
-    public void explode() {
+    public void explode(int x, int y) {
         squares[x][y].setBomb(null);
         squares[x][y].setBox(null);
         squares[x][y].setPiece(null);

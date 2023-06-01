@@ -119,12 +119,10 @@ public class ExtremeController {
                     if (audioPlayer != null) {
                         audioPlayer.playSound("src/Sounds/death.wav");
                     }
-                    if (mainFrame.getMainPanel().getEastPanel().getWhitePlayerHealth() <= 0) {
-                        JOptionPane.showMessageDialog(null, "Black won!");
-                    }
-                    if (mainFrame.getMainPanel().getEastPanel().getBlackPlayerHealth() <= 0) {
-                        JOptionPane.showMessageDialog(null, "White won!");
-                    }
+
+                    board.getSpecificSquare(newPosition).setPiece(pieceToMove);
+                    board.getSpecificSquare(selectedPiecePosition).setPiece(null);
+                    board.getSpecificSquare(selectedPiecePosition).setBox(null);
 
                 } else if (board.getSpecificSquare(newPosition).hasBox()) {
                     String takenBox = " and took a box!";
@@ -136,23 +134,43 @@ public class ExtremeController {
                     int box = board.getSpecificSquare(newPosition).getBox().generateBox();
                     System.out.println(box);
                     boxReward(box, board.getSpecificSquare(newPosition));
+
+                    board.getSpecificSquare(selectedPiecePosition).setPiece(null);
+                    board.getSpecificSquare(selectedPiecePosition).setBox(null);
+                    board.getSpecificSquare(newPosition).setPiece(pieceToMove);
+
                 } else if (board.getSpecificSquare(newPosition).hasBomb()) {
                     String steppedOnBomb = " and stepped on a bomb!";
                     toPrint.append(steppedOnBomb);
-                    board.explode();
+                    board.explode(newPositionX, newPositionY);
                     if (audioPlayer != null) {
                         //bomb ljud
                     }
+                    if (turnCounter % 2 == 0) {
+                        mainFrame.getMainPanel().getEastPanel().decreaseWhitePlayerHealth(20);
+                    } else {
+                        mainFrame.getMainPanel().getEastPanel().decreaseBlackPlayerHealth(20);
+                    }
+                    board.getSpecificSquare(selectedPiecePosition).setPiece(null);
+                    board.getSpecificSquare(selectedPiecePosition).setBox(null);
                     board.getSpecificSquare(newPosition).setPiece(null);
-                    updateBoardView();
-                }
 
-                board.getSpecificSquare(selectedPiecePosition).setPiece(null);
-                board.getSpecificSquare(selectedPiecePosition).setBox(null);
-                board.getSpecificSquare(newPosition).setPiece(pieceToMove);
+                } else {
+                    board.getSpecificSquare(selectedPiecePosition).setPiece(null);
+                    board.getSpecificSquare(selectedPiecePosition).setBox(null);
+                    board.getSpecificSquare(newPosition).setPiece(pieceToMove);
+                }
 
                 pieceToMove.addMoves();
                 updateBoardView();
+
+                if (mainFrame.getMainPanel().getEastPanel().getWhitePlayerHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Black won!");
+                }
+                if (mainFrame.getMainPanel().getEastPanel().getBlackPlayerHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, "White won!");
+                }
+
                 String message = toPrint.toString();
                 turnCounter++;
                 mainFrame.getMainPanel().getEastPanel().setPlayersTurn(turnCounter);
@@ -185,16 +203,17 @@ public class ExtremeController {
                     if (audioPlayer != null) {
                         audioPlayer.playSound("src/Sounds/death.wav");
                     }
-                    if (mainFrame.getMainPanel().getEastPanel().getWhitePlayerHealth() <= 0) {
-                        JOptionPane.showMessageDialog(null, "Black won!");
-                    }
-                    if (mainFrame.getMainPanel().getEastPanel().getBlackPlayerHealth() <= 0) {
-                        JOptionPane.showMessageDialog(null, "White won!");
-                    }
-
                 }
 
                 board.getSpecificSquare(newPosition).setPiece(null);
+                board.getSpecificSquare(newPosition).setBomb(null);
+
+                if (mainFrame.getMainPanel().getEastPanel().getWhitePlayerHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, "Black won!");
+                }
+                if (mainFrame.getMainPanel().getEastPanel().getBlackPlayerHealth() <= 0) {
+                    JOptionPane.showMessageDialog(null, "White won!");
+                }
 
                 updateBoardView();
                 String message = toPrint.toString();
