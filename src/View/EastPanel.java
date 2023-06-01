@@ -78,7 +78,7 @@ public class EastPanel extends JPanel {
         whitePlayerTime.setOpaque(true);
         whiteTimeRemaining = gameModeTime;
 
-        whiteLabel = new JLabel(whitePlayer, SwingConstants.CENTER);
+        whiteLabel = new JLabel(whitePlayer + "'s HP:", SwingConstants.CENTER);
         whiteLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         whiteLabel.setBackground(active);
         whiteLabel.setOpaque(true);
@@ -119,7 +119,7 @@ public class EastPanel extends JPanel {
         blackIconPicture.setOpaque(true);
         this.add(blackIconPicture);
 
-        blackLabel = new JLabel(blackPlayer, SwingConstants.CENTER);
+        blackLabel = new JLabel(blackPlayer + "'s HP:", SwingConstants.CENTER);
         blackLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         blackLabel.setBackground(inactive);
         blackLabel.setOpaque(true);
