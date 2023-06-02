@@ -206,6 +206,7 @@ public class ExtremeController {
                 }
 
                 board.getSpecificSquare(newPosition).setPiece(null);
+                board.getSpecificSquare(newPosition).setBox(null);
                 board.getSpecificSquare(newPosition).setBomb(null);
                 updateBoardView();
 
